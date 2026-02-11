@@ -1,0 +1,6 @@
+<launch>
+  <group ns="bluerov2_control">
+    <rosparam command="load" file="$(find bluerov2_position_control)/configs/bluerov2_position_control_config.yaml" />
+    <node name="bluerov2_position_control_node" pkg="bluerov2_position_control" type="bluerov2_position_control_node" output="screen"/>
+  </group>
+</launch>

@@ -8,7 +8,7 @@ b) **control the BlueROV2 Heavy** in a laboratory environment, based on a **ROS 
 ## Repository structure
 The repository contains two main sources of code: 
 * the simulation code, located within the ![simulation](./code/simulation/) folder;    
-* the code for the setup in a tank environment, located within the ![simulation](./code/tank-setup/) folder.
+* the code for the setup in a tank environment, located within the ![tank-setup](./code/tank-setup/) folder.
 
 
 ## Installation 
