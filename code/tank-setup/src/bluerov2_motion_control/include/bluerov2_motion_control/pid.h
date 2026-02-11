@@ -1,8 +1,8 @@
-'''
+/*
     The header of a PID control with antiwindup and saturation clamping. 
     author: Davide Grande
     date: 11/02/2026
-'''
+*/
 
 #pragma once  # this is an alternative to classical syntax with ifndef, endif 
 

@@ -1,10 +1,10 @@
-'''
+/*
     A simple implementation of a PID control with antiwindup and saturation clamping for position control.
     This code reads a desired pose, reads the current pose (from Qualisys), and produces a reference velocity. 
     
     author: Davide Grande
     date: 11/02/2026
-'''
+*/
 
 
 #include "bluerov2_motion_control/pid.h"

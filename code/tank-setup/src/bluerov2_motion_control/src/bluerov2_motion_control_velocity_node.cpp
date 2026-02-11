@@ -1,10 +1,10 @@
-'''
+/*
     A simple implementation of a PID control with antiwindup and saturation clamping for position control.
     This code reads a desired velocity, reads the current velocity (from Qualisys), and produces a reference force command. 
     
     author: Davide Grande
     date: 11/02/2026
-'''
+*/
 
 
 
