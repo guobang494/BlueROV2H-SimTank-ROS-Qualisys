@@ -71,7 +71,7 @@ int main(int argc, char** argv)
     {"bluerov2_motion_control_pos", "PID_u4_position", "/bluerov2_heavy/position/angular/z", "/bluerov2_heavy/reference_position/angular/z",  "/bluerov2_heavy/reference_velocity/angular/z"}
   };  // TODO confirm parameter group definition!
 
-  double rate_hz;
+  double rate_hz, sampling_time_Ts;
   pnh.param(axes[0].group_name + "/sampling_time_Ts", sampling_time_Ts, 100.0);
   rate_hz = 1/sampling_time_Ts;
 
