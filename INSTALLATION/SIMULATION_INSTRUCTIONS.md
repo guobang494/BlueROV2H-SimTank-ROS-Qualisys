@@ -50,3 +50,7 @@ Return to the first terminal with the Docker.
 	roslaunch /root/catkin_ws/Bluerov2-Simulation-with-docker-env/src/bluerov2/bluerov2_dobmpc/launch/start_dobmpc_tank.launch
 ```
 
+
+You will now see the BlueROV2H vehicle as moving in a path such as in the following example:  
+<img src="https://github.com/guobang494/Bluerov2-Simulation-with-docker-env/blob/main/INSTALLATION/Gazebo_animation.gif" width=100% height=100%>
+
