@@ -72,7 +72,7 @@ int main(int argc, char** argv)
   };  // TODO confirm parameter group definition!
 
   double rate_hz;
-  pnh.param(axes[0].group_name + "/" + pid_ns + "sampling_time_Ts", sampling_time_Ts, 100.0);
+  pnh.param(axes[0].group_name + "/sampling_time_Ts", sampling_time_Ts, 100.0);
   rate_hz = 1/sampling_time_Ts;
 
   // Load PIDs from private params (~PID_x_position/...)

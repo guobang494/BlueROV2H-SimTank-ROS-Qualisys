@@ -74,10 +74,8 @@ int main(int argc, char** argv)
   for (auto& ax : axes) loadPid(pnh, ax.group_name, ax.pid_ns, ax.pid);
 
   double rate_hz;
-  pnh.param(axes[0].group_name + "/" + pid_ns + "sampling_time_Ts", sampling_time_Ts, 100.0);
+  pnh.param(axes[0].group_name + "/sampling_time_Ts", sampling_time_Ts, 100.0);
   rate_hz = 1/sampling_time_Ts;
-
-    pnh.param(axes[0].name + "/control_rate_hz", control_rate_hz, 100.0);
 
 
   // ROS interfaces
