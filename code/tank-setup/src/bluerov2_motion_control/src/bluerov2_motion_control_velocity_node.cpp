@@ -81,7 +81,7 @@ int main(int argc, char** argv)
   
   // When the above enable_motion_control=false, then pwm_zero_thrust will be sent as thruster request
   double pwm_zero_thrust; 
-  pnh.param(axes[0].group_name + "/pwm_zero_thrust", pwm_zero_thrust, 1500);
+  pnh.param(axes[0].group_name + "/pwm_zero_thrust", pwm_zero_thrust, 1500.0);
 
 
   // Load PIDs from private params
