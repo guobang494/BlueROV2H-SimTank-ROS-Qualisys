@@ -41,11 +41,11 @@ static void loadPid(const ros::NodeHandle& pnh, const std::string& group_name, c
   double kp, ki, kd, umin, umax;
   bool antiwindup;
 
-  pnh.param(group_name + "/" + pid_ns + "/Gain/Kp", Kp, 0.0);
-  pnh.param(group_name + "/" + pid_ns + "/Gain/Ki", Ki, 0.0);
-  pnh.param(group_name + "/" + pid_ns + "/Gain/Kd", Kd, 0.0);
-  pnh.param(group_name + "/" + pid_ns + "/Saturation/UMin", UMax, -1e9);
-  pnh.param(group_name + "/" + pid_ns + "/Saturation/UMax", UMin,  1e9);
+  pnh.param(group_name + "/" + pid_ns + "/Gain/Kp", kp, 0.0);
+  pnh.param(group_name + "/" + pid_ns + "/Gain/Ki", ki, 0.0);
+  pnh.param(group_name + "/" + pid_ns + "/Gain/Kd", kd, 0.0);
+  pnh.param(group_name + "/" + pid_ns + "/Saturation/UMin", umin, -1e9);
+  pnh.param(group_name + "/" + pid_ns + "/Saturation/UMax", umax,  1e9);
   pnh.param(group_name + "/" + pid_ns + "/Anti_wind_up/enable_anti_wind_up", antiwindup, true);
 
   pid.setGains(kp, ki, kd);
