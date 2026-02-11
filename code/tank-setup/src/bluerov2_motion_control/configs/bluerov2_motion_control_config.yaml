@@ -18,8 +18,8 @@ bluerov2_motion_control_vel:
       Ki: 1    # Integral Gain
 
     Saturation: # Control Input Saturation
-      UMax:  0.15 # Max Saturation Value
-      UMin: -0.15 # Min Saturation Value
+      UMax:  20.0 # [N] Max Saturation Value -- this is the saturation on the vehicle forces 
+      UMin: -20.0 # [N] Min Saturation Value -- this is the saturation on the vehicle forces 
 
     FeedForward_Gain: 
       Gain: 1.0 #
@@ -43,13 +43,13 @@ bluerov2_motion_control_vel:
 ####################### SWAY PARAMETERS #######################
   PID_u2_velocity:
     Gain:
-      Kp: 1  # Proportional Gain
+      Kp: 2  # Proportional Gain
       Kd: 1    # Derivative Gain
-      Ki: 1    # Integral Gain
+      Ki: 0    # Integral Gain
 
     Saturation: # Control Input Saturation
-      UMax:  0.15 # Max Saturation Value
-      UMin: -0.15 # Min Saturation Value
+      UMax:  20.0 # [N] Max Saturation Value -- this is the saturation on the vehicle forces 
+      UMin: -20.0 # [N] Min Saturation Value -- this is the saturation on the vehicle forces 
 
     FeedForward_Gain: 
       Gain: 1.0 #
@@ -72,13 +72,13 @@ bluerov2_motion_control_vel:
 ####################### HEAVE PARAMETERS #######################
   PID_u3_velocity:
     Gain:
-      Kp: 1  # Proportional Gain
+      Kp: 2  # Proportional Gain
       Kd: 1    # Derivative Gain
       Ki: 1    # Integral Gain
 
     Saturation: # Control Input Saturation
-      UMax:  0.15 # Max Saturation Value
-      UMin: -0.15 # Min Saturation Value
+      UMax:  20.0 # [N] Max Saturation Value -- this is the saturation on the vehicle forces 
+      UMin: -20.0 # [N] Min Saturation Value -- this is the saturation on the vehicle forces 
 
     FeedForward_Gain: 
       Gain: 1.0 #
@@ -101,13 +101,13 @@ bluerov2_motion_control_vel:
 ####################### YAW RATE PARAMETERS #######################
   PID_u4_velocity:
     Gain:
-      Kp: 1  # Proportional Gain
+      Kp: 2  # Proportional Gain
       Kd: 1    # Derivative Gain
       Ki: 1    # Integral Gain
 
     Saturation: # Control Input Saturation
-      UMax:  0.15 # Max Saturation Value
-      UMin: -0.15 # Min Saturation Value
+      UMax:  2.0 # [Nm] Max Saturation Value -- this is the saturation on the vehicle moment 
+      UMin: -2.0 # [Nm] Min Saturation Value -- this is the saturation on the vehicle moment 
 
     FeedForward_Gain: 
       Gain: 1.0 #
@@ -143,13 +143,13 @@ bluerov2_motion_control_pos:
 ####################### SURGE PARAMETERS #######################
   PID_u1_position:
     Gain:
-      Kp: 1   # Proportional Gain
+      Kp: 2   # Proportional Gain
       Kd: 1    # Derivative Gain
-      Ki: 1    # Integral Gain
+      Ki: 0.001    # Integral Gain
 
     Saturation: # Control Input Saturation
-      UMax:  8 # Max Saturation Value
-      UMin: -8 # Min Saturation Value
+      UMax:  0.2 # [m/s] Max Saturation Value -- this is the saturation on the vehicle surge speed
+      UMin: -0.2 # [m/s] Min Saturation Value -- this is the saturation on the vehicle surge speed 
 
     FeedForward_Gain: 
       Gain: 1.0 #
@@ -175,13 +175,13 @@ bluerov2_motion_control_pos:
 ####################### SWAY PARAMETERS #######################
   PID_u2_position:
     Gain:
-      Kp: 1   # Proportional Gain
+      Kp: 2   # Proportional Gain
       Kd: 1    # Derivative Gain
-      Ki: 1    # Integral Gain
+      Ki: 0.001    # Integral Gain
 
     Saturation: # Control Input Saturation
-      UMax:  8 # Max Saturation Value
-      UMin: -8 # Min Saturation Value
+      UMax:  0.2 # [m/s] Max Saturation Value -- this is the saturation on the vehicle sway speed
+      UMin: -0.2 # [m/s] Min Saturation Value -- this is the saturation on the vehicle sway speed
 
     FeedForward_Gain: 
       Gain: 1.0 #
@@ -205,13 +205,13 @@ bluerov2_motion_control_pos:
 ####################### HEAVE PARAMETERS #######################
   PID_u3_position:
     Gain:
-      Kp: 1   # Proportional Gain
+      Kp: 2   # Proportional Gain
       Kd: 1    # Derivative Gain
-      Ki: 1    # Integral Gain
+      Ki: 0.001    # Integral Gain
 
     Saturation: # Control Input Saturation
-      UMax:  8 # Max Saturation Value
-      UMin: -8 # Min Saturation Value
+      UMax:  0.2 # [m/s] Max Saturation Value -- this is the saturation on the vehicle heave speed
+      UMin: -0.2 # [m/s] Min Saturation Value -- this is the saturation on the vehicle heave speed
 
     FeedForward_Gain: 
       Gain: 1.0 #
@@ -234,13 +234,13 @@ bluerov2_motion_control_pos:
 ####################### YAW RATE PARAMETERS #######################
   PID_u4_position:
     Gain:
-      Kp: 1   # Proportional Gain
+      Kp: 2   # Proportional Gain
       Kd: 1    # Derivative Gain
-      Ki: 1    # Integral Gain
+      Ki: 0.001    # Integral Gain
 
     Saturation: # Control Input Saturation
-      UMax:  8 # Max Saturation Value
-      UMin: -8 # Min Saturation Value
+      UMax:  0.1 # [rad/s] Max Saturation Value -- this is the saturation on the vehicle yaw rate
+      UMin: -0.1 # [rad/s] Min Saturation Value -- this is the saturation on the vehicle yaw rate
 
     FeedForward_Gain: 
       Gain: 1.0 #
