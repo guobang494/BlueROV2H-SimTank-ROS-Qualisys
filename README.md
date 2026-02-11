@@ -4,6 +4,13 @@ This repository contains the code to:
 a) **simulate a BlueROV2 Heavy** vehicle in a **Gazebo** environment resembling the University College London Ocean Towing tank;  
 b) **control the BlueROV2 Heavy** in a laboratory environment, based on a **ROS (1) middleware**, and using the **Qualisys** motion capture tracking system.  
 
+
+## Repository structure
+The repository contains two main sources of code: 
+* the simulation code, located within the ![simulation](./code/simulation/) folder;    
+* the code for the setup in a tank environment, located within the ![simulation](./code/tank-setup/) folder.
+
+
 ## Installation 
 This software can be run in a **Docker container**, which we provide.
 Detailed instructions on installation of the container and on environmental set-up are available within the ![INSTALLATION](./INSTALLATION/INSTALLATION.md/) file.    
