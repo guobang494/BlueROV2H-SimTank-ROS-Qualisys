@@ -64,16 +64,16 @@ int main(int argc, char** argv)
   ros::NodeHandle nh;
   ros::NodeHandle pnh("~");
 
-  double rate_hz;
-  pnh.param("sampling_time_Ts", sampling_time_Ts, 100.0);
-  rate_hz = 1/sampling_time_Ts;
-
   std::vector<Axis> axes = {
     {"bluerov2_motion_control_pos",   "PID_u1_position",   "/bluerov2_heavy/position/linear/x",    "/bluerov2_heavy/reference_position/linear/x",    "/bluerov2_heavy/reference_velocity/linear/x"},
     {"bluerov2_motion_control_pos",   "PID_u2_position",   "/bluerov2_heavy/position/linear/y",    "/bluerov2_heavy/reference_position/linear/y",    "/bluerov2_heavy/reference_velocity/linear/y"},
     {"bluerov2_motion_control_pos",   "PID_u3_position",   "/bluerov2_heavy/position/linear/z",    "/bluerov2_heavy/reference_position/linear/z",    "/bluerov2_heavy/reference_velocity/linear/z"},
     {"bluerov2_motion_control_pos", "PID_u4_position", "/bluerov2_heavy/position/angular/z", "/bluerov2_heavy/reference_position/angular/z",  "/bluerov2_heavy/reference_velocity/angular/z"}
   };  // TODO confirm parameter group definition!
+
+  double rate_hz;
+  pnh.param(axes[0].group_name + "/" + pid_ns + "sampling_time_Ts", sampling_time_Ts, 100.0);
+  rate_hz = 1/sampling_time_Ts;
 
   // Load PIDs from private params (~PID_x_position/...)
   for (auto& ax : axes) loadPid(pnh, ax.group_name, ax.pid_ns, ax.pid);

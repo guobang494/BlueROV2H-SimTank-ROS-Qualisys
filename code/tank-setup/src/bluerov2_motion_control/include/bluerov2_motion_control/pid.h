@@ -4,7 +4,7 @@
     date: 11/02/2026
 */
 
-#pragma once  # this is an alternative to classical syntax with ifndef, endif 
+#pragma once  // this is an alternative to classical syntax with ifndef, endif 
 
 #include <algorithm>
 
