@@ -68,33 +68,15 @@ This step requires approx. 10 minutes, and 3Gb of space on your hard-drive.
   ```
   You should see the folder previously downloaded: ```Bluerov2-Simulation-with-docker-env```
   
-### 3) Compile the provided code
-This step will compile the code (it takes approx 5 minutes):
-```
-       cd /root/catkin_ws/Bluerov2-Simulation-with-docker-env/src/bluerov2/bluerov2_dobmpc/scripts
-       python3 generate_c_code.py
-       cd /root/catkin_ws/Bluerov2-Simulation-with-docker-env
-       catkin_make
-```
-  
-### 5) Set gazebo display (not in the Docker)    
-Leave this terminal open, and open a new second terminal. In the second terminal, type:  
-```
-	xhost +local:docker
-```
-This allows the Docker to display content on the screen.  
-This will print:  
-<img src="https://github.com/guobang494/Bluerov2-Simulation-with-docker-env/blob/main/INSTALLATION/docker_enable_graphics.png" width=100% height=100%>
-  
+
+### 3) Next steps
+You can now follow up with the instructions to run the code in:
+1) ![a simulation environment](./SIMULATION_INSTRUCTIONS.md/)
+2) ![on a real vehicle](./TANK_INSTRUCTIONS.md/)
+ 
 
 
-### 6) Launch the demo
-Return to the first terminal with the Docker.
-```
-	cd /root/catkin_ws/Bluerov2-Simulation-with-docker-env
-	source ./devel/setup.bash
-	roslaunch /root/catkin_ws/Bluerov2-Simulation-with-docker-env/src/bluerov2/bluerov2_dobmpc/launch/start_dobmpc_tank.launch
-```
+
 
 
 

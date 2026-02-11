@@ -1,8 +1,10 @@
 # Tank startup instructions
 These instructions allow to set up the physical robot in a tank, connecting with the Qualisys camera system.   
 
+
+
 ### 0) Pre-requisite
-These instructions assume that you installed the container, as explained in ![INSTALLATION](./INSTALLATION.md/) file.     
+These instructions assume that you have installed the container, as explained in ![INSTALLATION](./INSTALLATION.md/) file.     
 
 
 ### 1) Start the docker container
