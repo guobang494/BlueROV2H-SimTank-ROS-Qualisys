@@ -1,12 +1,240 @@
-# PID position control gains.
+bluerov2_position_control_node:
+  Sampling_Time_Ts: 0.05  # Sampling Time 20 Hz 
 
 
-# PID velocity control gains.
+####################### SURGE PARAMETERS #######################
+  PID_u1_velocity:
+    Gain:
+      Kp: 1  # Proportional Gain
+      Kd: 1    # Derivative Gain
+      Ki: 1    # Integral Gain
+
+    Saturation: # Control Input Saturation
+      UMax:  0.15 # Max Saturation Value
+      UMin: -0.15 # Min Saturation Value
+
+    FeedForward_Gain: 
+      Gain: 1.0 #
+
+    Derivative_Filter:
+      enable_derivative_filter: 0.0  # 1.0 means derivative filter enabled, 0.0 disabled
+      Gain:
+        Nd: 0.1   # Derivative filter gain N = 1/Tf
+
+    Reference_Filter:
+      enable_reference_filter: 0.0  # 1.0 means derivative filter enabled, 0.0 disabled 
+      Gain:
+        Nr: 0.0   # Reference filter gain N = 1/Tf 
+
+    Anti_wind_up:
+      enable_anti_wind_up: 0.0  # 1.0 means derivative filter enabled, 0.0 disabled 
+      Gain:
+        Kb: 1  # Anti Wind up gain Laplace Domanin U_anti_wind_up(s) = (Kb/s)*E_sat(s) 
+
+
+  PID_u1_position:
+    Gain:
+      Kp: 1   # Proportional Gain
+      Kd: 1    # Derivative Gain
+      Ki: 1    # Integral Gain
+
+    Saturation: # Control Input Saturation
+      UMax:  8 # Max Saturation Value
+      UMin: -8 # Min Saturation Value
+
+    FeedForward_Gain: 
+      Gain: 1.0 #
+
+    Derivative_Filter:
+      enable_derivative_filter: 0.0  # 1.0 means derivative filter enabled, 0.0 disabled
+      Gain:
+        Nd: 0.1   # Derivative filter gain N = 1/Tf
+
+    Reference_Filter:
+      enable_reference_filter: 0.0  # 1.0 means derivative filter enabled, 0.0 disabled 
+      Gain:
+        Nr: 0.0   # Reference filter gain N = 1/Tf 
+
+    Anti_wind_up:
+      enable_anti_wind_up: 0.0  # 1.0 means derivative filter enabled, 0.0 disabled 
+      Gain:
+        Kb: 1  # Anti Wind up gain Laplace Domanin U_anti_wind_up(s) = (Kb/s)*E_sat(s) 
 
 
 
 
+####################### SWAY PARAMETERS #######################
+  PID_u2_velocity:
+    Gain:
+      Kp: 1  # Proportional Gain
+      Kd: 1    # Derivative Gain
+      Ki: 1    # Integral Gain
+
+    Saturation: # Control Input Saturation
+      UMax:  0.15 # Max Saturation Value
+      UMin: -0.15 # Min Saturation Value
+
+    FeedForward_Gain: 
+      Gain: 1.0 #
+
+    Derivative_Filter:
+      enable_derivative_filter: 0.0  # 1.0 means derivative filter enabled, 0.0 disabled
+      Gain:
+        Nd: 0.1   # Derivative filter gain N = 1/Tf
+
+    Reference_Filter:
+      enable_reference_filter: 0.0  # 1.0 means derivative filter enabled, 0.0 disabled 
+      Gain:
+        Nr: 0.0   # Reference filter gain N = 1/Tf 
+
+    Anti_wind_up:
+      enable_anti_wind_up: 0.0  # 1.0 means derivative filter enabled, 0.0 disabled 
+      Gain:
+        Kb: 1  # Anti Wind up gain Laplace Domanin U_anti_wind_up(s) = (Kb/s)*E_sat(s) 
 
 
+  PID_u2_position:
+    Gain:
+      Kp: 1   # Proportional Gain
+      Kd: 1    # Derivative Gain
+      Ki: 1    # Integral Gain
 
+    Saturation: # Control Input Saturation
+      UMax:  8 # Max Saturation Value
+      UMin: -8 # Min Saturation Value
+
+    FeedForward_Gain: 
+      Gain: 1.0 #
+
+    Derivative_Filter:
+      enable_derivative_filter: 0.0  # 1.0 means derivative filter enabled, 0.0 disabled
+      Gain:
+        Nd: 0.1   # Derivative filter gain N = 1/Tf
+
+    Reference_Filter:
+      enable_reference_filter: 0.0  # 1.0 means derivative filter enabled, 0.0 disabled 
+      Gain:
+        Nr: 0.0   # Reference filter gain N = 1/Tf 
+
+    Anti_wind_up:
+      enable_anti_wind_up: 0.0  # 1.0 means derivative filter enabled, 0.0 disabled 
+      Gain:
+        Kb: 1  # Anti Wind up gain Laplace Domanin U_anti_wind_up(s) = (Kb/s)*E_sat(s) 
+
+
+####################### HEAVE PARAMETERS #######################
+  PID_u3_velocity:
+    Gain:
+      Kp: 1  # Proportional Gain
+      Kd: 1    # Derivative Gain
+      Ki: 1    # Integral Gain
+
+    Saturation: # Control Input Saturation
+      UMax:  0.15 # Max Saturation Value
+      UMin: -0.15 # Min Saturation Value
+
+    FeedForward_Gain: 
+      Gain: 1.0 #
+
+    Derivative_Filter:
+      enable_derivative_filter: 0.0  # 1.0 means derivative filter enabled, 0.0 disabled
+      Gain:
+        Nd: 0.1   # Derivative filter gain N = 1/Tf
+
+    Reference_Filter:
+      enable_reference_filter: 0.0  # 1.0 means derivative filter enabled, 0.0 disabled 
+      Gain:
+        Nr: 0.0   # Reference filter gain N = 1/Tf 
+
+    Anti_wind_up:
+      enable_anti_wind_up: 0.0  # 1.0 means derivative filter enabled, 0.0 disabled 
+      Gain:
+        Kb: 1  # Anti Wind up gain Laplace Domanin U_anti_wind_up(s) = (Kb/s)*E_sat(s) 
+
+
+  PID_u3_position:
+    Gain:
+      Kp: 1   # Proportional Gain
+      Kd: 1    # Derivative Gain
+      Ki: 1    # Integral Gain
+
+    Saturation: # Control Input Saturation
+      UMax:  8 # Max Saturation Value
+      UMin: -8 # Min Saturation Value
+
+    FeedForward_Gain: 
+      Gain: 1.0 #
+
+    Derivative_Filter:
+      enable_derivative_filter: 0.0  # 1.0 means derivative filter enabled, 0.0 disabled
+      Gain:
+        Nd: 0.1   # Derivative filter gain N = 1/Tf
+
+    Reference_Filter:
+      enable_reference_filter: 0.0  # 1.0 means derivative filter enabled, 0.0 disabled 
+      Gain:
+        Nr: 0.0   # Reference filter gain N = 1/Tf 
+
+    Anti_wind_up:
+      enable_anti_wind_up: 0.0  # 1.0 means derivative filter enabled, 0.0 disabled 
+      Gain:
+        Kb: 1  # Anti Wind up gain Laplace Domanin U_anti_wind_up(s) = (Kb/s)*E_sat(s) 
+
+####################### YAW RATE PARAMETERS #######################
+  PID_u4_velocity:
+    Gain:
+      Kp: 1  # Proportional Gain
+      Kd: 1    # Derivative Gain
+      Ki: 1    # Integral Gain
+
+    Saturation: # Control Input Saturation
+      UMax:  0.15 # Max Saturation Value
+      UMin: -0.15 # Min Saturation Value
+
+    FeedForward_Gain: 
+      Gain: 1.0 #
+
+    Derivative_Filter:
+      enable_derivative_filter: 0.0  # 1.0 means derivative filter enabled, 0.0 disabled
+      Gain:
+        Nd: 0.1   # Derivative filter gain N = 1/Tf
+
+    Reference_Filter:
+      enable_reference_filter: 0.0  # 1.0 means derivative filter enabled, 0.0 disabled 
+      Gain:
+        Nr: 0.0   # Reference filter gain N = 1/Tf 
+
+    Anti_wind_up:
+      enable_anti_wind_up: 0.0  # 1.0 means derivative filter enabled, 0.0 disabled 
+      Gain:
+        Kb: 1  # Anti Wind up gain Laplace Domanin U_anti_wind_up(s) = (Kb/s)*E_sat(s) 
+
+
+  PID_u4_position:
+    Gain:
+      Kp: 1   # Proportional Gain
+      Kd: 1    # Derivative Gain
+      Ki: 1    # Integral Gain
+
+    Saturation: # Control Input Saturation
+      UMax:  8 # Max Saturation Value
+      UMin: -8 # Min Saturation Value
+
+    FeedForward_Gain: 
+      Gain: 1.0 #
+
+    Derivative_Filter:
+      enable_derivative_filter: 0.0  # 1.0 means derivative filter enabled, 0.0 disabled
+      Gain:
+        Nd: 0.1   # Derivative filter gain N = 1/Tf
+
+    Reference_Filter:
+      enable_reference_filter: 0.0  # 1.0 means derivative filter enabled, 0.0 disabled 
+      Gain:
+        Nr: 0.0   # Reference filter gain N = 1/Tf 
+
+    Anti_wind_up:
+      enable_anti_wind_up: 0.0  # 1.0 means derivative filter enabled, 0.0 disabled 
+      Gain:
+        Kb: 1  # Anti Wind up gain Laplace Domanin U_anti_wind_up(s) = (Kb/s)*E_sat(s) 
 
