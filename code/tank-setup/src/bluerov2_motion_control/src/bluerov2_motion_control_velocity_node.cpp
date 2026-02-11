@@ -19,8 +19,8 @@
 
 // This defines a structure to be reused over the 4 control loops (or control axes)
 struct Axis {
-  std::string group_name;     // bluerov2_motion_control_pos (param group name)
-  std::string pid_ns;   // PID_u1_position, ...
+  std::string group_name;     // bluerov2_motion_control_vel (param group name)
+  std::string pid_ns;   // PID_u1_velocity, ...
   std::string meas_topic;
   std::string ref_topic;
   std::string out_topic;
@@ -65,17 +65,26 @@ int main(int argc, char** argv)
   ros::NodeHandle pnh("~");
 
   std::vector<Axis> axes = {
-    {"bluerov2_motion_control_pos",   "PID_u1_position",   "/bluerov2_heavy/position/linear/x",    "/bluerov2_heavy/reference_position/linear/x",    "/bluerov2_heavy/reference_velocity/linear/x"},
-    {"bluerov2_motion_control_pos",   "PID_u2_position",   "/bluerov2_heavy/position/linear/y",    "/bluerov2_heavy/reference_position/linear/y",    "/bluerov2_heavy/reference_velocity/linear/y"},
-    {"bluerov2_motion_control_pos",   "PID_u3_position",   "/bluerov2_heavy/position/linear/z",    "/bluerov2_heavy/reference_position/linear/z",    "/bluerov2_heavy/reference_velocity/linear/z"},
-    {"bluerov2_motion_control_pos", "PID_u4_position", "/bluerov2_heavy/position/angular/z", "/bluerov2_heavy/reference_position/angular/z",  "/bluerov2_heavy/reference_velocity/angular/z"}
+    {"bluerov2_motion_control_vel",   "PID_u1_velocity",   "/bluerov2_heavy/position/linear/x",    "/bluerov2_heavy/reference_velocity/linear/x",    "/bluerov2_heavy/cmd_velocity/linear/x"},
+    {"bluerov2_motion_control_vel",   "PID_u2_velocity",   "/bluerov2_heavy/position/linear/y",    "/bluerov2_heavy/reference_velocity/linear/y",    "/bluerov2_heavy/cmd_velocity/linear/y"},
+    {"bluerov2_motion_control_vel",   "PID_u3_velocity",   "/bluerov2_heavy/position/linear/z",    "/bluerov2_heavy/reference_velocity/linear/z",    "/bluerov2_heavy/cmd_velocity/linear/z"},
+    {"bluerov2_motion_control_vel", "PID_u4_velocity", "/bluerov2_heavy/position/angular/z", "/bluerov2_heavy/reference_velocity/angular/z",  "/bluerov2_heavy/cmd_velocity/angular/z"}
   };  // TODO confirm parameter group definition!
 
   double rate_hz, sampling_time_Ts;
   pnh.param(axes[0].group_name + "/sampling_time_Ts", sampling_time_Ts, 100.0);
   rate_hz = 1/sampling_time_Ts;
+  
+  // Param to enable/disable the vehicle motion control
+  bool enable_motion_control;
+  pnh.param(axes[0].group_name + "/enable_motion_control", enable_motion_control, false);
+  
+  // When the above enable_motion_control=false, then pwm_zero_thrust will be sent as thruster request
+  double pwm_zero_thrust; 
+  pnh.param(axes[0].group_name + "/pwm_zero_thrust", pwm_zero_thrust, 1500);
 
-  // Load PIDs from private params (~PID_x_position/...)
+
+  // Load PIDs from private params
   for (auto& ax : axes) loadPid(pnh, ax.group_name, ax.pid_ns, ax.pid);
 
   // ROS interfaces
@@ -114,7 +123,13 @@ int main(int argc, char** argv)
       double u = ax.pid.update(ax.ref, ax.meas, dt);
 
       std_msgs::Float64 out;
-      out.data = u;
+
+      // enable/disable motion control
+      if (enable_motion_control){
+        out.data = u;
+      } else {
+        out.data = pwm_zero_thrust;
+      }
       ax.pub_out.publish(out);
     }
 

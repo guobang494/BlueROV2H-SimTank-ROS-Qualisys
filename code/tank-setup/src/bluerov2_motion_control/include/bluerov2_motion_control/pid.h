@@ -57,9 +57,6 @@ public:
       u_sat = clamp(u, umin_, umax_);
     }
 
-
-    // TODO extract value of enable_motion_control. This only exists in one of the two params group
-
     prev_error_ = error;
     last_u_ = u_sat;
     return u_sat;

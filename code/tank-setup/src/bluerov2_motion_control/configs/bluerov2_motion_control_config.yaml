@@ -7,6 +7,7 @@
 
 bluerov2_motion_control_vel:
   enable_motion_control: true  # MAIN PARAMETER to entirely disable the motion of the robot. 0.0: disabled, 1: enables
+  pwm_zero_thrust: 1500  # This needs to be the PWM corresponding to 0 Nm demanded to the thrusters
   sampling_time_Ts: 0.05  # Sampling Time 20 Hz 
 
 ####################### SURGE PARAMETERS #######################
