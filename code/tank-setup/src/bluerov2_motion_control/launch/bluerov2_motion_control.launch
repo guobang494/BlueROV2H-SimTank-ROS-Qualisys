@@ -1,0 +1,7 @@
+<launch>
+  <group ns="bluerov2_motion_control">
+    <rosparam command="load" file="$(find bluerov2_motion_control)/configs/bluerov2_motion_control_config.yaml" />
+    <node name="bluerov2_motion_control_position_node" pkg="bluerov2_motion_control" type="bluerov2_motion_control_position_node" output="screen"/>
+    <node name="bluerov2_motion_control_velocity_node" pkg="bluerov2_motion_control" type="bluerov2_motion_control_velocity_node" output="screen"/>
+  </group>
+</launch>
