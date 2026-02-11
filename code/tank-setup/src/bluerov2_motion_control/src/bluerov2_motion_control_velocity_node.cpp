@@ -65,10 +65,10 @@ int main(int argc, char** argv)
   ros::NodeHandle pnh("~");
 
   std::vector<Axis> axes = {
-    {"bluerov2_motion_control_vel",   "PID_u1_velocity",   "/bluerov2_heavy/position/linear/x",    "/bluerov2_heavy/reference_velocity/linear/x",    "/bluerov2_heavy/cmd_velocity/linear/x"},
-    {"bluerov2_motion_control_vel",   "PID_u2_velocity",   "/bluerov2_heavy/position/linear/y",    "/bluerov2_heavy/reference_velocity/linear/y",    "/bluerov2_heavy/cmd_velocity/linear/y"},
-    {"bluerov2_motion_control_vel",   "PID_u3_velocity",   "/bluerov2_heavy/position/linear/z",    "/bluerov2_heavy/reference_velocity/linear/z",    "/bluerov2_heavy/cmd_velocity/linear/z"},
-    {"bluerov2_motion_control_vel", "PID_u4_velocity", "/bluerov2_heavy/position/angular/z", "/bluerov2_heavy/reference_velocity/angular/z",  "/bluerov2_heavy/cmd_velocity/angular/z"}
+    {"bluerov2_motion_control_vel",   "PID_u1_velocity",   "/bluerov2_heavy/velocity/linear/x",    "/bluerov2_heavy/reference_velocity/linear/x",    "/bluerov2_heavy/cmd_velocity/linear/x"},
+    {"bluerov2_motion_control_vel",   "PID_u2_velocity",   "/bluerov2_heavy/velocity/linear/y",    "/bluerov2_heavy/reference_velocity/linear/y",    "/bluerov2_heavy/cmd_velocity/linear/y"},
+    {"bluerov2_motion_control_vel",   "PID_u3_velocity",   "/bluerov2_heavy/velocity/linear/z",    "/bluerov2_heavy/reference_velocity/linear/z",    "/bluerov2_heavy/cmd_velocity/linear/z"},
+    {"bluerov2_motion_control_vel", "PID_u4_velocity", "/bluerov2_heavy/velocity/angular/z", "/bluerov2_heavy/reference_velocity/angular/z",  "/bluerov2_heavy/cmd_velocity/angular/z"}
   };  // TODO confirm parameter group definition!
 
   double rate_hz, sampling_time_Ts;
