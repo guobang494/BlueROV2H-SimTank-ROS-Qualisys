@@ -40,8 +40,8 @@ This will print:
 ### 2) Download the code
 Clone the repo into the standards catkin workspace:  
 ```
-mkdir -p  ~/catkin_ws
-cd ~/catkin_ws
+mkdir -p  ~/catkin_ws/src
+cd ~/catkin_ws/src
 git clone https://github.com/guobang494/Bluerov2-Simulation-with-docker-env
 ```
    
@@ -61,10 +61,9 @@ This step requires approx. 10 minutes, and 3Gb of space on your hard-drive.
           bash
   ```
   
-  You are now in the Docker container.  Test successful installation by running: 
+  You are now in the Docker container.  Verify folder successful created by running: 
   ```
-  cd root
-  cd catkin_ws
+  cd ~/catkin_ws/src
   ```
   You should see the folder previously downloaded: ```Bluerov2-Simulation-with-docker-env```
   

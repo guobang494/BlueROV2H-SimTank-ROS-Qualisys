@@ -24,9 +24,9 @@ sudo docker exec -it my_bluerov_container bash
 ### 2) Compile the provided simulation code
 This step will compile the code (it takes approx 5 minutes):
 ```
-       cd /root/catkin_ws/Bluerov2-Simulation-with-docker-env/src/bluerov2/bluerov2_dobmpc/scripts
+       cd /root/catkin_ws/src/Bluerov2-Simulation-with-docker-env/code/simulation/src/bluerov2/bluerov2_dobmpc/scripts
        python3 generate_c_code.py
-       cd /root/catkin_ws/Bluerov2-Simulation-with-docker-env
+       cd /root/catkin_ws
        catkin_make
 ```
   
@@ -37,7 +37,7 @@ Leave the first terminal open, and open a new second terminal. In the second ter
 	xhost +local:docker
 ```
 This allows the Docker to display content on the screen.  
-This will print:  
+For example, upon launching the demo, you will be able to see:    
 <img src="https://github.com/guobang494/Bluerov2-Simulation-with-docker-env/blob/main/INSTALLATION/docker_enable_graphics.png" width=100% height=100%>
   
 
@@ -45,9 +45,9 @@ This will print:
 ### 6) Launch the demo
 Return to the first terminal with the Docker.
 ```
-	cd /root/catkin_ws/Bluerov2-Simulation-with-docker-env
+	cd /root/catkin_ws
 	source ./devel/setup.bash
-	roslaunch /root/catkin_ws/Bluerov2-Simulation-with-docker-env/src/bluerov2/bluerov2_dobmpc/launch/start_dobmpc_tank.launch
+	roslaunch /root/catkin_ws/src/Bluerov2-Simulation-with-docker-env/code/simulation/src/bluerov2/bluerov2_dobmpc/launch/start_dobmpc_tank.launch
 ```
 
 
