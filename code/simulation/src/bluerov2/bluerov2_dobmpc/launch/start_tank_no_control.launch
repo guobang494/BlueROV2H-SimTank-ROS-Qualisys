@@ -1,0 +1,65 @@
+<launch>
+    <!-- Flag to start recording a rosbag  -->
+    <arg name="record" default="false"/>
+    <!-- Initial position and heading of the vehicle (for test_Tank environment: 18.15m x 2.5m x 1m)  -->
+    <arg name="x" default="0"/>
+    <arg name="y" default="0"/>
+    <arg name="z" default="-0.5"/>
+    <arg name="yaw" default="0"/>
+
+    <arg name="use_ned_frame" default="false"/>
+
+    <!-- Set Gauss-Markov parameters of the current velocity in m/s -->
+    <!-- <arg name="component_vel" default="velocity"/>
+    <arg name="mean_vel" default="0.2"/>
+    <arg name="min_vel" default="0.0"/>
+    <arg name="max_vel" default="0.4"/>
+    <arg name="noise_vel" default="0.05"/>
+    <arg name="mu_vel" default="0.0"/> -->
+
+    <!-- Initialize the Gazebo world with test_Tank environment -->
+    <arg name="gui" default="true"/>
+    <arg name="paused" default="false"/>
+    
+    <!-- Launch Gazebo with the test_Tank world -->
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="world_name" value="$(find bluerov2_gazebo)/worlds/test_Tank.world"/>
+        <arg name="paused" value="$(arg paused)"/>
+        <arg name="use_sim_time" value="true"/>
+        <arg name="gui" value="$(arg gui)"/>
+        <arg name="headless" value="false"/>
+        <arg name="debug" value="false"/>
+        <arg name="verbose" value="true"/>
+    </include>
+
+    <!-- Publish world NED frame for underwater navigation -->
+    <include file="$(find uuv_assistants)/launch/publish_world_ned_frame.launch"/>
+
+    <!-- Add the BlueROV2 vehicle to the world  -->
+    <include file="$(find bluerov2_description)/launch/upload.launch">
+        <arg name="x" default="$(arg x)"/>
+        <arg name="y" default="$(arg y)"/>
+        <arg name="z" default="$(arg z)"/>
+        <arg name="yaw" default="$(arg yaw)"/>
+        <arg name="use_ned_frame" value="$(arg use_ned_frame)"/>
+    </include>
+
+    <!-- Start the PID controller with its default parameters for the bluerov2 vehicle  -->
+    <!-- <include file="$(find bluerov2_control)/launch/rov_pid_controller.launch"> 
+        <arg name="uuv_name" value="bluerov2"/> 
+        <arg name="model_name" value="bluerov2"/> 
+        <arg name="use_ned_frame" value="$(arg use_ned_frame)"/> 
+    </include>  -->
+   
+
+    <include file="$(find uuv_control_utils)/launch/apply_body_wrench.launch">
+        <arg name="uuv_name" value="bluerov2"/>
+        <arg name="starting_time" default="1"/>
+        <arg name="duration" default="10000"/>
+        <arg name="force_x" default="0"/>
+        <arg name="force_y" default="0"/>
+        <arg name="force_z" default="0"/>
+        <arg name="torque_z" default="0"/>
+    </include>
+        
+</launch>
