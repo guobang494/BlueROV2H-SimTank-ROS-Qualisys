@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(sim_real_allocator)
+project(simulation_to_real_bridge)
 
 ## Find catkin and any catkin packages
 find_package(catkin REQUIRED COMPONENTS
