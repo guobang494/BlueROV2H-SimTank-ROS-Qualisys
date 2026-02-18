@@ -38,8 +38,8 @@ include_directories(
 
 ## Install Python scripts (nodes)
 catkin_install_python(PROGRAMS
-  scripts/sim_to_real_bridge.py
-  scripts/thruster_allocator.py
+  src/sim_to_real_bridge.py
+  src/thruster_allocator.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
