@@ -45,7 +45,7 @@ cd ~/catkin_ws/src
 git clone https://github.com/guobang494/Bluerov2-Simulation-with-docker-env
 ```
    
-### 2) Install Docker Image
+### 3) Install Docker Image
 Install the Docker image that we provide.   
 This step requires approx. 10 minutes, and 3Gb of space on your hard-drive.  
 ```
@@ -67,8 +67,15 @@ This step requires approx. 10 minutes, and 3Gb of space on your hard-drive.
   ```
   You should see the folder previously downloaded: ```Bluerov2-Simulation-with-docker-env```
   
+  
+### 4) Sourcing the code 
+Open your bashrc and permanently source the catkin workspace. Use ```gedit ~/.bashrc)``` and add the following line to the file:  
+```
+source /root/catkin_ws/devel/setup.bash
+```
+  
 
-### 3) Next steps
+### 5) Next steps
 You can now follow up with the instructions to run the code in:
 1) ![a simulation environment](./SIMULATION_INSTRUCTIONS.md/)
 2) ![on a real vehicle](./TANK_INSTRUCTIONS.md/)
