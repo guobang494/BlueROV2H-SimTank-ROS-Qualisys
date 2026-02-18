@@ -45,12 +45,31 @@ For example, upon launching the demo, you will be able to see:
 ### 6) Launch the demo
 Return to the first terminal with the Docker.
 ```
-	cd /root/catkin_ws
-	source ./devel/setup.bash
 	roslaunch /root/catkin_ws/src/Bluerov2-Simulation-with-docker-env/code/simulation/src/bluerov2/bluerov2_dobmpc/launch/start_dobmpc_tank.launch
 ```
 
 
 You will now see the BlueROV2H vehicle as moving in a path such as in the following example:  
 <img src="https://github.com/guobang494/Bluerov2-Simulation-with-docker-env/blob/main/INSTALLATION/Gazebo_animation.gif" width=100% height=100%>
+
+
+
+### 7) Simulation in the future
+Open a new terminal, and type:
+```
+sudo docker start -ai my_bluerov_container
+```
+
+Note: if you are following up directly from the INSTALLATION instruction file, your container might be already open.   
+In that case, run instead:
+```
+sudo docker exec -it my_bluerov_container bash
+```
+
+
+```
+roslaunch /root/catkin_ws/src/Bluerov2-Simulation-with-docker-env/code/simulation/src/bluerov2/bluerov2_dobmpc/launch/start_tank_no_control.launch
+roslaunch bluerov2_motion_control bluerov2_motion_control.launch
+```
+
 

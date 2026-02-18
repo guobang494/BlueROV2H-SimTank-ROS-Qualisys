@@ -1,0 +1,28 @@
+<launch>
+
+  <group ns="simulation_to_real_bridge">
+
+  <node pkg="simulation_to_real_bridge" type="thruster_allocator.py" name="thruster_allocator" output="screen">
+    <rosparam command="load" file="$(find sim_real_allocator)/config/K.yaml" />
+    <!-- Parameters -->
+    <param name="cmd_topic" value="/cmd_velocity" />
+    <param name="out_prefix" value="/bluerov2/thrusters" />
+    <param name="n_thrusters" value="8" />
+  </node>
+
+  <node pkg="simulation_to_real_bridge" type="sim_to_real_bridge.py" name="sim_to_real_bridge" output="screen">
+    <!-- Inputs -->
+    <param name="odom_topic" value="/ground_truth_to_tf_bluerov2/pose/" />
+    <param name="euler_topic" value="/ground_truth_to_tf_bluerov2/euler/" />
+    <param name="model_states_topic" value="/gazebo/model_states/" />
+
+    <!-- Choose ONE: model_name or model_index -->
+    <!-- <param name="model_name" value="bluerov2" /> -->
+    <param name="model_index" value="2" />
+  </node>
+
+
+
+  </group>
+</launch>
+
