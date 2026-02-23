@@ -4,7 +4,7 @@ import numpy as np
 
 #from geometry_msgs.msg import Twist
 from uuv_gazebo_ros_plugins_msgs.msg import FloatStamped
-from std_msgs.Float64.msg import Float64
+from std_msgs.msg import Float64
 
 
 
