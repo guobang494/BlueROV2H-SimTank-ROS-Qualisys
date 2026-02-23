@@ -2,15 +2,23 @@
 import rospy
 import numpy as np
 
-from geometry_msgs.msg import Twist
+#from geometry_msgs.msg import Twist
 from uuv_gazebo_ros_plugins_msgs.msg import FloatStamped
-#from std_msgs.Float64.msg import Float64
+from std_msgs.Float64.msg import Float64
 
 
 
 class ThrusterAllocator:
     def __init__(self):
-        self.cmd_topic = rospy.get_param("~cmd_topic", "/cmd_velocity")
+        #self.cmd_topic = rospy.get_param("~cmd_topic", "/cmd_velocity")
+
+        # Input topics (6 independent scalars - possibly can be improved)
+        self.cmd_lin_x_topic = rospy.get_param("~cmd_lin_x_topic", "/cmd_velocity/linear/x")
+        self.cmd_lin_y_topic = rospy.get_param("~cmd_lin_y_topic", "/cmd_velocity/linear/y")
+        self.cmd_lin_z_topic = rospy.get_param("~cmd_lin_z_topic", "/cmd_velocity/linear/z")
+        self.cmd_ang_x_topic = rospy.get_param("~cmd_ang_x_topic", "/cmd_velocity/angular/x")
+        self.cmd_ang_y_topic = rospy.get_param("~cmd_ang_y_topic", "/cmd_velocity/angular/y")
+        self.cmd_ang_z_topic = rospy.get_param("~cmd_ang_z_topic", "/cmd_velocity/angular/z")
 
         # Output topic base
         self.out_prefix = rospy.get_param("~out_prefix", "/bbb/ttt")
@@ -34,22 +42,34 @@ class ThrusterAllocator:
             topic = f"{self.out_prefix}/{i}/input"
             self.pubs.append(rospy.Publisher(topic, FloatStamped, queue_size=10))
 
-        # Subscriber
-        self.sub = rospy.Subscriber(self.cmd_topic, Twist, self.cb_cmd, queue_size=10)
+        # Latest commanded wrench components [vx, vy, vz, wx, wy, wz]
+        self.cmd = np.zeros(6, dtype=float) # this is crucial as if one element of the wrench in not published, the 
+        # pseudoinverse calculation can be executed
+
+        # Subscribers (6 scalar channels)
+        self.sub_lin_x = rospy.Subscriber(self.cmd_lin_x_topic, Float64, self.cb_lin_x, queue_size=10)
+        self.sub_lin_y = rospy.Subscriber(self.cmd_lin_y_topic, Float64, self.cb_lin_y, queue_size=10)
+        self.sub_lin_z = rospy.Subscriber(self.cmd_lin_z_topic, Float64, self.cb_lin_z, queue_size=10)
+        self.sub_ang_x = rospy.Subscriber(self.cmd_ang_x_topic, Float64, self.cb_ang_x, queue_size=10)
+        self.sub_ang_y = rospy.Subscriber(self.cmd_ang_y_topic, Float64, self.cb_ang_y, queue_size=10)
+        self.sub_ang_z = rospy.Subscriber(self.cmd_ang_z_topic, Float64, self.cb_ang_z, queue_size=10)
+
 
         rospy.loginfo("thruster_allocator started")
-        rospy.loginfo("  cmd_topic=%s", self.cmd_topic)
+        rospy.loginfo("  cmd_lin_x_topic=%s", self.cmd_lin_x_topic)
+        rospy.loginfo("  cmd_lin_y_topic=%s", self.cmd_lin_y_topic)
+        rospy.loginfo("  cmd_lin_z_topic=%s", self.cmd_lin_z_topic)
+        rospy.loginfo("  cmd_ang_x_topic=%s", self.cmd_ang_x_topic)
+        rospy.loginfo("  cmd_ang_y_topic=%s", self.cmd_ang_y_topic)
+        rospy.loginfo("  cmd_ang_z_topic=%s", self.cmd_ang_z_topic)
         rospy.loginfo("  out_prefix=%s", self.out_prefix)
         rospy.loginfo("  K shape=%s", self.K.shape)
 
-    def cb_cmd(self, msg: Twist):
+    def publish_thrusters(self):
         # tau = [vx, vy, vz, wx, wy, wz]^T
-        tau = np.array([
-            msg.linear.x, msg.linear.y, msg.linear.z,
-            msg.angular.x, msg.angular.y, msg.angular.z
-        ], dtype=float).reshape((6, 1))
+        tau = self.cmd.reshape((6, 1))
 
-        # F = pinv(K) * tau  -> (8x6)*(6x1) = (8x1)
+        # F = pinv(K) * tau
         F = (self.K_pinv @ tau).reshape((self.n_thrusters,))
 
         now = rospy.Time.now()
@@ -59,6 +79,30 @@ class ThrusterAllocator:
             m.header.frame_id = ""
             m.data = float(F[i])
             self.pubs[i].publish(m)
+
+    def cb_lin_x(self, msg: Float64):
+        self.cmd[0] = msg.data
+        self.publish_thrusters()
+
+    def cb_lin_y(self, msg: Float64):
+        self.cmd[1] = msg.data
+        self.publish_thrusters()
+
+    def cb_lin_z(self, msg: Float64):
+        self.cmd[2] = msg.data
+        self.publish_thrusters()
+
+    def cb_ang_x(self, msg: Float64):
+        self.cmd[3] = msg.data
+        self.publish_thrusters()
+
+    def cb_ang_y(self, msg: Float64):
+        self.cmd[4] = msg.data
+        self.publish_thrusters()
+
+    def cb_ang_z(self, msg: Float64):
+        self.cmd[5] = msg.data
+        self.publish_thrusters()
 
 if __name__ == "__main__":
     rospy.init_node("thruster_allocator")
