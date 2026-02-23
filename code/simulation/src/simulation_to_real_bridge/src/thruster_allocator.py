@@ -4,6 +4,9 @@ import numpy as np
 
 from geometry_msgs.msg import Twist
 from uuv_gazebo_ros_plugins_msgs.msg import FloatStamped
+from std_msgs.Float64.msg import Float64
+
+
 
 class ThrusterAllocator:
     def __init__(self):
@@ -32,18 +35,18 @@ class ThrusterAllocator:
             self.pubs.append(rospy.Publisher(topic, FloatStamped, queue_size=10))
 
         # Subscriber
-        self.sub = rospy.Subscriber(self.cmd_topic, Twist, self.cb_cmd, queue_size=10)
+        self.sub = rospy.Subscriber(self.cmd_topic, Float64, self.cb_cmd, queue_size=10)
 
         rospy.loginfo("thruster_allocator started")
         rospy.loginfo("  cmd_topic=%s", self.cmd_topic)
         rospy.loginfo("  out_prefix=%s", self.out_prefix)
         rospy.loginfo("  K shape=%s", self.K.shape)
 
-    def cb_cmd(self, msg: Twist):
+    def cb_cmd(self, msg: Float64):
         # tau = [vx, vy, vz, wx, wy, wz]^T
         tau = np.array([
-            msg.linear.x, msg.linear.y, msg.linear.z,
-            msg.angular.x, msg.angular.y, msg.angular.z
+            msg, msg, msg,
+            msg, msg, msg
         ], dtype=float).reshape((6, 1))
 
         # F = pinv(K) * tau  -> (8x6)*(6x1) = (8x1)
