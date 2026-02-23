@@ -66,10 +66,9 @@ In that case, run instead:
 sudo docker exec -it my_bluerov_container bash
 ```
 
-
 ```
-roslaunch /root/catkin_ws/src/Bluerov2-Simulation-with-docker-env/code/simulation/src/bluerov2/bluerov2_dobmpc/launch/start_tank_no_control.launch
+roslaunch bluerov2_dobmpc start_tank_no_control.launc
 roslaunch bluerov2_motion_control bluerov2_motion_control.launch
+roslaunch simulation_to_real_bridge simulation_to_real_bridge.launch
 ```
-
 
