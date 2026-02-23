@@ -65,7 +65,14 @@ In that case, run instead:
 ```
 sudo docker exec -it my_bluerov_container bash
 ```
-
+Repeat the last command in 10 terminals (they will be useful later on).   
+  
+In a new terminal, run: 
+```
+	xhost +local:docker
+```
+  
+Launch the three simulation-related packages:  
 ```
 roslaunch bluerov2_dobmpc start_tank_no_control.launch
 roslaunch bluerov2_motion_control bluerov2_motion_control.launch
