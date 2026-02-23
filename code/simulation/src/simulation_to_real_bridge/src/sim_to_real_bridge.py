@@ -4,6 +4,7 @@ from std_msgs.msg import Float64
 from nav_msgs.msg import Odometry
 from geometry_msgs.msg import Vector3Stamped
 from gazebo_msgs.msg import ModelStates
+from geometry_msgs.msg import PoseStamped
 
 class SimToRealBridge:
     def __init__(self):
@@ -43,7 +44,7 @@ class SimToRealBridge:
         }
 
         # Subscribers
-        self.sub_odom = rospy.Subscriber(self.odom_topic, Odometry, self.cb_odom, queue_size=10)
+        self.sub_odom = rospy.Subscriber(self.odom_topic, PoseStamped, self.cb_odom, queue_size=10)
         self.sub_euler = rospy.Subscriber(self.euler_topic, Vector3Stamped, self.cb_euler, queue_size=10)
         self.sub_states = rospy.Subscriber(self.model_states_topic, ModelStates, self.cb_states, queue_size=10)
 
@@ -53,8 +54,8 @@ class SimToRealBridge:
         rospy.loginfo("  model_states_topic=%s", self.model_states_topic)
         rospy.loginfo("  model_name=%s model_index=%d", self.model_name, self.model_index)
 
-    def cb_odom(self, msg: Odometry):
-        p = msg.pose.pose.position
+    def cb_odom(self, msg: PoseStamped):
+        p = msg.pose.position
         self.pub_pos["x"].publish(Float64(p.x))
         self.pub_pos["y"].publish(Float64(p.y))
         self.pub_pos["z"].publish(Float64(p.z))
