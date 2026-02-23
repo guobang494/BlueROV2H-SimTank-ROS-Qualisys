@@ -18,28 +18,28 @@ class SimToRealBridge:
 
         # Publishers: position
         self.pub_pos = {
-            "x": rospy.Publisher("/real_position/linear/x", Float64, queue_size=10),
-            "y": rospy.Publisher("/real_position/linear/y", Float64, queue_size=10),
-            "z": rospy.Publisher("/real_position/linear/z", Float64, queue_size=10),
+            "x": rospy.Publisher("/bluerov2_heavy/position/linear/x", Float64, queue_size=10),
+            "y": rospy.Publisher("/bluerov2_heavy/position/linear/y", Float64, queue_size=10),
+            "z": rospy.Publisher("/bluerov2_heavy/position/linear/z", Float64, queue_size=10),
         }
 
         # Publishers: euler
         self.pub_ang = {
-            "x": rospy.Publisher("/real_position/angular/x", Float64, queue_size=10),
-            "y": rospy.Publisher("/real_position/angular/y", Float64, queue_size=10),
-            "z": rospy.Publisher("/real_position/angular/z", Float64, queue_size=10),
+            "x": rospy.Publisher("/bluerov2_heavy/position/angular/x", Float64, queue_size=10),
+            "y": rospy.Publisher("/bluerov2_heavy/position/angular/y", Float64, queue_size=10),
+            "z": rospy.Publisher("/bluerov2_heavy/position/angular/z", Float64, queue_size=10),
         }
 
         # Publishers: velocities
         self.pub_v_lin = {
-            "x": rospy.Publisher("/real_velocity/velocity/linear/x", Float64, queue_size=10),
-            "y": rospy.Publisher("/real_velocity/velocity/linear/y", Float64, queue_size=10),
-            "z": rospy.Publisher("/real_velocity/velocity/linear/z", Float64, queue_size=10),
+            "x": rospy.Publisher("/bluerov2_heavy/velocity/linear/x", Float64, queue_size=10),
+            "y": rospy.Publisher("/bluerov2_heavy/velocity/linear/y", Float64, queue_size=10),
+            "z": rospy.Publisher("/bluerov2_heavy/velocity/linear/z", Float64, queue_size=10),
         }
         self.pub_v_ang = {
-            "x": rospy.Publisher("/real_velocity/velocity/angular/x", Float64, queue_size=10),
-            "y": rospy.Publisher("/real_velocity/velocity/angular/y", Float64, queue_size=10),
-            "z": rospy.Publisher("/real_velocity/velocity/angular/z", Float64, queue_size=10),
+            "x": rospy.Publisher("/bluerov2_heavy/velocity/angular/x", Float64, queue_size=10),
+            "y": rospy.Publisher("/bluerov2_heavy/velocity/angular/y", Float64, queue_size=10),
+            "z": rospy.Publisher("/bluerov2_heavy/velocity/angular/z", Float64, queue_size=10),
         }
 
         # Subscribers

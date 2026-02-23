@@ -5,7 +5,7 @@
   <node pkg="simulation_to_real_bridge" type="thruster_allocator.py" name="thruster_allocator" output="screen">
     <rosparam command="load" file="$(find simulation_to_real_bridge)/config/bluerov2_allocation.yaml" />
     <!-- Parameters -->
-    <param name="cmd_topic" value="/cmd_velocity" />
+    <param name="cmd_topic" value="/bluerov2_heavy/cmd_velocity" />
     <param name="out_prefix" value="/bluerov2/thrusters" />
     <param name="n_thrusters" value="8" />
   </node>
