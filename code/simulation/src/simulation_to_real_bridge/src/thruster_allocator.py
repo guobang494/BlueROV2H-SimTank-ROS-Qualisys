@@ -35,7 +35,7 @@ class ThrusterAllocator:
 
         # Load thruster coefficient
         self.thruster_constant = rospy.get_param("~thruster_constant", None)
-        if thruster_constant is None:
+        if self.thruster_constant is None:
             raise RuntimeError("Parameter '~thruster_constant' not found. Did you rosparam load the YAML?")
 
 
