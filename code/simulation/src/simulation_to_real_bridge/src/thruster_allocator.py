@@ -83,7 +83,7 @@ class ThrusterAllocator:
             m = FloatStamped()
             m.header.stamp = now
             m.header.frame_id = ""
-            m.data = float(F[i]/thruster_constant)
+            m.data = float(F[i]/self.thruster_constant)
             self.pubs[i].publish(m)
 
     def cb_lin_x(self, msg: Float64):
