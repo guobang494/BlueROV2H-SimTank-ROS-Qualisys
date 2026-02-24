@@ -34,7 +34,7 @@ class ThrusterAllocator:
             raise RuntimeError(f"K must be shape (6,{self.n_thrusters}), got {self.K.shape}")
 
         # Load thruster coefficient
-        thruster_constant = rospy.get_param("~thruster_constant", None)
+        self.thruster_constant = rospy.get_param("~thruster_constant", None)
         if thruster_constant is None:
             raise RuntimeError("Parameter '~thruster_constant' not found. Did you rosparam load the YAML?")
 
