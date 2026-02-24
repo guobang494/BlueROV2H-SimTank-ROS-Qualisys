@@ -5,13 +5,15 @@ from nav_msgs.msg import Odometry
 from geometry_msgs.msg import Vector3Stamped
 from gazebo_msgs.msg import ModelStates
 from geometry_msgs.msg import PoseStamped
+from tf.transformations import euler_from_quaternion
 
 class SimToRealBridge:
     def __init__(self):
         # Inputs (remappable / configurable)
         self.odom_topic = rospy.get_param("~odom_topic", "/simulation/pose")
-        self.euler_topic = rospy.get_param("~euler_topic", "/simulation/euler")
+        #self.euler_topic = rospy.get_param("~euler_topic", "/simulation/euler")
         self.model_states_topic = rospy.get_param("~model_states_topic", "/simulation/model_states")
+
 
         # Model selection for ModelStates
         self.model_index = int(rospy.get_param("~model_index", 2))
@@ -44,27 +46,37 @@ class SimToRealBridge:
         }
 
         # Subscribers
-        self.sub_odom = rospy.Subscriber(self.odom_topic, PoseStamped, self.cb_odom, queue_size=10)
-        self.sub_euler = rospy.Subscriber(self.euler_topic, Vector3Stamped, self.cb_euler, queue_size=10)
+        self.sub_odom = rospy.Subscriber(self.odom_topic, Odometry, self.cb_odom, queue_size=10)
+        #self.sub_euler = rospy.Subscriber(self.euler_topic, Vector3Stamped, self.cb_euler, queue_size=10)
         self.sub_states = rospy.Subscriber(self.model_states_topic, ModelStates, self.cb_states, queue_size=10)
 
         rospy.loginfo("sim_to_real_bridge started")
         rospy.loginfo("  odom_topic=%s", self.odom_topic)
-        rospy.loginfo("  euler_topic=%s", self.euler_topic)
+        #rospy.loginfo("  euler_topic=%s", self.euler_topic)
         rospy.loginfo("  model_states_topic=%s", self.model_states_topic)
         rospy.loginfo("  model_name=%s model_index=%d", self.model_name, self.model_index)
 
-    def cb_odom(self, msg: PoseStamped):
-        p = msg.pose.position
+    def cb_odom(self, msg: Odometry):
+
+        # position
+        p = msg.pose.pose.position
         self.pub_pos["x"].publish(Float64(p.x))
         self.pub_pos["y"].publish(Float64(p.y))
         self.pub_pos["z"].publish(Float64(p.z))
 
-    def cb_euler(self, msg: Vector3Stamped):
-        v = msg.vector
-        self.pub_ang["x"].publish(Float64(v.x))
-        self.pub_ang["y"].publish(Float64(v.y))
-        self.pub_ang["z"].publish(Float64(v.z))
+        # orientation
+        ang = msg.pose.pose.orientation
+        q = [ang.x, ang.y, ang.z, ang.w]
+
+        # tranformation from quaternions to Euler
+        roll, pitch, yaw = euler_from_quaternion(q)
+
+        self.pub_ang["x"].publish(Float64(roll))
+        self.pub_ang["y"].publish(Float64(pitch))
+        self.pub_ang["z"].publish(Float64(yaw))
+
+
+
 
     def _resolve_model_index(self, names):
         if self.model_name:

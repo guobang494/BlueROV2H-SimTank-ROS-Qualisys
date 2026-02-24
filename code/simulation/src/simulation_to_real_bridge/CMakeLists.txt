@@ -9,6 +9,7 @@ find_package(catkin REQUIRED COMPONENTS
   nav_msgs
   gazebo_msgs
   uuv_gazebo_ros_plugins_msgs
+  tf
 )
 
 ###################################
@@ -22,6 +23,7 @@ catkin_package(
     nav_msgs
     gazebo_msgs
     uuv_gazebo_ros_plugins_msgs
+    tf
 )
 
 ###########
