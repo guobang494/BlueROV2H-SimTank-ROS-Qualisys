@@ -33,6 +33,12 @@ class ThrusterAllocator:
         if self.K.shape != (6, self.n_thrusters):
             raise RuntimeError(f"K must be shape (6,{self.n_thrusters}), got {self.K.shape}")
 
+        # Load thruster coefficient
+        thruster_constant = rospy.get_param("~thruster_constant", None)
+        if thruster_constant is None:
+            raise RuntimeError("Parameter '~thruster_constant' not found. Did you rosparam load the YAML?")
+
+
         # Precompute pseudoinverse: pinv(K) is (8x6) if K is (6x8)
         self.K_pinv = np.linalg.pinv(self.K)
 
@@ -77,7 +83,7 @@ class ThrusterAllocator:
             m = FloatStamped()
             m.header.stamp = now
             m.header.frame_id = ""
-            m.data = float(F[i])
+            m.data = float(F[i]/thruster_constant)
             self.pubs[i].publish(m)
 
     def cb_lin_x(self, msg: Float64):
