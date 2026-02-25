@@ -18,6 +18,8 @@ class GuidanceLawNode:
         self.path_waypoint_following = params["path_waypoint_following"]
         self.gamma = params["gamma"]
         self.waypoints = params["waypoints"]
+        self.waypoint_cycling_active = params["waypoint_cycling_active"]
+
         self.index = 0  # current waypoint index
 
         # Current state
@@ -76,9 +78,14 @@ class GuidanceLawNode:
             self.pub_distance.publish(dist)
 
             # Switch waypoint when the distance is < threshold
-            if dist < self.gamma and self.index < len(self.waypoints) - 1:
-                self.index += 1
-                rospy.loginfo("[guidance_law] Switching to waypoint %d" % self.index)
+            if dist < self.gamma:
+                if self.index < len(self.waypoints) - 1:
+                    # Normal advance to next waypoint
+                    self.index += 1
+                elif self.waypoint_cycling_active:
+                    # Restart from waypoint 0 if cycling enabled
+                    self.index = 0
+
                 target = self.waypoints[self.index]
                 tx, ty, tz = target
 

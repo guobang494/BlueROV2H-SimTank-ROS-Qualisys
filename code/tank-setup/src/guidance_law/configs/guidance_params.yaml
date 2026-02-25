@@ -1,9 +1,10 @@
 ####################### Guidance parameters #######################
 
 
-path_waypoint_following: true
+path_waypoint_following: true  # this is a future flag for different path scenarios - not in use at the moment
+waypoint_cycling_active: true  # if true, the scenario repeats once the vehicle reaches the last waypoint
 
-gamma: 2.0   # [m] to switch between waypoints
+gamma: 0.2   # [m] radius around a waypoint to define when to switch to the next target 
 
 waypoints:
   - [0.0, 0.0, -0.5]
