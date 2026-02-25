@@ -10,6 +10,8 @@ find_package(catkin REQUIRED COMPONENTS
   gazebo_msgs
   uuv_gazebo_ros_plugins_msgs
   tf
+  tf2_ros
+  tf2_geometry_msgs
 )
 
 ###################################
@@ -24,6 +26,8 @@ catkin_package(
     gazebo_msgs
     uuv_gazebo_ros_plugins_msgs
     tf
+    tf2_ros
+    tf2_geometry_msgs
 )
 
 ###########
@@ -42,6 +46,7 @@ include_directories(
 catkin_install_python(PROGRAMS
   src/sim_to_real_bridge.py
   src/thruster_allocator.py
+  src/pose_gt_to_ned.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 

@@ -10,7 +10,9 @@
     <param name="n_thrusters" value="8" />
   </node>
 
-  <node pkg="simulation_to_real_bridge" type="sim_to_real_bridge.py" name="sim_to_real_bridge" output="screen">
+ <node pkg="simulation_to_real_bridge" type="pose_gt_to_ned.py" name="pose_gt_to_ned" output="screen"/>
+
+ <node pkg="simulation_to_real_bridge" type="sim_to_real_bridge.py" name="sim_to_real_bridge" output="screen">
     <!-- Inputs -->
     <!-- <param name="odom_topic" value="/ground_truth_to_tf_bluerov2/pose/" />
     <param name="euler_topic" value="/ground_truth_to_tf_bluerov2/euler/" /> -->
