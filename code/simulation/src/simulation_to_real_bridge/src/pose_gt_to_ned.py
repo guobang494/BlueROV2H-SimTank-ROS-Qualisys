@@ -65,9 +65,7 @@ class OdomNEDRepublisher:
             out = Odometry()
             out.header.stamp    = msg.header.stamp
             out.header.frame_id = DST_FRAME
-            # Optional: rename child frame to *_ned (harmless if it doesn’t match)
-            out.child_frame_id  = (msg.child_frame_id.replace('base_link', 'base_link_ned')
-                                   if 'base_link' in msg.child_frame_id else msg.child_frame_id)
+            out.child_frame_id = msg.child_frame_id
 
             out.pose.pose = ps_ned.pose
 
