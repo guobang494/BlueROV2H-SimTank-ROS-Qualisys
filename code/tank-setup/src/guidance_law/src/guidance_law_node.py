@@ -29,24 +29,24 @@ class GuidanceLawNode:
         self.yaw = 0.0
 
         # Publishers: reference position & orientation
-        self.pub_ref_x = rospy.Publisher("/TODO/reference_position/linear/x", Float64, queue_size=10)
-        self.pub_ref_y = rospy.Publisher("/TODO/reference_position/linear/y", Float64, queue_size=10)
-        self.pub_ref_z = rospy.Publisher("/TODO/reference_position/linear/z", Float64, queue_size=10)
-        self.pub_ref_roll  = rospy.Publisher("/TODO/reference_position/angular/x", Float64, queue_size=10)
-        self.pub_ref_pitch = rospy.Publisher("/TODO/reference_position/angular/y", Float64, queue_size=10)
-        self.pub_ref_yaw   = rospy.Publisher("/TODO/reference_position/angular/z", Float64, queue_size=10)
+        self.pub_ref_x = rospy.Publisher("/bluerov2_heavy/reference_position/linear/x", Float64, queue_size=10)
+        self.pub_ref_y = rospy.Publisher("/bluerov2_heavy/reference_position/linear/y", Float64, queue_size=10)
+        self.pub_ref_z = rospy.Publisher("/bluerov2_heavy/reference_position/linear/z", Float64, queue_size=10)
+        self.pub_ref_roll  = rospy.Publisher("/bluerov2_heavy/reference_position/angular/x", Float64, queue_size=10)
+        self.pub_ref_pitch = rospy.Publisher("/bluerov2_heavy/reference_position/angular/y", Float64, queue_size=10)
+        self.pub_ref_yaw   = rospy.Publisher("/bluerov2_heavy/reference_position/angular/z", Float64, queue_size=10)
 
         # Publishers: diagnostic topics
         self.pub_next_target = rospy.Publisher("/guidance_law_variables/next_target", Float64MultiArray, queue_size=10)
         self.pub_distance = rospy.Publisher("/guidance_law_variables/distance_to_target", Float64, queue_size=10)
 
         # Subscribers: state
-        rospy.Subscriber("/TODO/position/linear/x", Float64, self.cb_pos_x)
-        rospy.Subscriber("/TODO/position/linear/y", Float64, self.cb_pos_y)
-        rospy.Subscriber("/TODO/position/linear/z", Float64, self.cb_pos_z)
-        rospy.Subscriber("/TODO/position/angular/x", Float64, self.cb_roll)
-        rospy.Subscriber("/TODO/position/angular/y", Float64, self.cb_pitch)
-        rospy.Subscriber("/TODO/position/angular/z", Float64, self.cb_yaw)
+        rospy.Subscriber("/bluerov2_heavy/position/linear/x", Float64, self.cb_pos_x)
+        rospy.Subscriber("/bluerov2_heavy/position/linear/y", Float64, self.cb_pos_y)
+        rospy.Subscriber("/bluerov2_heavy/position/linear/z", Float64, self.cb_pos_z)
+        rospy.Subscriber("/bluerov2_heavy/position/angular/x", Float64, self.cb_roll)
+        rospy.Subscriber("/bluerov2_heavy/position/angular/y", Float64, self.cb_pitch)
+        rospy.Subscriber("/bluerov2_heavy/position/angular/z", Float64, self.cb_yaw)
 
         rospy.loginfo("[guidance_law] Node started.")
         self.loop()
