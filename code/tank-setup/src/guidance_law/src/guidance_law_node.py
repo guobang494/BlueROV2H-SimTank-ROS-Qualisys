@@ -151,7 +151,7 @@ class GuidanceLawNode:
             dz = tz - self.pos_z
 
             # Compute reference orientation in the horizontal plane
-            ref_yaw = math.atan2(dy, dx)  
+            ref_yaw = - math.atan2(dy, dx)  # CAVEAT: the minus is because we have a NED convention
 
             # Wrap target yaw angle to avoid discontinuities and ensuring shortest-path relative to current yaw feedback
             ref_yaw = self._wrap_pi(self.yaw + self._wrap_pi(ref_yaw - self.yaw))
