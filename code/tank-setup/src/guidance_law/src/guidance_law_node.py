@@ -61,7 +61,14 @@ class GuidanceLawNode:
     def cb_pitch(self, msg): self.pitch = msg.data
     def cb_yaw(self, msg):   self.yaw = msg.data
 
-    # --- Main control loop ---
+
+    # Function to wrap the target reference angles to +/- pi to avoid commanding long rotations 
+    def _wrap_pi(self, angle):
+        # Wrap angle to (-pi, pi]
+        return (angle + math.pi) % (2.0 * math.pi) - math.pi
+
+
+    # Main control loop
     def loop(self):
         rate = rospy.Rate(20)  # 20 Hz
         while not rospy.is_shutdown():
@@ -89,11 +96,20 @@ class GuidanceLawNode:
                 target = self.waypoints[self.index]
                 tx, ty, tz = target
 
-            # Compute reference orientation
-            ref_yaw = math.atan2(ty - self.pos_y, tx - self.pos_x)
-            ref_pitch = math.atan2(tz - self.pos_z,
-                                   math.sqrt((tx - self.pos_x)**2 +
-                                             (ty - self.pos_y)**2))
+            # Calculating difference (target-current position)
+            dx = tx - self.pos_x
+            dy = ty - self.pos_y
+            dz = tz - self.pos_z
+
+            # Compute reference orientation in the horizontal plane
+            ref_yaw = math.atan2(dy, dx)  
+
+            # Wrap target yaw angle to avoid discontinuities and ensuring shortest-path relative to current yaw feedback
+            ref_yaw = self._wrap_pi(self.yaw + self._wrap_pi(ref_yaw - self.yaw))
+
+            # Compute reference orientation in the vertical plane
+            ref_pitch = math.atan2(dz, dx)
+
             ref_roll = 0.0  # optional: can be extended later
 
             # Publish reference position
