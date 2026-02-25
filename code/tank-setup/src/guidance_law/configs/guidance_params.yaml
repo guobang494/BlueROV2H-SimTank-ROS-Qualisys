@@ -1,0 +1,14 @@
+####################### Guidance parameters #######################
+
+
+path_waypoint_following: true
+
+gamma: 2.0   # [m] to switch between waypoints
+
+waypoints:
+  - [0.0, 0.0, -0.5]
+  - [5.0, 0.5, -0.5]
+  - [5.0, -0.5, -0.5]
+  - [-2.0, -0.5, -0.8]
+  - [-2.0, 0.5, -0.8]
+  - [-2.0, -0.5, -0.2]
