@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package format="2">
   <name>bluerov2_motion_control</name>
-  <version>0.0.0</version>
+  <version>0.0.1</version>
   <description>Position and velocity controller for the BlueROV2H vehicle, based on two nested PIDs with anti-windup.</description>
 
   <maintainer email="grande.rdev@gmail.com">Davide Grande</maintainer>
