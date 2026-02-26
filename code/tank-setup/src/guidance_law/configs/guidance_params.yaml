@@ -9,10 +9,9 @@ log_guidance: false  # if true it produces a .cvs with all signals relevant to t
 gamma: 0.2   # [m] radius around a waypoint to define when to switch to the next target 
 
 waypoints:
-  - [0.0, 0.0, 0.3]
-  - [1.0, -0.25, 0.3]
-  - [1.0, 0.25, 0.3]
-  - [-1.0, -0.25, 0.3]
-  - [-1.0, -0.25, 0.3]
-  - [-1.0, -0.25, 0.7]
-
+  - [1.0, 0.0, -0.5]
+  - [1.0, -0.5, -0.5]
+  - [1.0, 0.5, -0.5]
+  - [-2.0, -0.5, -0.8]
+  - [-2.0, 0.5, -0.8]
+  - [-2.0, -0.5, -0.2]
