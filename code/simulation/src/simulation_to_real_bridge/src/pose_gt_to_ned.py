@@ -97,7 +97,7 @@ def transform_twist(tfbuf, twist, stamp, src_frame, dst_frame):
     Note: Odometry.twist is expressed in msg.child_frame_id (usually base_link),
     NOT in msg.header.frame_id.
     """
-    xform = tfbuf.lookup_transform(dst_frame, src_frame, stamp, rospy.Duration(0.2))
+    xform = tfbuf.lookup_transform(dst_frame, src_frame, rospy.Time(0), rospy.Duration(0.2))
 
     # If your distro provides it somewhere, use it; otherwise fallback.
     # Some systems have it under tf2_geometry_msgs.tf2_geometry_msgs
@@ -144,7 +144,7 @@ class OdomNEDRepublisher:
         try:
             # --- Pose: TF SRC -> DST, then apply your fixed correction ---
             xform_pose = self.tfbuf.lookup_transform(
-                DST_FRAME, SRC_FRAME, msg.header.stamp, rospy.Duration(0.2)
+                DST_FRAME, SRC_FRAME, rospy.Time(0), rospy.Duration(0.2)
             )
             ps_dst = tf2_geometry_msgs.do_transform_pose(ps, xform_pose)
 
