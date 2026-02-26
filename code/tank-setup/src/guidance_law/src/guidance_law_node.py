@@ -66,6 +66,10 @@ class GuidanceLawNode:
         rate = rospy.Rate(20)  # 20 Hz
         while not rospy.is_shutdown():
 
+            # TODO careful
+            self.pos_y = -self.pos_y
+            self.pos_z = -self.pos_z
+            
             target = self.waypoints[self.index]
             tx, ty, tz = target
 
