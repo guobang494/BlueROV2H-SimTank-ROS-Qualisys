@@ -30,10 +30,10 @@
   <!-- Vehicle's namespace -->
   <arg name="namespace" default="bluerov2"/>
   <!-- World Frame -->
-  <arg name="use_ned_frame" default="true"/>
+  <arg name="use_ned_frame" default="world"/>
 
   <!-- <arg name="use_simplified_mesh" default="false"/> -->
-  <!-- <arg name="use_ned_frame" default="true"/> -->
+  <!-- <arg name="use_ned_frame" default="false"/> -->
 
   <group ns="$(arg namespace)">
     <group if="$(arg use_ned_frame)">

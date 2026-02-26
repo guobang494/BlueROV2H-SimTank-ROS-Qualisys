@@ -37,7 +37,6 @@
 
     <gazebo>
       <plugin name="pose_3d_plugin" filename="libuuv_gazebo_ros_pose_gt_plugin.so">
-      	<reference_frame>world_ned</reference_frame>
         <robot_namespace>${namespace}</robot_namespace>
         <link_name>${namespace}/base_link</link_name>
         <sensor_topic>${topic}</sensor_topic>

@@ -9,7 +9,7 @@
   <arg name="yaw" default="0.0"/>
 
   <arg name="namespace" default="rexrov"/>
-  <arg name="use_ned_frame" default="true"/>
+  <arg name="use_ned_frame" default="false"/>
 
   <group ns="$(arg namespace)">
     <group if="$(arg use_ned_frame)">
@@ -56,13 +56,10 @@
     <rosparam file="$(find oberon4_description)/params/robot_config.yaml" command="load"/>
   </group>
 
-  <!-- Removed to avoid publishing base_link_ned twice
   <include file="$(find uuv_assistants)/launch/publish_body_sname.launch">
     <arg name="uuv_name" value="$(arg namespace)"/>
   </include>
-  -->
-  
-  
+
   <include file="$(find uuv_assistants)/launch/message_to_tf.launch">
     <arg name="namespace" value="$(arg namespace)"/>
     <arg name="world_frame" value="world"/>

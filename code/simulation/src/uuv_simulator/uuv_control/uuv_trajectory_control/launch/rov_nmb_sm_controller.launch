@@ -13,7 +13,7 @@
     Set this flag to true to compute both reference and error vectors wrt
     world_ned frame
   -->
-  <arg name="use_ned_frame" default="true"/>
+  <arg name="use_ned_frame" default="false"/>
 
   <arg name="max_forward_speed" default="0.5"/>
 

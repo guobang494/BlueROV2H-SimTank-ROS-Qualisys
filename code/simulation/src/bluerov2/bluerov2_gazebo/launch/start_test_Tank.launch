@@ -7,7 +7,7 @@
     <arg name="z" default="-0.6"/>
     <arg name="yaw" default="0"/>
 
-    <arg name="use_ned_frame" default="true"/>
+    <arg name="use_ned_frame" default="false"/>
     <arg name="gui" default="true"/>
     <arg name="paused" default="false"/>
 

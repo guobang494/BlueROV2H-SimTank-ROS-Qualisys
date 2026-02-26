@@ -1,7 +1,7 @@
 <launch>
     <!-- Flag to start recoding a rosbag  -->
     <arg name="record" default="false"/>
-    <arg name="use_ned_frame" default="true"/>
+    <arg name="use_ned_frame" default="false"/>
     <!--
         ID of the joystick (to find out the joystick's index, open jstest-gtk)
         Default joystick mapping set for the XBox 360 controller.

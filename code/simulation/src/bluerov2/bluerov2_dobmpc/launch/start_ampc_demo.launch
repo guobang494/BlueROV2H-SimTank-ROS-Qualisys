@@ -7,7 +7,7 @@
     <arg name="z" default="-20"/>
     <arg name="yaw" default="-1.570796"/>
 
-    <arg name="use_ned_frame" default="true"/>
+    <arg name="use_ned_frame" default="false"/>
 
     <!-- Set Gauss-Markov parameters of the current velocity in m/s -->
     <!-- <arg name="component_vel" default="velocity"/>

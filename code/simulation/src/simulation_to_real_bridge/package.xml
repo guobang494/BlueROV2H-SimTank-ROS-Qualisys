@@ -16,8 +16,6 @@
   <build_depend>gazebo_msgs</build_depend>   
   <build_depend>uuv_gazebo_ros_plugins_msgs</build_depend>  
   <build_depend>tf</build_depend>  
-  <build_depend>tf2_ros</build_depend>
-  <build_depend>tf2_geometry_msgs</build_depend>
 
   <exec_depend>rospy</exec_depend>
   <exec_depend>std_msgs</exec_depend>
@@ -26,8 +24,6 @@
   <exec_depend>gazebo_msgs</exec_depend>    
   <exec_depend>uuv_gazebo_ros_plugins_msgs</exec_depend>  
   <exec_depend>tf</exec_depend>
-  <exec_depend>tf2_ros</exec_depend>
-  <exec_depend>tf2_geometry_msgs</exec_depend>
 
   <export>
   </export>
