@@ -5,7 +5,7 @@ from nav_msgs.msg import Odometry
 class FlipYZOdom:
     def __init__(self):
         in_topic  = rospy.get_param("~in_topic",  "/bluerov2/pose_gt")
-        out_topic = rospy.get_param("~out_topic", "/bluerov2/pose_gt_ned")
+        out_topic = rospy.get_param("~out_topic", "/bluerov2_temp/pose_gt_ned")
 
         self.pub = rospy.Publisher(out_topic, Odometry, queue_size=10)
         self.sub = rospy.Subscriber(in_topic, Odometry, self.cb, queue_size=10)
