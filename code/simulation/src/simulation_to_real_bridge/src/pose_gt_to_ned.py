@@ -6,7 +6,7 @@ import tf2_geometry_msgs
 from nav_msgs.msg import Odometry
 from geometry_msgs.msg import PoseStamped, TwistStamped
 from std_msgs.msg import Header
-from tf.transformations import quaternion_multiply
+from tf.transformations import quaternion_multiply, quaternion_matrix
 
 
 SRC_FRAME = 'world'   # pose header frame of incoming odom (map/odom/etc.)
@@ -32,23 +32,95 @@ def apply_corr_vec(v):
 def apply_corr_quat(q_xyzw):
     """
     Apply the fixed correction rotation to an orientation quaternion.
-    For active rotations: q_out = q_corr ⊗ q_in
+    For active rotations: q_out = q_corr x q_in
     """
     return quaternion_multiply(Q_CORR, q_xyzw)
+
+def _quat_to_R(q_xyzw):
+    """Return 3x3 rotation matrix from quaternion (x,y,z,w)."""
+    M = quaternion_matrix(q_xyzw)  # 4x4
+    return (M[0, 0], M[0, 1], M[0, 2],
+            M[1, 0], M[1, 1], M[1, 2],
+            M[2, 0], M[2, 1], M[2, 2])
+
+def _mat3_mul_vec3(R, v):
+    """R is 9-tuple row-major."""
+    x, y, z = v
+    return (
+        R[0]*x + R[1]*y + R[2]*z,
+        R[3]*x + R[4]*y + R[5]*z,
+        R[6]*x + R[7]*y + R[8]*z
+    )
+
+def _cross(a, b):
+    ax, ay, az = a
+    bx, by, bz = b
+    return (ay*bz - az*by, az*bx - ax*bz, ax*by - ay*bx)
+
+
+def transform_twist_fallback(twist, xform):
+    """
+    Twist transform which does not use tf2_geometry_msgs.do_transform_twist dependency.
+
+    xform is geometry_msgs/TransformStamped from source -> target (lookup_transform(target, source)).
+    Uses:
+      ω' = R ω
+      v' = R v + p x (R ω)
+    where p is translation from source origin to target origin expressed in target frame.
+    """
+    t = xform.transform.translation
+    r = xform.transform.rotation
+    q = (r.x, r.y, r.z, r.w)
+    R = _quat_to_R(q)
+
+    v = (twist.linear.x, twist.linear.y, twist.linear.z)
+    w = (twist.angular.x, twist.angular.y, twist.angular.z)
+
+    w_p = _mat3_mul_vec3(R, w)
+    v_p = _mat3_mul_vec3(R, v)
+
+    p = (t.x, t.y, t.z)
+    v_p = tuple(vp + cx for vp, cx in zip(v_p, _cross(p, w_p)))
+
+    out = twist  # mutate a copy later outside if you prefer
+    out.linear.x, out.linear.y, out.linear.z = v_p
+    out.angular.x, out.angular.y, out.angular.z = w_p
+    return out
+
+
 
 
 def transform_twist(tfbuf, twist, stamp, src_frame, dst_frame):
     """
-    Properly transform a twist with tf2.
-    NOTE: Odometry.twist is expressed in msg.child_frame_id (usually base_link),
-    not in msg.header.frame_id.
+    Transform a twist from src_frame to dst_frame at time stamp.
+
+    Note: Odometry.twist is expressed in msg.child_frame_id (usually base_link),
+    NOT in msg.header.frame_id.
     """
-    ts = TwistStamped()
-    ts.header.stamp = stamp
-    ts.header.frame_id = src_frame
-    ts.twist = twist
     xform = tfbuf.lookup_transform(dst_frame, src_frame, stamp, rospy.Duration(0.2))
-    return tf2_geometry_msgs.do_transform_twist(ts, xform).twist
+
+    # If your distro provides it somewhere, use it; otherwise fallback.
+    # Some systems have it under tf2_geometry_msgs.tf2_geometry_msgs
+    do_twist = getattr(tf2_geometry_msgs, "do_transform_twist", None)
+    if do_twist is None:
+        do_twist = getattr(getattr(tf2_geometry_msgs, "tf2_geometry_msgs", None),
+                           "do_transform_twist", None)
+
+    if do_twist is not None:
+        ts = TwistStamped()
+        ts.header.stamp = stamp
+        ts.header.frame_id = src_frame
+        ts.twist = twist
+        return do_twist(ts, xform).twist
+
+    # Portable fallback:
+    # Work on a local copy (avoid mutating input)
+    tmp = type(twist)()
+    tmp.linear.x, tmp.linear.y, tmp.linear.z = twist.linear.x, twist.linear.y, twist.linear.z
+    tmp.angular.x, tmp.angular.y, tmp.angular.z = twist.angular.x, twist.angular.y, twist.angular.z
+    return transform_twist_fallback(tmp, xform)
+
+
 
 
 class OdomNEDRepublisher:
@@ -59,58 +131,56 @@ class OdomNEDRepublisher:
         self.sub   = rospy.Subscriber(IN_TOPIC, Odometry, self.cb, queue_size=10)
 
     def cb(self, msg):
-        hdr = Header(stamp=msg.header.stamp, frame_id=SRC_FRAME)
+        # Pose stamped in SRC_FRAME
         ps = PoseStamped()
-        ps.header = hdr
+        ps.header = Header(stamp=msg.header.stamp, frame_id=SRC_FRAME)
         ps.pose = msg.pose.pose
 
         out = Odometry()
         out.header.stamp = msg.header.stamp
         out.header.frame_id = DST_FRAME
-        out.child_frame_id = msg.child_frame_id  # keep same child frame id
+        out.child_frame_id = msg.child_frame_id
 
         try:
-            # 1) Pose: TF transform SRC -> DST, then apply fixed correction
+            # --- Pose: TF SRC -> DST, then apply your fixed correction ---
             xform_pose = self.tfbuf.lookup_transform(
                 DST_FRAME, SRC_FRAME, msg.header.stamp, rospy.Duration(0.2)
             )
             ps_dst = tf2_geometry_msgs.do_transform_pose(ps, xform_pose)
 
-            # Apply fixed correction to pose (matches your ground-truth mapping)
-            # Position
+            # Apply correction to pose position
             p = ps_dst.pose.position
             px, py, pz = apply_corr_vec((p.x, p.y, p.z))
-            ps_dst.pose.position.x = px
-            ps_dst.pose.position.y = py
-            ps_dst.pose.position.z = pz
+            p.x, p.y, p.z = px, py, pz
 
-            # Orientation
+            # Apply correction to pose orientation
             o = ps_dst.pose.orientation
             q_in = (o.x, o.y, o.z, o.w)
             q_out = apply_corr_quat(q_in)
-            ps_dst.pose.orientation.x = q_out[0]
-            ps_dst.pose.orientation.y = q_out[1]
-            ps_dst.pose.orientation.z = q_out[2]
-            ps_dst.pose.orientation.w = q_out[3]
+            o.x, o.y, o.z, o.w = q_out
 
             out.pose.pose = ps_dst.pose
 
+            # --- Twist: transform using correct frame (child_frame_id), then apply correction ---
             src_twist_frame = msg.child_frame_id
+
+            # Keep twist expressed in the child frame (common for odom consumers).
+            # If you instead want twist expressed in DST_FRAME, set dst_twist_frame = DST_FRAME.
             dst_twist_frame = msg.child_frame_id
 
             tw_dst = transform_twist(
                 self.tfbuf, msg.twist.twist, msg.header.stamp, src_twist_frame, dst_twist_frame
             )
 
-            # Apply the same axis mapping to linear & angular components
+            # Apply same correction mapping to twist components
             lv = apply_corr_vec((tw_dst.linear.x, tw_dst.linear.y, tw_dst.linear.z))
             av = apply_corr_vec((tw_dst.angular.x, tw_dst.angular.y, tw_dst.angular.z))
-            tw_dst.linear.x,  tw_dst.linear.y,  tw_dst.linear.z  = lv
+            tw_dst.linear.x, tw_dst.linear.y, tw_dst.linear.z = lv
             tw_dst.angular.x, tw_dst.angular.y, tw_dst.angular.z = av
 
             out.twist.twist = tw_dst
 
-            # Covariances copied as-is, if used they should be rotated TODO
+            # Covariances copied as-is
             out.pose.covariance = msg.pose.covariance
             out.twist.covariance = msg.twist.covariance
 
