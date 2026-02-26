@@ -4,6 +4,8 @@
 path_waypoint_following: true  # this is a future flag for different path scenarios - not in use at the moment
 waypoint_cycling_active: true  # if true, the scenario repeats once the vehicle reaches the last waypoint
 
+log_guidance: false  # if true it produces a .cvs with all signals relevant to the guidance law 
+
 gamma: 0.2   # [m] radius around a waypoint to define when to switch to the next target 
 
 waypoints:

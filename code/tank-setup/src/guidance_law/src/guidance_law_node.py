@@ -24,6 +24,7 @@ class GuidanceLawNode:
         self.gamma = params["gamma"]
         self.waypoints = params["waypoints"]
         self.waypoint_cycling_active = params["waypoint_cycling_active"]
+         self.log_guidance = params["log_guidance"]
 
         self.index = 0  # current waypoint index
 
@@ -63,22 +64,22 @@ class GuidanceLawNode:
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         self.log_path = os.path.join(log_dir, f"guidance_log_{timestamp}.csv")
 
-        self.log_file = open(self.log_path, "w")
-        self.log_writer = csv.writer(self.log_file)
+        if self.log_guidance:
+            self.log_file = open(self.log_path, "w")
+            self.log_writer = csv.writer(self.log_file)
 
-        # Write CSV header
-        self.log_writer.writerow([
-            "time",
-            "pos_x", "pos_y", "pos_z",
-            "roll", "pitch", "yaw",
-            "target_x", "target_y", "target_z",
-            "ref_roll", "ref_pitch", "ref_yaw",
-            "distance_to_target",
-            "waypoint_index",
-            "waypoint_cycling_active"
-        ])
-
-        rospy.loginfo(f"[guidance_law] Logging to {self.log_path}")
+            # Write CSV header
+            self.log_writer.writerow([
+                "time",
+                "pos_x", "pos_y", "pos_z",
+                "roll", "pitch", "yaw",
+                "target_x", "target_y", "target_z",
+                "ref_roll", "ref_pitch", "ref_yaw",
+                "distance_to_target",
+                "waypoint_index",
+                "waypoint_cycling_active"
+            ])
+            rospy.loginfo(f"[guidance_law] Logging to {self.log_path}")
 
         rospy.loginfo("[guidance_law] Node started.")
         self.loop()
@@ -177,7 +178,8 @@ class GuidanceLawNode:
             self.pub_next_target.publish(msg)
 
             # Log the data in a csv file
-            self.log_data((tx, ty, tz), ref_roll, ref_pitch, ref_yaw, dist)
+            if self.log_guidance:
+                self.log_data((tx, ty, tz), ref_roll, ref_pitch, ref_yaw, dist)
 
             rate.sleep()
 
