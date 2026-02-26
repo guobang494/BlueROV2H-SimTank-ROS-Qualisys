@@ -1,7 +1,7 @@
 <launch>
     <!-- Flag to start recording a rosbag  -->
     <arg name="record" default="false"/>
-    <!-- Initial position and heading of the vehicle (for test_Tank environment: 18.15m x 2.5m x 1m)  -->
+    <!-- Initial position and heading of the vehicle (for UCL_tank environment: 18.15m x 2.5m x 1m)  -->
     <arg name="x" default="0"/>
     <arg name="y" default="0"/>
     <arg name="z" default="-0.5"/>
@@ -17,13 +17,13 @@
     <arg name="noise_vel" default="0.05"/>
     <arg name="mu_vel" default="0.0"/> -->
 
-    <!-- Initialize the Gazebo world with test_Tank environment -->
+    <!-- Initialize the Gazebo world with UCL_tank environment -->
     <arg name="gui" default="true"/>
     <arg name="paused" default="false"/>
     
-    <!-- Launch Gazebo with the test_Tank world -->
+    <!-- Launch Gazebo with the UCL_tank world -->
     <include file="$(find gazebo_ros)/launch/empty_world.launch">
-        <arg name="world_name" value="$(find bluerov2_gazebo)/worlds/test_Tank.world"/>
+        <arg name="world_name" value="$(find bluerov2_gazebo)/worlds/UCL_tank.world"/>
         <arg name="paused" value="$(arg paused)"/>
         <arg name="use_sim_time" value="true"/>
         <arg name="gui" value="$(arg gui)"/>

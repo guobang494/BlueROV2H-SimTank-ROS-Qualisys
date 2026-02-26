@@ -1,9 +1,9 @@
 <?xml version="1.0" ?>
-<!-- Test Tank world for BlueROV2 simulation
+<!-- UCL tank world for BlueROV2 simulation
      Tank dimensions: 18.15m x 2.5m x 1m
 -->
 <sdf version="1.4">
-  <world name="test_Tank">
+  <world name="UCL_tank">
     <physics name="default_physics" default="true" type="ode">
       <max_step_size>0.002</max_step_size>
       <real_time_factor>1</real_time_factor>
@@ -167,7 +167,7 @@
         <!-- Tank walls - East (positive Y) -->
         <visual name="wall_east">
           <cast_shadows>false</cast_shadows>
-          <pose>0 1.25 -0.5 0 0 0</pose>
+          <pose>0 5.0 -0.5 0 0 0</pose>
           <geometry>
             <box>
               <size>18.15 0.05 1</size>
@@ -182,7 +182,7 @@
         </visual>
 
         <collision name="wall_east">
-          <pose>0 1.25 -0.5 0 0 0</pose>
+          <pose>0 5.0 -0.5 0 0 0</pose>
           <geometry>
             <box>
               <size>18.15 0.05 1</size>
@@ -193,7 +193,7 @@
         <!-- Tank walls - West (negative Y) -->
         <visual name="wall_west">
           <cast_shadows>false</cast_shadows>
-          <pose>0 -1.25 -0.5 0 0 0</pose>
+          <pose>0 -2.0 -0.5 0 0 0</pose>
           <geometry>
             <box>
               <size>18.15 0.05 1</size>
@@ -208,7 +208,7 @@
         </visual>
 
         <collision name="wall_west">
-          <pose>0 -1.25 -0.5 0 0 0</pose>
+          <pose>0 -2.0 -0.5 0 0 0</pose>
           <geometry>
             <box>
               <size>18.15 0.05 1</size>

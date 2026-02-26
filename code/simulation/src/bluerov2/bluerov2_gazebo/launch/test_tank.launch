@@ -2,7 +2,7 @@
 <launch>
   <!-- Launch Gazebo with the test tank world -->
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
-    <arg name="world_name" value="$(find bluerov2_gazebo)/worlds/test_Tank.world"/>
+    <arg name="world_name" value="$(find bluerov2_gazebo)/worlds/UCL_tank.world"/>
     <arg name="paused" value="false"/>
     <arg name="use_sim_time" value="true"/>
     <arg name="gui" value="true"/>
