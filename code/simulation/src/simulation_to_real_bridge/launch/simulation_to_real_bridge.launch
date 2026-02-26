@@ -17,6 +17,7 @@
     <param name="model_states_topic" value="/gazebo/model_states/" />
     <param name="odom_topic" value="/bluerov2/pose_gt/" />
     
+    <node pkg="simulation_to_real_bridge" type="align_ned_odom.py" name="align_ned_odom" output="screen">
     
     
     <!-- Choose ONE: model_name or model_index -->
