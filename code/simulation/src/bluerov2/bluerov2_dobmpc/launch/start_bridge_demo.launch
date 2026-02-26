@@ -7,7 +7,7 @@
     <arg name="z" default="-34.5"/>
     <arg name="yaw" default="1.570796"/>
 
-    <arg name="use_ned_frame" default="false"/>
+    <arg name="use_ned_frame" default="true"/>
 
     <!-- Initialize the Gazebo world  -->
     <include file="$(find bluerov2_description)/launch/bridge.launch"/>

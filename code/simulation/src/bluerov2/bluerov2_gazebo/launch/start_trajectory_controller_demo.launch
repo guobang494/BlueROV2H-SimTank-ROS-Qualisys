@@ -8,7 +8,7 @@
     <arg name="record" default="false"/>
     <arg name="bag_filename" default="recording.bag"/>
 
-    <arg name="use_ned_frame" default="false"/>
+    <arg name="use_ned_frame" default="true"/>
     <arg name="teleop_on" default="false"/>
     <arg name="joy_id" default="0"/>
     <arg name="paused" default="false"/>
