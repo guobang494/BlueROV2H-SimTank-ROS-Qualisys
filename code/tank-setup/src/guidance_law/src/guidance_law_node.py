@@ -24,7 +24,7 @@ class GuidanceLawNode:
         self.gamma = params["gamma"]
         self.waypoints = params["waypoints"]
         self.waypoint_cycling_active = params["waypoint_cycling_active"]
-         self.log_guidance = params["log_guidance"]
+        self.log_guidance = params["log_guidance"]
 
         self.index = 0  # current waypoint index
 
