@@ -61,7 +61,7 @@
       noise_amplitude="${gaussian_noise_amplitude}"
       suffix="${suffix}"
       reference_frame="world"
-      publish_ned_odom="false">
+      publish_ned_odom="true">
       <origin xyz="0 0 0" rpy="0 0 0" />
     </xacro:pose_3d_macro>
   </xacro:macro>
@@ -76,7 +76,7 @@
       noise_amplitude="0.0"
       suffix="default"
       reference_frame="world"
-      publish_ned_odom="false">
+      publish_ned_odom="true">
       <origin xyz="0 0 0" rpy="0 0 0" />
     </xacro:pose_3d_macro>
   </xacro:macro>
@@ -91,7 +91,7 @@
       noise_amplitude="0.0"
       suffix="default"
       reference_frame="world"
-      publish_ned_odom="false">
+      publish_ned_odom="true">
       <origin xyz="0 0 0" rpy="0 0 0" />
     </xacro:pose_3d_macro>
   </xacro:macro>
