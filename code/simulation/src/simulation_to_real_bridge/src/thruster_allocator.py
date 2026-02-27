@@ -13,12 +13,21 @@ class ThrusterAllocator:
         #self.cmd_topic = rospy.get_param("~cmd_topic", "/cmd_velocity")
 
         # Input topics (6 independent scalars - possibly can be improved)
-        self.cmd_lin_x_topic = rospy.get_param("~cmd_lin_x_topic", "/bluerov2_heavy/cmd_velocity/linear/x")
-        self.cmd_lin_y_topic = rospy.get_param("~cmd_lin_y_topic", "/bluerov2_heavy/cmd_velocity/linear/y")
-        self.cmd_lin_z_topic = rospy.get_param("~cmd_lin_z_topic", "/bluerov2_heavy/cmd_velocity/linear/z")
-        self.cmd_ang_x_topic = rospy.get_param("~cmd_ang_x_topic", "/bluerov2_heavy/cmd_velocity/angular/x")
-        self.cmd_ang_y_topic = rospy.get_param("~cmd_ang_y_topic", "/bluerov2_heavy/cmd_velocity/angular/y")
-        self.cmd_ang_z_topic = rospy.get_param("~cmd_ang_z_topic", "/bluerov2_heavy/cmd_velocity/angular/z")
+        self.cmd_lin_x_topic_read = rospy.get_param("~cmd_lin_x_topic", "/bluerov2_heavy/cmd_velocity/linear/x")
+        self.cmd_lin_y_topic_read = rospy.get_param("~cmd_lin_y_topic", "/bluerov2_heavy/cmd_velocity/linear/y")
+        self.cmd_lin_z_topic_read = rospy.get_param("~cmd_lin_z_topic", "/bluerov2_heavy/cmd_velocity/linear/z")
+        self.cmd_ang_x_topic_read = rospy.get_param("~cmd_ang_x_topic", "/bluerov2_heavy/cmd_velocity/angular/x")
+        self.cmd_ang_y_topic_read = rospy.get_param("~cmd_ang_y_topic", "/bluerov2_heavy/cmd_velocity/angular/y")
+        self.cmd_ang_z_topic_read = rospy.get_param("~cmd_ang_z_topic", "/bluerov2_heavy/cmd_velocity/angular/z")
+
+
+        self.cmd_lin_x_topic = cmd_lin_x_topic_read
+        self.cmd_lin_y_topic = cmd_lin_y_topic_read
+        self.cmd_lin_z_topic = -cmd_lin_z_topic_read
+        self.cmd_ang_x_topic = cmd_ang_x_topic_read
+        self.cmd_ang_y_topic = cmd_ang_y_topic_read
+        self.cmd_ang_z_topic = cmd_ang_z_topic_read
+
 
         # Output topic base
         self.out_prefix = rospy.get_param("~out_prefix", "/bbb/ttt")
