@@ -2,6 +2,7 @@
 <robot name="bluerov2" xmlns:xacro="http://www.ros.org/wiki/xacro" >
   <xacro:arg name="debug" default="0"/>
   <xacro:arg name="namespace" default="bluerov2"/>
+  <xacro:arg name="inertial_reference_frame" default="world"/>
   <!-- Include the ROV macro file xacro:bluerov2_base -->
   <xacro:include filename="$(find bluerov2_description)/urdf/base.xacro"/>
   <!-- Hydrodynamic and hydrostatic parameters for the vehicle xacro:macro bluerov2_hydro_model -->

@@ -34,16 +34,17 @@ class SimToRealBridge:
         }
 
         # Publishers: velocities
-        self.pub_v_lin = {
-            "x": rospy.Publisher("/bluerov2_heavy/velocity/linear/x", Float64, queue_size=10),
-            "y": rospy.Publisher("/bluerov2_heavy/velocity/linear/y", Float64, queue_size=10),
-            "z": rospy.Publisher("/bluerov2_heavy/velocity/linear/z", Float64, queue_size=10),
-        }
-        self.pub_v_ang = {
-            "x": rospy.Publisher("/bluerov2_heavy/velocity/angular/x", Float64, queue_size=10),
-            "y": rospy.Publisher("/bluerov2_heavy/velocity/angular/y", Float64, queue_size=10),
-            "z": rospy.Publisher("/bluerov2_heavy/velocity/angular/z", Float64, queue_size=10),
-        }
+        # ENU -> NED mapping:
+        # x_ned = y_enu
+        # y_ned = x_enu
+        # z_ned = -z_enu
+        self.pub_v_lin["x"].publish(Float64(t.linear.y))
+        self.pub_v_lin["y"].publish(Float64(t.linear.x))
+        self.pub_v_lin["z"].publish(Float64(-t.linear.z))
+
+        self.pub_v_ang["x"].publish(Float64(t.angular.y))
+        self.pub_v_ang["y"].publish(Float64(t.angular.x))
+        self.pub_v_ang["z"].publish(Float64(-t.angular.z))
 
         # Subscribers
         self.sub_odom = rospy.Subscriber(self.odom_topic, Odometry, self.cb_odom, queue_size=10)
