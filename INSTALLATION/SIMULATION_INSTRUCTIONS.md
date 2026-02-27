@@ -77,6 +77,5 @@ Launch the three simulation-related packages:
 roslaunch bluerov2_dobmpc start_tank_no_control.launch
 roslaunch bluerov2_motion_control bluerov2_motion_control.launch
 roslaunch simulation_to_real_bridge simulation_to_real_bridge.launch
-roslaunch guidance_law guidance_law.launch
 ```
 
