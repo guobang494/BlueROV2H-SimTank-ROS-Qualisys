@@ -2,32 +2,27 @@
 import rospy
 import numpy as np
 
-#from geometry_msgs.msg import Twist
 from uuv_gazebo_ros_plugins_msgs.msg import FloatStamped
 from std_msgs.msg import Float64
 
 
-
 class ThrusterAllocator:
     def __init__(self):
-        #self.cmd_topic = rospy.get_param("~cmd_topic", "/cmd_velocity")
+        # Input topics (6 independent scalars)
+        self.cmd_lin_x_topic = rospy.get_param("~cmd_lin_x_topic", "/bluerov2_heavy/cmd_velocity/linear/x")
+        self.cmd_lin_y_topic = rospy.get_param("~cmd_lin_y_topic", "/bluerov2_heavy/cmd_velocity/linear/y")
+        self.cmd_lin_z_topic = rospy.get_param("~cmd_lin_z_topic", "/bluerov2_heavy/cmd_velocity/linear/z")
+        self.cmd_ang_x_topic = rospy.get_param("~cmd_ang_x_topic", "/bluerov2_heavy/cmd_velocity/angular/x")
+        self.cmd_ang_y_topic = rospy.get_param("~cmd_ang_y_topic", "/bluerov2_heavy/cmd_velocity/angular/y")
+        self.cmd_ang_z_topic = rospy.get_param("~cmd_ang_z_topic", "/bluerov2_heavy/cmd_velocity/angular/z")
 
-        # Input topics (6 independent scalars - possibly can be improved)
-        self.cmd_lin_x_topic_read = rospy.get_param("~cmd_lin_x_topic", "/bluerov2_heavy/cmd_velocity/linear/x")
-        self.cmd_lin_y_topic_read = rospy.get_param("~cmd_lin_y_topic", "/bluerov2_heavy/cmd_velocity/linear/y")
-        self.cmd_lin_z_topic_read = rospy.get_param("~cmd_lin_z_topic", "/bluerov2_heavy/cmd_velocity/linear/z")
-        self.cmd_ang_x_topic_read = rospy.get_param("~cmd_ang_x_topic", "/bluerov2_heavy/cmd_velocity/angular/x")
-        self.cmd_ang_y_topic_read = rospy.get_param("~cmd_ang_y_topic", "/bluerov2_heavy/cmd_velocity/angular/y")
-        self.cmd_ang_z_topic_read = rospy.get_param("~cmd_ang_z_topic", "/bluerov2_heavy/cmd_velocity/angular/z")
-
-
-        self.cmd_lin_x_topic = self.cmd_lin_x_topic_read
-        self.cmd_lin_y_topic = self.cmd_lin_y_topic_read
-        self.cmd_lin_z_topic = -self.cmd_lin_z_topic_read
-        self.cmd_ang_x_topic = self.cmd_ang_x_topic_read
-        self.cmd_ang_y_topic = self.cmd_ang_y_topic_read
-        self.cmd_ang_z_topic = self.cmd_ang_z_topic_read
-
+        # Per-axis gains (use this for sign flips without touching other nodes)
+        self.g_lin_x = float(rospy.get_param("~gain_lin_x", 1.0))
+        self.g_lin_y = float(rospy.get_param("~gain_lin_y", 1.0))
+        self.g_lin_z = float(rospy.get_param("~gain_lin_z", 1.0))
+        self.g_ang_x = float(rospy.get_param("~gain_ang_x", 1.0))
+        self.g_ang_y = float(rospy.get_param("~gain_ang_y", 1.0))
+        self.g_ang_z = float(rospy.get_param("~gain_ang_z", 1.0))
 
         # Output topic base
         self.out_prefix = rospy.get_param("~out_prefix", "/bbb/ttt")
@@ -46,7 +41,7 @@ class ThrusterAllocator:
         self.thruster_constant = rospy.get_param("~thruster_constant", None)
         if self.thruster_constant is None:
             raise RuntimeError("Parameter '~thruster_constant' not found. Did you rosparam load the YAML?")
-
+        self.thruster_constant = float(self.thruster_constant)
 
         # Precompute pseudoinverse: pinv(K) is (8x6) if K is (6x8)
         self.K_pinv = np.linalg.pinv(self.K)
@@ -58,8 +53,8 @@ class ThrusterAllocator:
             self.pubs.append(rospy.Publisher(topic, FloatStamped, queue_size=10))
 
         # Latest commanded wrench components [vx, vy, vz, wx, wy, wz]
-        self.cmd = np.zeros(6, dtype=float) # this is crucial as if one element of the wrench in not published, the 
-        # pseudoinverse calculation can be executed
+        self.cmd = np.zeros(6, dtype=float)
+        self.have = np.zeros(6, dtype=bool)
 
         # Subscribers (6 scalar channels)
         self.sub_lin_x = rospy.Subscriber(self.cmd_lin_x_topic, Float64, self.cb_lin_x, queue_size=10)
@@ -69,6 +64,9 @@ class ThrusterAllocator:
         self.sub_ang_y = rospy.Subscriber(self.cmd_ang_y_topic, Float64, self.cb_ang_y, queue_size=10)
         self.sub_ang_z = rospy.Subscriber(self.cmd_ang_z_topic, Float64, self.cb_ang_z, queue_size=10)
 
+        # Publish thrusters at fixed rate (prevents spikes from partial updates)
+        self.publish_rate_hz = float(rospy.get_param("~publish_rate_hz", 50.0))
+        self.timer = rospy.Timer(rospy.Duration(1.0 / self.publish_rate_hz), self._on_timer)
 
         rospy.loginfo("thruster_allocator started")
         rospy.loginfo("  cmd_lin_x_topic=%s", self.cmd_lin_x_topic)
@@ -77,8 +75,18 @@ class ThrusterAllocator:
         rospy.loginfo("  cmd_ang_x_topic=%s", self.cmd_ang_x_topic)
         rospy.loginfo("  cmd_ang_y_topic=%s", self.cmd_ang_y_topic)
         rospy.loginfo("  cmd_ang_z_topic=%s", self.cmd_ang_z_topic)
+        rospy.loginfo("  gains lin=[%s,%s,%s] ang=[%s,%s,%s]",
+                      self.g_lin_x, self.g_lin_y, self.g_lin_z,
+                      self.g_ang_x, self.g_ang_y, self.g_ang_z)
         rospy.loginfo("  out_prefix=%s", self.out_prefix)
         rospy.loginfo("  K shape=%s", self.K.shape)
+        rospy.loginfo("  publish_rate_hz=%.1f", self.publish_rate_hz)
+
+    def _on_timer(self, _evt):
+        # Only publish once we have received at least one message for every axis
+        if not np.all(self.have):
+            return
+        self.publish_thrusters()
 
     def publish_thrusters(self):
         # tau = [vx, vy, vz, wx, wy, wz]^T
@@ -92,35 +100,35 @@ class ThrusterAllocator:
             m = FloatStamped()
             m.header.stamp = now
             m.header.frame_id = ""
-            m.data = float(F[i]/self.thruster_constant)
+            m.data = float(F[i] / self.thruster_constant)
             self.pubs[i].publish(m)
 
     def cb_lin_x(self, msg: Float64):
-        self.cmd[0] = msg.data
-        self.publish_thrusters()
+        self.cmd[0] = self.g_lin_x * msg.data
+        self.have[0] = True
 
     def cb_lin_y(self, msg: Float64):
-        self.cmd[1] = msg.data
-        self.publish_thrusters()
+        self.cmd[1] = self.g_lin_y * msg.data
+        self.have[1] = True
 
     def cb_lin_z(self, msg: Float64):
-        self.cmd[2] = msg.data
-        self.publish_thrusters()
+        self.cmd[2] = self.g_lin_z * msg.data
+        self.have[2] = True
 
     def cb_ang_x(self, msg: Float64):
-        self.cmd[3] = msg.data
-        self.publish_thrusters()
+        self.cmd[3] = self.g_ang_x * msg.data
+        self.have[3] = True
 
     def cb_ang_y(self, msg: Float64):
-        self.cmd[4] = msg.data
-        self.publish_thrusters()
+        self.cmd[4] = self.g_ang_y * msg.data
+        self.have[4] = True
 
     def cb_ang_z(self, msg: Float64):
-        self.cmd[5] = msg.data
-        self.publish_thrusters()
+        self.cmd[5] = self.g_ang_z * msg.data
+        self.have[5] = True
+
 
 if __name__ == "__main__":
     rospy.init_node("thruster_allocator")
     ThrusterAllocator()
     rospy.spin()
-

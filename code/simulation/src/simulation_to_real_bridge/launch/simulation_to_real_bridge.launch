@@ -8,6 +8,10 @@
     <param name="cmd_topic" value="/bluerov2_heavy/cmd_velocity" />
     <param name="out_prefix" value="/bluerov2/thrusters" />
     <param name="n_thrusters" value="8" />
+    
+    <param name="gain_lin_z" value="-1.0" />
+    <param name="publish_rate_hz" value="50.0" />
+    
   </node>
 
   <node pkg="simulation_to_real_bridge" type="sim_to_real_bridge.py" name="sim_to_real_bridge" output="screen">
