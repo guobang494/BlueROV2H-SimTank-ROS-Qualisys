@@ -80,12 +80,12 @@ class SimToRealBridge:
         # IMPORTANT: your world_ned is currently R = diag(1, -1, -1)
         # So vectors transform: x' = x, y' = -y, z' = -z
         self.pub_v_lin["x"].publish(Float64(t.linear.x))
-        self.pub_v_lin["y"].publish(Float64(-t.linear.y))
-        self.pub_v_lin["z"].publish(Float64(-t.linear.z))
+        self.pub_v_lin["y"].publish(Float64(t.linear.y))
+        self.pub_v_lin["z"].publish(Float64(t.linear.z))
 
         self.pub_v_ang["x"].publish(Float64(t.angular.x))
-        self.pub_v_ang["y"].publish(Float64(-t.angular.y))
-        self.pub_v_ang["z"].publish(Float64(-t.angular.z))
+        self.pub_v_ang["y"].publish(Float64(t.angular.y))
+        self.pub_v_ang["z"].publish(Float64(t.angular.z))
 
 
 if __name__ == "__main__":
