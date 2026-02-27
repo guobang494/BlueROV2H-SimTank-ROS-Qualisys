@@ -38,10 +38,8 @@ class SimToRealBridge:
 
         self.sub_odom = rospy.Subscriber(self.odom_topic, Odometry, self.cb_odom, queue_size=10)
 
-
         rospy.loginfo("sim_to_real_bridge started")
         rospy.loginfo("  odom_topic=%s", self.odom_topic)
-        rospy.loginfo("  model_states_topic=%s", self.model_states_topic)
 
     def cb_odom(self, msg: Odometry):
         # position
@@ -49,7 +47,7 @@ class SimToRealBridge:
         self.pub_pos["x"].publish(Float64(p.x))
         self.pub_pos["y"].publish(Float64(p.y))
         self.pub_pos["z"].publish(Float64(p.z))
-
+simulation_to_real_bridge
         # orientation
         q = msg.pose.pose.orientation
         roll, pitch, yaw = euler_from_quaternion([q.x, q.y, q.z, q.w])
