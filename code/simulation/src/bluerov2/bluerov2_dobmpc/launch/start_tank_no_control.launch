@@ -4,10 +4,10 @@
     <!-- Initial position and heading of the vehicle (for UCL_tank environment: 18.15m x 2.5m x 1m)  -->
     <arg name="x" default="0"/>
     <arg name="y" default="0"/>
-    <arg name="z" default="-0.5"/>
+    <arg name="z" default="-0.5"/> <!-- the initial spawning is in ENU). For submerged objects, z must be negative -->
     <arg name="yaw" default="0"/>
 
-    <arg name="use_ned_frame" default="false"/>
+    <arg name="use_ned_frame" default="true"/>
 
     <!-- Set Gauss-Markov parameters of the current velocity in m/s -->
     <!-- <arg name="component_vel" default="velocity"/>

@@ -23,6 +23,12 @@ class GuidanceLawNode:
         self.index = 0  # current waypoint index
 
         # Current state
+        self.pos_x_gazebo = 0.0
+        self.pos_y_gazebo = 0.0
+        self.pos_z_gazebo = 0.0
+        self.roll_gazebo = 0.0
+        self.pitch_gazebo = 0.0
+        self.yaw_gazebo = 0.0        
         self.pos_x = 0.0
         self.pos_y = 0.0
         self.pos_z = 0.0
@@ -54,9 +60,9 @@ class GuidanceLawNode:
         self.loop()
 
     # --- Callbacks ---
-    def cb_pos_x(self, msg): self.pos_x = msg.data
-    def cb_pos_y(self, msg): self.pos_y = msg.data
-    def cb_pos_z(self, msg): self.pos_z = msg.data
+    def cb_pos_x(self, msg): self.pos_x_gazebo = msg.data
+    def cb_pos_y(self, msg): self.pos_y_gazebo = msg.data
+    def cb_pos_z(self, msg): self.pos_z_gazebo = msg.data
     def cb_roll(self, msg):  self.roll = msg.data
     def cb_pitch(self, msg): self.pitch = msg.data
     def cb_yaw(self, msg):   self.yaw = msg.data
@@ -67,8 +73,9 @@ class GuidanceLawNode:
         while not rospy.is_shutdown():
 
             # TODO careful
-            self.pos_y = -self.pos_y
-            self.pos_z = -self.pos_z
+            self.pos_x = self.pos_x_gazebo
+            self.pos_y = self.pos_y_gazebo
+            self.pos_z = self.pos_z_gazebo
             
             target = self.waypoints[self.index]
             tx, ty, tz = target
