@@ -21,12 +21,12 @@ class ThrusterAllocator:
         self.cmd_ang_z_topic_read = rospy.get_param("~cmd_ang_z_topic", "/bluerov2_heavy/cmd_velocity/angular/z")
 
 
-        self.cmd_lin_x_topic = cmd_lin_x_topic_read
-        self.cmd_lin_y_topic = cmd_lin_y_topic_read
-        self.cmd_lin_z_topic = -cmd_lin_z_topic_read
-        self.cmd_ang_x_topic = cmd_ang_x_topic_read
-        self.cmd_ang_y_topic = cmd_ang_y_topic_read
-        self.cmd_ang_z_topic = cmd_ang_z_topic_read
+        self.cmd_lin_x_topic = self.cmd_lin_x_topic_read
+        self.cmd_lin_y_topic = self.cmd_lin_y_topic_read
+        self.cmd_lin_z_topic = -self.cmd_lin_z_topic_read
+        self.cmd_ang_x_topic = self.cmd_ang_x_topic_read
+        self.cmd_ang_y_topic = self.cmd_ang_y_topic_read
+        self.cmd_ang_z_topic = self.cmd_ang_z_topic_read
 
 
         # Output topic base
