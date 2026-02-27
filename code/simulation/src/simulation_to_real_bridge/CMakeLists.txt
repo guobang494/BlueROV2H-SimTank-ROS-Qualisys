@@ -42,7 +42,6 @@ include_directories(
 catkin_install_python(PROGRAMS
   src/sim_to_real_bridge.py
   src/thruster_allocator.py
-  src/align_ned_odom.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
