@@ -19,8 +19,8 @@
     
     
     <!-- Choose ONE: model_name or model_index -->
-    <!-- <param name="model_name" value="bluerov2" /> -->
-    <param name="model_index" value="2" />
+    <param name="model_name" value="bluerov2" /> 
+    <!--  <param name="model_index" value="2" /> -->
   </node>
 
 
