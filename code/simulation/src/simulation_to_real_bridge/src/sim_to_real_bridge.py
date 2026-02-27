@@ -47,7 +47,7 @@ class SimToRealBridge:
         self.pub_pos["x"].publish(Float64(p.x))
         self.pub_pos["y"].publish(Float64(p.y))
         self.pub_pos["z"].publish(Float64(p.z))
-simulation_to_real_bridge
+
         # orientation
         q = msg.pose.pose.orientation
         roll, pitch, yaw = euler_from_quaternion([q.x, q.y, q.z, q.w])
