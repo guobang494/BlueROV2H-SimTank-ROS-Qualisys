@@ -68,6 +68,8 @@ int main(int argc, char** argv)
     {"bluerov2_motion_control_vel",   "PID_u1_velocity",   "/bluerov2_heavy/velocity/linear/x",    "/bluerov2_heavy/reference_velocity/linear/x",    "/bluerov2_heavy/cmd_velocity/linear/x"},
     {"bluerov2_motion_control_vel",   "PID_u2_velocity",   "/bluerov2_heavy/velocity/linear/y",    "/bluerov2_heavy/reference_velocity/linear/y",    "/bluerov2_heavy/cmd_velocity/linear/y"},
     {"bluerov2_motion_control_vel",   "PID_u3_velocity",   "/bluerov2_heavy/velocity/linear/z",    "/bluerov2_heavy/reference_velocity/linear/z",    "/bluerov2_heavy/cmd_velocity/linear/z"},
+    {"bluerov2_motion_control_vel", "PID_u4_velocity", "/bluerov2_heavy/velocity/angular/x", "/bluerov2_heavy/reference_velocity/angular/x",  "/bluerov2_heavy/cmd_velocity/angular/x"}
+    {"bluerov2_motion_control_vel", "PID_u5_velocity", "/bluerov2_heavy/velocity/angular/y", "/bluerov2_heavy/reference_velocity/angular/y",  "/bluerov2_heavy/cmd_velocity/angular/y"}
     {"bluerov2_motion_control_vel", "PID_u4_velocity", "/bluerov2_heavy/velocity/angular/z", "/bluerov2_heavy/reference_velocity/angular/z",  "/bluerov2_heavy/cmd_velocity/angular/z"}
   };  // TODO confirm parameter group definition!
 

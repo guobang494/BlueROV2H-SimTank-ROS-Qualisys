@@ -98,8 +98,71 @@ bluerov2_motion_control_vel:
       Gain:
         Kb: 1  # Anti Wind up gain Laplace Domain U_anti_wind_up(s) = (Kb/s)*E_sat(s) 
 
-####################### YAW RATE PARAMETERS #######################
+
+####################### ROLL RATE PARAMETERS #######################
   PID_u4_velocity:
+    Gain:
+      Kp: 0.0  # Proportional Gain
+      Kd: 0.0    # Derivative Gain
+      Ki: 0    # Integral Gain
+
+    Saturation: # Control Input Saturation
+      UMax:  11.84 # [Nm] Max Saturation Value -- this is the saturation on the vehicle moment 
+      UMin: -11.84 # [Nm] Min Saturation Value -- this is the saturation on the vehicle moment 
+
+    FeedForward_Gain: 
+      Gain: 1.0 #
+
+    Derivative_Filter:
+      enable_derivative_filter: 0.0  # 1.0 means derivative filter enabled, 0.0 disabled
+      Gain:
+        Nd: 0.1   # Derivative filter gain N = 1/Tf
+
+    Reference_Filter:
+      enable_reference_filter: 0.0  # 1.0 means derivative filter enabled, 0.0 disabled 
+      Gain:
+        Nr: 0.0   # Reference filter gain N = 1/Tf 
+
+    Anti_wind_up:
+      enable_anti_wind_up: true  # 1.0 means derivative filter enabled, 0.0 disabled 
+      Gain:
+        Kb: 1  # Anti Wind up gain Laplace Domain U_anti_wind_up(s) = (Kb/s)*E_sat(s) 
+
+
+####################### PITCH RATE PARAMETERS #######################
+  PID_u5_velocity:
+    Gain:
+      Kp: 0.0  # Proportional Gain
+      Kd: 0.0    # Derivative Gain
+      Ki: 0    # Integral Gain
+
+    Saturation: # Control Input Saturation
+      UMax:  11.84 # [Nm] Max Saturation Value -- this is the saturation on the vehicle moment 
+      UMin: -11.84 # [Nm] Min Saturation Value -- this is the saturation on the vehicle moment 
+
+    FeedForward_Gain: 
+      Gain: 1.0 #
+
+    Derivative_Filter:
+      enable_derivative_filter: 0.0  # 1.0 means derivative filter enabled, 0.0 disabled
+      Gain:
+        Nd: 0.1   # Derivative filter gain N = 1/Tf
+
+    Reference_Filter:
+      enable_reference_filter: 0.0  # 1.0 means derivative filter enabled, 0.0 disabled 
+      Gain:
+        Nr: 0.0   # Reference filter gain N = 1/Tf 
+
+    Anti_wind_up:
+      enable_anti_wind_up: true  # 1.0 means derivative filter enabled, 0.0 disabled 
+      Gain:
+        Kb: 1  # Anti Wind up gain Laplace Domain U_anti_wind_up(s) = (Kb/s)*E_sat(s) 
+
+
+
+
+####################### YAW RATE PARAMETERS #######################
+  PID_u6_velocity:
     Gain:
       Kp: 1.0  # Proportional Gain
       Kd: 0.0    # Derivative Gain
@@ -231,8 +294,73 @@ bluerov2_motion_control_pos:
       Gain:
         Kb: 1  # Anti Wind up gain Laplace Domain U_anti_wind_up(s) = (Kb/s)*E_sat(s) 
 
-####################### YAW RATE PARAMETERS #######################
+
+####################### ROLL PARAMETERS #######################
   PID_u4_position:
+    Gain:
+      Kp: 0.0   # Proportional Gain
+      Kd: 0.0    # Derivative Gain
+      Ki: 0.0    # Integral Gain
+
+    Saturation: # Control Input Saturation
+      UMax:  0.5 # [rad/s] Max Saturation Value -- this is the saturation on the vehicle yaw rate
+      UMin: -0.5 # [rad/s] Min Saturation Value -- this is the saturation on the vehicle yaw rate
+
+    FeedForward_Gain: 
+      Gain: 1.0 #
+
+    Derivative_Filter:
+      enable_derivative_filter: 0.0  # 1.0 means derivative filter enabled, 0.0 disabled
+      Gain:
+        Nd: 0.1   # Derivative filter gain N = 1/Tf
+
+    Reference_Filter:
+      enable_reference_filter: 0.0  # 1.0 means derivative filter enabled, 0.0 disabled 
+      Gain:
+        Nr: 0.0   # Reference filter gain N = 1/Tf 
+
+    Anti_wind_up:
+      enable_anti_wind_up: true  # 1.0 means derivative filter enabled, 0.0 disabled 
+      Gain:
+        Kb: 1  # Anti Wind up gain Laplace Domain U_anti_wind_up(s) = (Kb/s)*E_sat(s) 
+
+
+
+####################### PITCH PARAMETERS #######################
+  PID_u5_position:
+    Gain:
+      Kp: 0.0   # Proportional Gain
+      Kd: 0.0    # Derivative Gain
+      Ki: 0.0    # Integral Gain
+
+    Saturation: # Control Input Saturation
+      UMax:  0.5 # [rad/s] Max Saturation Value -- this is the saturation on the vehicle yaw rate
+      UMin: -0.5 # [rad/s] Min Saturation Value -- this is the saturation on the vehicle yaw rate
+
+    FeedForward_Gain: 
+      Gain: 1.0 #
+
+    Derivative_Filter:
+      enable_derivative_filter: 0.0  # 1.0 means derivative filter enabled, 0.0 disabled
+      Gain:
+        Nd: 0.1   # Derivative filter gain N = 1/Tf
+
+    Reference_Filter:
+      enable_reference_filter: 0.0  # 1.0 means derivative filter enabled, 0.0 disabled 
+      Gain:
+        Nr: 0.0   # Reference filter gain N = 1/Tf 
+
+    Anti_wind_up:
+      enable_anti_wind_up: true  # 1.0 means derivative filter enabled, 0.0 disabled 
+      Gain:
+        Kb: 1  # Anti Wind up gain Laplace Domain U_anti_wind_up(s) = (Kb/s)*E_sat(s) 
+
+
+
+
+
+####################### YAW PARAMETERS #######################
+  PID_u6_position:
     Gain:
       Kp: 50.0   # Proportional Gain
       Kd: 40.0    # Derivative Gain

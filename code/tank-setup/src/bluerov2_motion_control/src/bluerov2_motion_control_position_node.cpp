@@ -67,7 +67,9 @@ int main(int argc, char** argv)
     {"bluerov2_motion_control_pos",   "PID_u1_position",   "/bluerov2_heavy/position/linear/x",    "/bluerov2_heavy/reference_position/linear/x",    "/bluerov2_heavy/reference_velocity/linear/x"},
     {"bluerov2_motion_control_pos",   "PID_u2_position",   "/bluerov2_heavy/position/linear/y",    "/bluerov2_heavy/reference_position/linear/y",    "/bluerov2_heavy/reference_velocity/linear/y"},
     {"bluerov2_motion_control_pos",   "PID_u3_position",   "/bluerov2_heavy/position/linear/z",    "/bluerov2_heavy/reference_position/linear/z",    "/bluerov2_heavy/reference_velocity/linear/z"},
-    {"bluerov2_motion_control_pos", "PID_u4_position", "/bluerov2_heavy/position/angular/z", "/bluerov2_heavy/reference_position/angular/z",  "/bluerov2_heavy/reference_velocity/angular/z"}
+    {"bluerov2_motion_control_pos", "PID_u4_position", "/bluerov2_heavy/position/angular/x", "/bluerov2_heavy/reference_position/angular/x",  "/bluerov2_heavy/reference_velocity/angular/x"}
+    {"bluerov2_motion_control_pos", "PID_u5_position", "/bluerov2_heavy/position/angular/y", "/bluerov2_heavy/reference_position/angular/y",  "/bluerov2_heavy/reference_velocity/angular/y"}
+    {"bluerov2_motion_control_pos", "PID_u6_position", "/bluerov2_heavy/position/angular/z", "/bluerov2_heavy/reference_position/angular/z",  "/bluerov2_heavy/reference_velocity/angular/z"}
   };  // TODO confirm parameter group definition!
 
   // Load PIDs from private params (~PID_x_position/...)
