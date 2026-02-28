@@ -10,4 +10,14 @@ K:
 
 thruster_constant: 0.026546960744430276
   
+# Gain multipliers
+g_lin_x: 1.0
+g_lin_y: 1.0
+g_lin_z: -1.0
+gain_ang_x: 1.0
+gain_ang_y: 1.0
+gain_ang_z: 1.0
 
+publish_rate_hz: 50.0 # Hz
+
+n_thrusters: 8  # Number of thrusters

@@ -8,6 +8,8 @@ from std_msgs.msg import Float64
 
 class ThrusterAllocator:
     def __init__(self):
+    
+        # Getting all parameters, either from the config file or from the launch file
         # Input topics (6 independent scalars)
         self.cmd_lin_x_topic = rospy.get_param("~cmd_lin_x_topic", "/bluerov2_heavy/cmd_velocity/linear/x")
         self.cmd_lin_y_topic = rospy.get_param("~cmd_lin_y_topic", "/bluerov2_heavy/cmd_velocity/linear/y")
@@ -23,10 +25,14 @@ class ThrusterAllocator:
         self.g_ang_x = float(rospy.get_param("~gain_ang_x", 1.0))
         self.g_ang_y = float(rospy.get_param("~gain_ang_y", 1.0))
         self.g_ang_z = float(rospy.get_param("~gain_ang_z", 1.0))
+        if (self.g_lin_x is None) or (self.g_lin_y is None) (self.g_lin_z is None) or (self.g_ang_x is None) or (self.g_ang_y is None) or (self.g_ang_z is None):
+            raise RuntimeError("On the the '~g_lin' or '~g_ang' (multipliers) parameter was not found. Did you rosparam load the YAML?")
 
         # Output topic base
-        self.out_prefix = rospy.get_param("~out_prefix", "/bbb/ttt")
+        self.out_prefix = rospy.get_param("~out_prefix", "/bluerov2/thrusters")
         self.n_thrusters = int(rospy.get_param("~n_thrusters", 8))
+        if (self.out_prefix is None) or (self.n_thrusters is None):
+            raise RuntimeError("Parameter '~out_prefix' or '~n_thrusters' not found. Did you rosparam load the YAML?")
 
         # Load K (6x8) from param server
         K_list = rospy.get_param("~K", None)
@@ -42,6 +48,9 @@ class ThrusterAllocator:
         if self.thruster_constant is None:
             raise RuntimeError("Parameter '~thruster_constant' not found. Did you rosparam load the YAML?")
         self.thruster_constant = float(self.thruster_constant)
+
+        
+
 
         # Precompute pseudoinverse: pinv(K) is (8x6) if K is (6x8)
         self.K_pinv = np.linalg.pinv(self.K)
