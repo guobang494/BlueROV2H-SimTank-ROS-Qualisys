@@ -25,13 +25,13 @@ class ThrusterAllocator:
         self.g_ang_x = float(rospy.get_param("~gain_ang_x", 1.0))
         self.g_ang_y = float(rospy.get_param("~gain_ang_y", 1.0))
         self.g_ang_z = float(rospy.get_param("~gain_ang_z", 1.0))
-        if (self.g_lin_x is None) or (self.g_lin_y is None) (self.g_lin_z is None) or (self.g_ang_x is None) or (self.g_ang_y is None) or (self.g_ang_z is None):
+        if ((self.g_lin_x is None) or (self.g_lin_y is None) or (self.g_lin_z is None) or (self.g_ang_x is None) or (self.g_ang_y is None) or (self.g_ang_z is None)):
             raise RuntimeError("On the the '~g_lin' or '~g_ang' (multipliers) parameter was not found. Did you rosparam load the YAML?")
 
         # Output topic base
         self.out_prefix = rospy.get_param("~out_prefix", "/bluerov2/thrusters")
         self.n_thrusters = int(rospy.get_param("~n_thrusters", 8))
-        if (self.out_prefix is None) or (self.n_thrusters is None):
+        if ((self.out_prefix is None) or (self.n_thrusters is None)):
             raise RuntimeError("Parameter '~out_prefix' or '~n_thrusters' not found. Did you rosparam load the YAML?")
 
         # Load K (6x8) from param server
