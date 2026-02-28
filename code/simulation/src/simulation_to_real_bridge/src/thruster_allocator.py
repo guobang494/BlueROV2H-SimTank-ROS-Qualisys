@@ -94,7 +94,7 @@ class ThrusterAllocator:
     def _on_timer(self, _evt):
         # Only publish once we have received at least one message for every axis
         if not np.all(self.have):
-            return
+            rospy.logwarn("Not all axes of the BlueROV2 were commanded.")
         self.publish_thrusters()
 
     def publish_thrusters(self):
