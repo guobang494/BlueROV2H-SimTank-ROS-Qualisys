@@ -14,7 +14,7 @@
     Vehicle's parameters (remember to enter the model parameters below)
   -->
   <!-- Mass -->
-  <xacro:property name="mass" value="11.2"/>
+  <xacro:property name="mass" value="11.26"/>
   <!-- Describing the dimensions of the vehicle's bounding box: width, length, height -->
   <xacro:property name="x_size" value="0.448"/>
   <xacro:property name="y_size" value="0.2384"/>
@@ -23,15 +23,15 @@
   <!-- Volume -->
   <xacro:property name="volume" value="0.011054"/>
   <!-- Center of gravity -->
-  <xacro:property name="cog" value="0 0 0"/>
+  <xacro:property name="cog" value="0 0 -0.02"/>
   <!--
   Center of buoyancy according to eq. (3.1) p. 28 in Berg2012.
   The original values, [0.0822, -0.00773, 0.3872] however, seem to
   assume NWU (otherwise cob is below cog?). 0.155
   -->
-  <xacro:property name="cob" value="0 0 0.3872"/>
+  <xacro:property name="cob" value="0 0 0.0"/>
   <!-- Fluid density -->
-  <xacro:property name="rho" value="1028"/>
+  <xacro:property name="rho" value="999.97"/>  <!-- Freshwater density, change to 1028.0 if in seawater -->
   <!--
     Visual mesh file for the vehicle, usually in DAE (Collada) format. Be sure to store the
     mesh with the origin of the mesh on the same position of the center of mass, otherwise
