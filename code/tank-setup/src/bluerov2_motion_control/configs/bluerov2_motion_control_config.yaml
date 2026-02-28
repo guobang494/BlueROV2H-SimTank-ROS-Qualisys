@@ -107,8 +107,8 @@ bluerov2_motion_control_vel:
       Ki: 0    # Integral Gain
 
     Saturation: # Control Input Saturation
-      UMax:  11.84 # [Nm] Max Saturation Value -- this is the saturation on the vehicle moment 
-      UMin: -11.84 # [Nm] Min Saturation Value -- this is the saturation on the vehicle moment 
+      UMax:  0.0 # [Nm] Max Saturation Value -- this is the saturation on the vehicle moment 
+      UMin:  0.0 # [Nm] Min Saturation Value -- this is the saturation on the vehicle moment 
 
     FeedForward_Gain: 
       Gain: 1.0 #
@@ -137,8 +137,8 @@ bluerov2_motion_control_vel:
       Ki: 0    # Integral Gain
 
     Saturation: # Control Input Saturation
-      UMax:  11.84 # [Nm] Max Saturation Value -- this is the saturation on the vehicle moment 
-      UMin: -11.84 # [Nm] Min Saturation Value -- this is the saturation on the vehicle moment 
+      UMax:  0.0 # [Nm] Max Saturation Value -- this is the saturation on the vehicle moment 
+      UMin:  0.0 # [Nm] Min Saturation Value -- this is the saturation on the vehicle moment 
 
     FeedForward_Gain: 
       Gain: 1.0 #
@@ -303,8 +303,8 @@ bluerov2_motion_control_pos:
       Ki: 0.0    # Integral Gain
 
     Saturation: # Control Input Saturation
-      UMax:  0.5 # [rad/s] Max Saturation Value -- this is the saturation on the vehicle yaw rate
-      UMin: -0.5 # [rad/s] Min Saturation Value -- this is the saturation on the vehicle yaw rate
+      UMax:  0.0 # [rad/s] Max Saturation Value -- this is the saturation on the vehicle yaw rate
+      UMin:  0.0 # [rad/s] Min Saturation Value -- this is the saturation on the vehicle yaw rate
 
     FeedForward_Gain: 
       Gain: 1.0 #
@@ -334,8 +334,8 @@ bluerov2_motion_control_pos:
       Ki: 0.0    # Integral Gain
 
     Saturation: # Control Input Saturation
-      UMax:  0.5 # [rad/s] Max Saturation Value -- this is the saturation on the vehicle yaw rate
-      UMin: -0.5 # [rad/s] Min Saturation Value -- this is the saturation on the vehicle yaw rate
+      UMax:  0.0 # [rad/s] Max Saturation Value -- this is the saturation on the vehicle yaw rate
+      UMin:  0.0 # [rad/s] Min Saturation Value -- this is the saturation on the vehicle yaw rate
 
     FeedForward_Gain: 
       Gain: 1.0 #
