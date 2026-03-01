@@ -17,6 +17,15 @@ class ThrusterAllocator:
         self.cmd_ang_x_topic = rospy.get_param("~cmd_ang_x_topic", "/bluerov2_heavy/cmd_velocity/angular/x")
         self.cmd_ang_y_topic = rospy.get_param("~cmd_ang_y_topic", "/bluerov2_heavy/cmd_velocity/angular/y")
         self.cmd_ang_z_topic = rospy.get_param("~cmd_ang_z_topic", "/bluerov2_heavy/cmd_velocity/angular/z")
+        self.axis_names = ["lin_x", "lin_y", "lin_z", "ang_x", "ang_y", "ang_z"]
+        self.axis_topics = [
+            self.cmd_lin_x_topic,
+            self.cmd_lin_y_topic,
+            self.cmd_lin_z_topic,
+            self.cmd_ang_x_topic,
+            self.cmd_ang_y_topic,
+            self.cmd_ang_z_topic,
+        ]
 
         # Per-axis gains (use this for sign flips without touching other nodes)
         self.g_lin_x = float(rospy.get_param("~gain_lin_x", 1.0))
@@ -94,7 +103,16 @@ class ThrusterAllocator:
     def _on_timer(self, _evt):
         # Only publish once we have received at least one message for every axis
         if not np.all(self.have):
-            rospy.logwarn("Not all axes of the BlueROV2 were commanded.")
+            missing = [
+                f"{name} ({topic})"
+                for idx, (name, topic) in enumerate(zip(self.axis_names, self.axis_topics))
+                if not self.have[idx]
+            ]
+            rospy.logwarn_throttle(
+                2.0,
+                "Not all axes of the BlueROV2 were commanded. Missing: %s",
+                ", ".join(missing),
+            )
         self.publish_thrusters()
 
     def publish_thrusters(self):
