@@ -12,3 +12,6 @@ waypoints:
   - [-1.0, 0.5, 0.3]
   - [-1.0, 0.5, 0.3]
   - [-1.0, -0.5, 0.2]
+
+
+max_yaw_rate: 0.2  # [rad/s] this avoid discontinuities in yaw

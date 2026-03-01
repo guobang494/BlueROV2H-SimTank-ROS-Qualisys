@@ -19,8 +19,12 @@ class GuidanceLawNode:
         self.gamma = params["gamma"]
         self.waypoints = params["waypoints"]
         self.waypoint_cycling_active = params["waypoint_cycling_active"]
+        self.max_yaw_rate = float(params.get("max_yaw_rate", 0.4))  # [rad/s]
+        self.yaw_hold_distance = float(params.get("yaw_hold_distance", self.gamma))  # this parameter bounds 
+        # the attitude reference not to change from within a distance gamma from a waypoint
 
         self.index = 0  # current waypoint index
+        self.ref_yaw = 0.0
 
         # Current state
         self.pos_x_gazebo = 0.0
@@ -59,6 +63,10 @@ class GuidanceLawNode:
         rospy.loginfo("[guidance_law] Node started.")
         self.loop()
 
+    @staticmethod
+    def wrap_to_pi(angle):
+        return math.atan2(math.sin(angle), math.cos(angle))
+
     # --- Callbacks ---
     def cb_pos_x(self, msg): self.pos_x_gazebo = msg.data
     def cb_pos_y(self, msg): self.pos_y_gazebo = msg.data
@@ -70,6 +78,7 @@ class GuidanceLawNode:
     # --- Main control loop ---
     def loop(self):
         rate = rospy.Rate(20)  # 20 Hz
+        dt = 1.0 / 20.0
         while not rospy.is_shutdown():
 
             # TODO careful
@@ -79,6 +88,9 @@ class GuidanceLawNode:
             
             target = self.waypoints[self.index]
             tx, ty, tz = target
+            dx = tx - self.pos_x
+            dy = ty - self.pos_y
+            horizontal_dist = math.sqrt(dx*dx + dy*dy)
 
             # Compute distance to the next waypoint
             dist = math.sqrt((tx - self.pos_x)**2 +
@@ -99,9 +111,26 @@ class GuidanceLawNode:
 
                 target = self.waypoints[self.index]
                 tx, ty, tz = target
+                dx = tx - self.pos_x
+                dy = ty - self.pos_y
+                horizontal_dist = math.sqrt(dx*dx + dy*dy)
 
             # Compute reference orientation
-            ref_yaw = math.atan2(ty - self.pos_y, tx - self.pos_x)
+            if horizontal_dist > 1e-6:
+                raw_ref_yaw = math.atan2(dy, dx)
+            else:
+                raw_ref_yaw = self.ref_yaw
+
+            # Keep yaw reference continuous and rate-limited across waypoint switches.
+            if horizontal_dist < self.yaw_hold_distance:
+                ref_yaw = self.ref_yaw
+            else:
+                yaw_err_ref = self.wrap_to_pi(raw_ref_yaw - self.ref_yaw)
+                max_step = self.max_yaw_rate * dt
+                yaw_step = max(-max_step, min(max_step, yaw_err_ref))
+                ref_yaw = self.wrap_to_pi(self.ref_yaw + yaw_step)
+
+            self.ref_yaw = ref_yaw
             ref_pitch = math.atan2(tz - self.pos_z,
                                    math.sqrt((tx - self.pos_x)**2 +
                                              (ty - self.pos_y)**2))
@@ -130,4 +159,3 @@ if __name__ == "__main__":
         GuidanceLawNode()
     except rospy.ROSInterruptException:
         pass
-
