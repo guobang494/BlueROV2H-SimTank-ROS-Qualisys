@@ -21,7 +21,7 @@
   <xacro:property name="z_size" value="0.28066"/>
   <!-- minion_usv_height is not really! It's just for run... We need first calculate the Fossen parameters -->
   <!-- Volume -->
-  <xacro:property name="volume" value="0.1127"/> <!-- Neutral in freshwater at 0.11260338, for seawater use 0.011054-->
+  <xacro:property name="volume" value="0.11261"/> <!-- Neutral in freshwater at 0.11260338, for seawater use 0.011054-->
   <!-- Center of gravity -->
   <xacro:property name="cog" value="0 0 0"/>
   <!--
