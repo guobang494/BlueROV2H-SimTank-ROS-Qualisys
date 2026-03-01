@@ -77,7 +77,7 @@ class ThrusterAllocator:
         self.publish_rate_hz = float(rospy.get_param("~publish_rate_hz", 50.0))
         self.timer = rospy.Timer(rospy.Duration(1.0 / self.publish_rate_hz), self._on_timer)
 
-        rospy.loginfo("thruster_allocator started")
+        rospy.loginfo("[thruster_allocator] node started")
         rospy.loginfo("  cmd_lin_x_topic=%s", self.cmd_lin_x_topic)
         rospy.loginfo("  cmd_lin_y_topic=%s", self.cmd_lin_y_topic)
         rospy.loginfo("  cmd_lin_z_topic=%s", self.cmd_lin_z_topic)

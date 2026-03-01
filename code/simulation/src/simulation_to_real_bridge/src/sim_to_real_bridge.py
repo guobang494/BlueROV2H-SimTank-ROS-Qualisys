@@ -38,7 +38,7 @@ class SimToRealBridge:
 
         self.sub_odom = rospy.Subscriber(self.odom_topic, Odometry, self.cb_odom, queue_size=10)
 
-        rospy.loginfo("sim_to_real_bridge started")
+        rospy.loginfo("[sim_to_real_bridge] node started")
         rospy.loginfo("  odom_topic=%s", self.odom_topic)
 
     def cb_odom(self, msg: Odometry):
