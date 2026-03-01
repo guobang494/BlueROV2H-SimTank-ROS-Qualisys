@@ -12,6 +12,8 @@
 
 #include <ros/ros.h>
 #include <std_msgs/Float64.h>
+#include <array>
+#include <cmath>
 #include <string>
 #include <vector>
 
@@ -116,15 +118,88 @@ int main(int argc, char** argv)
     double dt = (now - last).toSec();
     last = now;
 
-    for (auto& ax : axes) {
-      if (!ax.have_meas || !ax.have_ref) continue;
+    const bool have_linear = axes[0].have_meas && axes[0].have_ref &&
+                             axes[1].have_meas && axes[1].have_ref &&
+                             axes[2].have_meas && axes[2].have_ref;
+    const bool have_angular_meas = axes[3].have_meas && axes[4].have_meas && axes[5].have_meas;
+    const bool have_angular_ref = axes[3].have_ref && axes[4].have_ref && axes[5].have_ref;
 
-      // output is reference velocity
-      double u = ax.pid.update(ax.ref, ax.meas, dt);
+    // Rotate linear position error to body frame, then run PID in body frame.
+    if (have_linear && have_angular_meas) {
+      const double roll = axes[3].meas;
+      const double pitch = axes[4].meas;
+      const double yaw = axes[5].meas;
 
-      std_msgs::Float64 out;
-      out.data = u;
-      ax.pub_out.publish(out);
+      const double cphi = std::cos(roll);
+      const double sphi = std::sin(roll);
+      const double cth = std::cos(pitch);
+      const double sth = std::sin(pitch);
+      const double cps = std::cos(yaw);
+      const double sps = std::sin(yaw);
+
+      // R_bw rotates vectors from inertial/world frame to body frame (ZYX convention).
+      const double r11 = cth * cps;
+      const double r12 = cth * sps;
+      const double r13 = -sth;
+      const double r21 = sphi * sth * cps - cphi * sps;
+      const double r22 = sphi * sth * sps + cphi * cps;
+      const double r23 = sphi * cth;
+      const double r31 = cphi * sth * cps + sphi * sps;
+      const double r32 = cphi * sth * sps - sphi * cps;
+      const double r33 = cphi * cth;
+
+      const double ex = axes[0].ref - axes[0].meas;
+      const double ey = axes[1].ref - axes[1].meas;
+      const double ez = axes[2].ref - axes[2].meas;
+
+      std::array<double, 3> e_lin_body{};
+      e_lin_body[0] = r11 * ex + r12 * ey + r13 * ez;
+      e_lin_body[1] = r21 * ex + r22 * ey + r23 * ez;
+      e_lin_body[2] = r31 * ex + r32 * ey + r33 * ez;
+
+      std::array<double, 3> u_lin_body{};
+      for (int i = 0; i < 3; ++i) {
+        // PID runs on body-frame position error (ref = error, meas = 0).
+        u_lin_body[i] = axes[i].pid.update(e_lin_body[i], 0.0, dt);
+      }
+
+      for (int i = 0; i < 3; ++i) {
+        std_msgs::Float64 out;
+        out.data = u_lin_body[i];
+        axes[i].pub_out.publish(out);
+      }
+    }
+
+    // 1) Angular position loops produce Euler angle rates.
+    // 2) Convert Euler rates [phi_dot, theta_dot, psi_dot] to body rates [p, q, r].
+    if (have_angular_meas && have_angular_ref) {
+      const double phi = axes[3].meas;
+      const double theta = axes[4].meas;
+
+      const double phi_dot = axes[3].pid.update(axes[3].ref, axes[3].meas, dt);
+      const double theta_dot = axes[4].pid.update(axes[4].ref, axes[4].meas, dt);
+      const double psi_dot = axes[5].pid.update(axes[5].ref, axes[5].meas, dt);
+
+      const double cphi = std::cos(phi);
+      const double sphi = std::sin(phi);
+      const double cth = std::cos(theta);
+      const double sth = std::sin(theta);
+
+      const double p = phi_dot - sth * psi_dot;
+      const double q = cphi * theta_dot + sphi * cth * psi_dot;
+      const double r = -sphi * theta_dot + cphi * cth * psi_dot;
+
+      std_msgs::Float64 out_p;
+      out_p.data = p;
+      axes[3].pub_out.publish(out_p);
+
+      std_msgs::Float64 out_q;
+      out_q.data = q;
+      axes[4].pub_out.publish(out_q);
+
+      std_msgs::Float64 out_r;
+      out_r.data = r;
+      axes[5].pub_out.publish(out_r);
     }
 
     rate.sleep();
