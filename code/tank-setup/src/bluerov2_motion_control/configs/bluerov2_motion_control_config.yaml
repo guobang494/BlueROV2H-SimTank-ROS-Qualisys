@@ -268,7 +268,7 @@ bluerov2_motion_control_pos:
 ####################### HEAVE PARAMETERS #######################
   PID_u3_position:
     Gain:
-      Kp: 10.0   # Proportional Gain
+      Kp: 5.0   # Proportional Gain
       Kd: 1.0    # Derivative Gain
       Ki: 0.00    # Integral Gain
 
@@ -387,4 +387,3 @@ bluerov2_motion_control_pos:
       enable_anti_wind_up: true  # 1.0 means derivative filter enabled, 0.0 disabled 
       Gain:
         Kb: 1  # Anti Wind up gain Laplace Domain U_anti_wind_up(s) = (Kb/s)*E_sat(s) 
-
