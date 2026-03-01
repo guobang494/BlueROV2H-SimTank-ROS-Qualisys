@@ -14,8 +14,8 @@ bluerov2_motion_control_vel:
   PID_u1_velocity:
     Gain:
       Kp: 1.0  # Proportional Gain
-      Kd: 0.075    # Derivative Gain
-      Ki: 0.3    # Integral Gain
+      Kd: 0.0    # Derivative Gain
+      Ki: 0.0    # Integral Gain
 
     Saturation: # Control Input Saturation
       UMax:  20.0 # [N] Max Saturation Value -- this is the saturation on the vehicle forces 
@@ -72,13 +72,13 @@ bluerov2_motion_control_vel:
 ####################### HEAVE PARAMETERS #######################
   PID_u3_velocity:
     Gain:
-      Kp: 20  # Proportional Gain
-      Kd: 5    # Derivative Gain
-      Ki: 0    # Integral Gain
+      Kp: 10  # Proportional Gain
+      Kd: 1.0    # Derivative Gain
+      Ki: 0.3    # Integral Gain
 
     Saturation: # Control Input Saturation
-      UMax:  70.0 # [N] Max Saturation Value -- this is the saturation on the vehicle forces 
-      UMin: -70.0 # [N] Min Saturation Value -- this is the saturation on the vehicle forces 
+      UMax:  40.0 # [N] Max Saturation Value -- this is the saturation on the vehicle forces 
+      UMin: -40.0 # [N] Min Saturation Value -- this is the saturation on the vehicle forces 
 
     FeedForward_Gain: 
       Gain: 1.0 #
@@ -206,8 +206,8 @@ bluerov2_motion_control_pos:
 ####################### SURGE PARAMETERS #######################
   PID_u1_position:
     Gain:
-      Kp: 5   # Proportional Gain
-      Kd: 10    # Derivative Gain
+      Kp: 5.0   # Proportional Gain
+      Kd: 1.0    # Derivative Gain
       Ki: 0.00    # Integral Gain
 
     Saturation: # Control Input Saturation
@@ -268,9 +268,9 @@ bluerov2_motion_control_pos:
 ####################### HEAVE PARAMETERS #######################
   PID_u3_position:
     Gain:
-      Kp: 100   # Proportional Gain
-      Kd: 1    # Derivative Gain
-      Ki: 0.00    # Integral Gain
+      Kp: 100.0   # Proportional Gain
+      Kd: 10.0    # Derivative Gain
+      Ki: 5.00    # Integral Gain
 
     Saturation: # Control Input Saturation
       UMax:  0.2 # [m/s] Max Saturation Value -- this is the saturation on the vehicle heave speed
