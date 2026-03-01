@@ -12,7 +12,7 @@ thruster_constant: 0.026546960744430276
   
 # Gain multipliers
 gain_lin_x: 1.0
-gain_lin_y: 0.0
+gain_lin_y: -1.0
 gain_lin_z: -1.0
 gain_ang_x: 0.0
 gain_ang_y: 0.0
