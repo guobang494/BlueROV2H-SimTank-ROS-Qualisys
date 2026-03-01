@@ -362,8 +362,8 @@ bluerov2_motion_control_pos:
 ####################### YAW PARAMETERS #######################
   PID_u6_position:
     Gain:
-      Kp: 50.0   # Proportional Gain
-      Kd: 40.0    # Derivative Gain
+      Kp: 5.0   # Proportional Gain
+      Kd: 4.0    # Derivative Gain
       Ki: 0.0    # Integral Gain
 
     Saturation: # Control Input Saturation

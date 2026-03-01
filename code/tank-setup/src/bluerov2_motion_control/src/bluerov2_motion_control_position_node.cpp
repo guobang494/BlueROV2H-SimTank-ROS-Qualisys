@@ -15,6 +15,10 @@
 #include <string>
 #include <vector>
 
+static bool isAngularTopic(const std::string& topic) {
+  return topic.find("/angular/") != std::string::npos;
+}
+
 
 // This defines a structure to be reused over the 4 control loops (or control axes)
 struct Axis {
@@ -73,7 +77,10 @@ int main(int argc, char** argv)
   };  // TODO confirm parameter group definition!
 
   // Load PIDs from private params (~PID_x_position/...)
-  for (auto& ax : axes) loadPid(pnh, ax.group_name, ax.pid_ns, ax.pid);
+  for (auto& ax : axes) {
+    loadPid(pnh, ax.group_name, ax.pid_ns, ax.pid);
+    ax.pid.setAngleWrap(isAngularTopic(ax.meas_topic));
+  }
 
   double rate_hz, sampling_time_Ts;
   pnh.param(axes[0].group_name + "/sampling_time_Ts", sampling_time_Ts, 100.0);

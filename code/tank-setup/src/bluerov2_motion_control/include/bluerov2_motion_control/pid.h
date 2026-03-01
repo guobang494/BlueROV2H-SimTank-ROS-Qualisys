@@ -7,6 +7,7 @@
 #pragma once  // this is an alternative to classical syntax with ifndef, endif 
 
 #include <algorithm>
+#include <cmath>
 
 class SimplePID {
 public:
@@ -24,6 +25,10 @@ public:
     antiwindup_ = enabled;
   }
 
+  void setAngleWrap(bool enabled) {
+    angle_wrap_ = enabled;
+  }
+
   void reset() {
     integral_ = 0.0;
     prev_error_ = 0.0;
@@ -34,6 +39,10 @@ public:
     if (dt <= 0.0) return last_u_;
 
     double error = ref - meas;
+    if (angle_wrap_) {
+      // Keep angular error in [-pi, pi] to avoid discontinuities at wrap-around.
+      error = std::atan2(std::sin(error), std::cos(error));
+    }
 
     double derivative = 0.0;
     if (!first_) {    
@@ -70,6 +79,7 @@ private:
   double kp_{0.0}, ki_{0.0}, kd_{0.0};
   double umin_{-1e9}, umax_{1e9};
   bool antiwindup_{true};
+  bool angle_wrap_{false};
 
   double integral_{0.0};
   double prev_error_{0.0};
