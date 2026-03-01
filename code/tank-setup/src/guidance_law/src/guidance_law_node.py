@@ -131,9 +131,14 @@ class GuidanceLawNode:
                 ref_yaw = self.wrap_to_pi(self.ref_yaw + yaw_step)
 
             self.ref_yaw = ref_yaw
-            ref_pitch = math.atan2(tz - self.pos_z,
-                                   math.sqrt((tx - self.pos_x)**2 +
-                                             (ty - self.pos_y)**2))
+            # 
+            # ref_pitch = math.atan2(tz - self.pos_z,
+            #                        math.sqrt((tx - self.pos_x)**2 +
+            #                                  (ty - self.pos_y)**2))
+            
+
+            ref_pitch = 0.0
+
             ref_roll = 0.0  # optional: can be extended later
 
             # Publish reference position

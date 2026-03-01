@@ -43,8 +43,8 @@ bluerov2_motion_control_vel:
 ####################### SWAY PARAMETERS #######################
   PID_u2_velocity:
     Gain:
-      Kp: 20.0  # Proportional Gain
-      Kd: 1.0    # Derivative Gain
+      Kp: 2.0  # Proportional Gain
+      Kd: 0.1    # Derivative Gain
       Ki: 0.0    # Integral Gain
 
     Saturation: # Control Input Saturation
@@ -72,9 +72,9 @@ bluerov2_motion_control_vel:
 ####################### HEAVE PARAMETERS #######################
   PID_u3_velocity:
     Gain:
-      Kp: 50.0  # Proportional Gain
+      Kp: 100.0  # Proportional Gain
       Kd: 0.0    # Derivative Gain
-      Ki: 0.0    # Integral Gain
+      Ki: 0.1    # Integral Gain
 
     Saturation: # Control Input Saturation
       UMax:  40.0 # [N] Max Saturation Value -- this is the saturation on the vehicle forces 
@@ -138,7 +138,7 @@ bluerov2_motion_control_vel:
 
     Saturation: # Control Input Saturation
       UMax:  20.0 # [Nm] Max Saturation Value -- this is the saturation on the vehicle moment 
-      UMin:  20.0 # [Nm] Min Saturation Value -- this is the saturation on the vehicle moment 
+      UMin:  -20.0 # [Nm] Min Saturation Value -- this is the saturation on the vehicle moment 
 
     FeedForward_Gain: 
       Gain: 1.0 #
@@ -238,7 +238,7 @@ bluerov2_motion_control_pos:
 ####################### SWAY PARAMETERS #######################
   PID_u2_position:
     Gain:
-      Kp: 0.5   # Proportional Gain
+      Kp: 0.05   # Proportional Gain
       Kd: 0.0    # Derivative Gain
       Ki: 0.00    # Integral Gain
 
@@ -268,9 +268,9 @@ bluerov2_motion_control_pos:
 ####################### HEAVE PARAMETERS #######################
   PID_u3_position:
     Gain:
-      Kp: 2.0   # Proportional Gain
-      Kd: 0.1    # Derivative Gain
-      Ki: 1.0    # Integral Gain
+      Kp: 1.8   # Proportional Gain
+      Kd: 0.0    # Derivative Gain
+      Ki: 0.0    # Integral Gain
 
     Saturation: # Control Input Saturation
       UMax:  0.2 # [m/s] Max Saturation Value -- this is the saturation on the vehicle heave speed
