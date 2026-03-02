@@ -4,14 +4,19 @@
 path_waypoint_following: true  # this is a future flag for different path scenarios - not in use at the moment
 waypoint_cycling_active: true  # if true, the scenario repeats once the vehicle reaches the last waypoint
 
-gamma: 0.1   # [m] radius around a waypoint to define when to switch to the next target 
+gamma: 0.05   # [m] radius around a waypoint to define when to switch to the next target 
 
 waypoints:
-  - [0.0, 0.0, 0.5]
-  - [1.0, -0.5, 0.5]
-  - [-1.0, 0.5, 0.3]
-  - [-1.0, 0.5, 0.3]
-  - [-1.0, -0.5, 0.2]
+  - [2.0, 0.5, 0.5]
+  - [5.0, -0.5, 0.5]
+  - [7.0, 0.7, 0.5]
+  - [8.0, -0.7, 0.5]
+
+#  - [0.0, 0.0, 0.5]
+#  - [1.0, -0.5, 0.5]
+#  - [-1.0, 0.5, 0.3]
+#  - [-1.0, 0.5, 0.3]
+#  - [-1.0, -0.5, 0.2]
 
 
 max_yaw_rate: 0.2  # [rad/s] this avoid discontinuities in yaw
