@@ -19,17 +19,11 @@ class GuidanceLawNode:
         self.gamma = params["gamma"]
         self.waypoints = params["waypoints"]
         self.waypoint_cycling_active = params["waypoint_cycling_active"]
-        self.max_yaw_rate = float(params.get("max_yaw_rate", 0.4))  # [rad/s]
-        self.yaw_hold_distance = float(params.get("yaw_hold_distance", self.gamma))  # this parameter bounds 
-        # the attitude reference not to change from within a distance gamma from a waypoint
-        self.interp_distance_threshold = float(params.get("interp_distance_threshold", 1.0))  # [m]
-        self.interp_angle_threshold_deg = float(params.get("interp_angle_threshold_deg", 20.0))  # [deg]
-        self.interp_angle_threshold = math.radians(self.interp_angle_threshold_deg)
+        self.max_position_error = float(params.get("max_position_error", 1.0))  # [m]
+        self.max_angle_error_deg = math.radians(float(params.get("max_angle_error_deg", 20.0)))  # [deg]
+        self.max_angle_error = math.radians(self.max_angle_error_deg)  # [rad]
 
         self.index = 0  # current waypoint index
-        self.ref_yaw = 0.0
-        self.fake_target = None
-        self.pending_real_index = None
 
         # Current state
         self.pos_x_gazebo = 0.0
@@ -72,53 +66,6 @@ class GuidanceLawNode:
     def wrap_to_pi(angle):
         return math.atan2(math.sin(angle), math.cos(angle))
 
-    @staticmethod
-    def distance_3d(a, b):
-        dx = b[0] - a[0]
-        dy = b[1] - a[1]
-        dz = b[2] - a[2]
-        return math.sqrt(dx*dx + dy*dy + dz*dz)
-
-    def compute_ref_attitude_to_target(self, tx, ty, tz):
-        dx = tx - self.pos_x
-        dy = ty - self.pos_y
-        dz = tz - self.pos_z
-
-        if abs(dx) + abs(dy) > 1e-9:
-            ref_yaw = math.atan2(dy, dx)
-        else:
-            ref_yaw = self.ref_yaw
-
-        ref_pitch = math.atan2(dz, math.sqrt(dx*dx + dy*dy))
-        ref_roll = 0.0
-        return ref_roll, ref_pitch, ref_yaw
-
-    def should_insert_intermediate_target(self, current_wp, next_wp):
-        leg_dist = self.distance_3d(current_wp, next_wp)
-        if leg_dist <= self.interp_distance_threshold:
-            return False
-
-        _, ref_pitch_next, ref_yaw_next = self.compute_ref_attitude_to_target(
-            next_wp[0], next_wp[1], next_wp[2]
-        )
-
-        d_roll = abs(self.wrap_to_pi(0.0 - self.roll))
-        d_pitch = abs(self.wrap_to_pi(ref_pitch_next - self.pitch))
-        d_yaw = abs(self.wrap_to_pi(ref_yaw_next - self.yaw))
-
-        return (
-            d_roll > self.interp_angle_threshold or
-            d_pitch > self.interp_angle_threshold or
-            d_yaw > self.interp_angle_threshold
-        )
-
-    def get_next_waypoint_index(self):
-        if self.index < len(self.waypoints) - 1:
-            return self.index + 1
-        if self.waypoint_cycling_active and len(self.waypoints) > 0:
-            return 0
-        return None
-
     # --- Callbacks ---
     def cb_pos_x(self, msg): self.pos_x_gazebo = msg.data
     def cb_pos_y(self, msg): self.pos_y_gazebo = msg.data
@@ -130,7 +77,6 @@ class GuidanceLawNode:
     # --- Main control loop ---
     def loop(self):
         rate = rospy.Rate(20)  # 20 Hz
-        dt = 1.0 / 20.0
         while not rospy.is_shutdown():
 
             # TODO careful
@@ -138,14 +84,8 @@ class GuidanceLawNode:
             self.pos_y = self.pos_y_gazebo
             self.pos_z = self.pos_z_gazebo
             
-            if self.fake_target is not None:
-                target = self.fake_target
-            else:
-                target = self.waypoints[self.index]
+            target = self.waypoints[self.index]
             tx, ty, tz = target
-            dx = tx - self.pos_x
-            dy = ty - self.pos_y
-            horizontal_dist = math.sqrt(dx*dx + dy*dy)
 
             # Compute distance to the next waypoint
             dist = math.sqrt((tx - self.pos_x)**2 +
@@ -157,68 +97,57 @@ class GuidanceLawNode:
 
             # Switch waypoint when the distance is < threshold
             if dist < self.gamma:
-                if self.fake_target is not None:
-                    # Intermediate target reached, now command the originally planned waypoint.
-                    self.fake_target = None
-                    if self.pending_real_index is not None:
-                        self.index = self.pending_real_index
-                        self.pending_real_index = None
-                else:
-                    next_index = self.get_next_waypoint_index()
-                    if next_index is not None:
-                        current_wp = self.waypoints[self.index]
-                        next_wp = self.waypoints[next_index]
-                        if self.should_insert_intermediate_target(current_wp, next_wp):
-                            self.fake_target = [
-                                0.5 * (current_wp[0] + next_wp[0]),
-                                0.5 * (current_wp[1] + next_wp[1]),
-                                0.5 * (current_wp[2] + next_wp[2]),
-                            ]
-                            self.pending_real_index = next_index
-                            rospy.loginfo(
-                                "[guidance_law] inserted intermediate target (%.3f, %.3f, %.3f) before waypoint %d",
-                                self.fake_target[0], self.fake_target[1], self.fake_target[2], next_index
-                            )
-                        else:
-                            self.index = next_index
+                if self.index < len(self.waypoints) - 1:
+                    self.index += 1
+                elif self.waypoint_cycling_active:
+                    self.index = 0
 
-                if self.fake_target is not None:
-                    target = self.fake_target
-                else:
-                    target = self.waypoints[self.index]
+                target = self.waypoints[self.index]
                 tx, ty, tz = target
-                dx = tx - self.pos_x
-                dy = ty - self.pos_y
-                horizontal_dist = math.sqrt(dx*dx + dy*dy)
 
-            # Compute reference orientation
-            if horizontal_dist > 1e-6:
-                raw_ref_yaw = math.atan2(dy, dx)
+            # Simple moving target: cap position error to max_position_error.
+            dx = tx - self.pos_x
+            dy = ty - self.pos_y
+            dz = tz - self.pos_z
+            dnorm = math.sqrt(dx*dx + dy*dy + dz*dz)
+            if dnorm > self.max_position_error and dnorm > 1e-9:
+                s = self.max_position_error / dnorm
+                tx_ref = self.pos_x + s * dx
+                ty_ref = self.pos_y + s * dy
+                tz_ref = self.pos_z + s * dz
             else:
-                raw_ref_yaw = self.ref_yaw
+                tx_ref, ty_ref, tz_ref = tx, ty, tz
 
-            # Keep yaw reference continuous and rate-limited across waypoint switches.
-            if horizontal_dist < self.yaw_hold_distance:
-                ref_yaw = self.ref_yaw
+            # Compute attitude toward moving target.
+            dxr = tx_ref - self.pos_x
+            dyr = ty_ref - self.pos_y
+            dzr = tz_ref - self.pos_z
+            hr = math.sqrt(dxr*dxr + dyr*dyr)
+
+            if hr > 1e-9:
+                yaw_des = math.atan2(dyr, dxr)
             else:
-                yaw_err_ref = self.wrap_to_pi(raw_ref_yaw - self.ref_yaw)
-                max_step = self.max_yaw_rate * dt
-                yaw_step = max(-max_step, min(max_step, yaw_err_ref))
-                ref_yaw = self.wrap_to_pi(self.ref_yaw + yaw_step)
+                yaw_des = self.yaw
+            pitch_des = math.atan2(dzr, hr)
+            roll_des = 0.0
 
-            self.ref_yaw = ref_yaw
-            # 
-            # ref_pitch = math.atan2(tz - self.pos_z,
-            #                        math.sqrt((tx - self.pos_x)**2 +
-            #                                  (ty - self.pos_y)**2))
-            
+            # Cap commanded angle error to +/- max_angle_error on each axis.
+            e_roll = self.wrap_to_pi(roll_des - self.roll)
+            e_pitch = self.wrap_to_pi(pitch_des - self.pitch)
+            e_yaw = self.wrap_to_pi(yaw_des - self.yaw)
 
-            ref_roll, ref_pitch, _ = self.compute_ref_attitude_to_target(tx, ty, tz)
+            e_roll = max(-self.max_angle_error, min(self.max_angle_error, e_roll))
+            e_pitch = max(-self.max_angle_error, min(self.max_angle_error, e_pitch))
+            e_yaw = max(-self.max_angle_error, min(self.max_angle_error, e_yaw))
+
+            ref_roll = self.wrap_to_pi(self.roll + e_roll)
+            ref_pitch = self.wrap_to_pi(self.pitch + e_pitch)
+            ref_yaw = self.wrap_to_pi(self.yaw + e_yaw)
 
             # Publish reference position
-            self.pub_ref_x.publish(tx)
-            self.pub_ref_y.publish(ty)
-            self.pub_ref_z.publish(tz)
+            self.pub_ref_x.publish(tx_ref)
+            self.pub_ref_y.publish(ty_ref)
+            self.pub_ref_z.publish(tz_ref)
 
             # Publish reference orientation
             self.pub_ref_roll.publish(ref_roll)
@@ -227,7 +156,7 @@ class GuidanceLawNode:
 
             # Publish next target waypoint
             msg = Float64MultiArray()
-            msg.data = [tx, ty, tz, ref_roll, ref_pitch, ref_yaw]
+            msg.data = [tx_ref, ty_ref, tz_ref, ref_roll, ref_pitch, ref_yaw]
             self.pub_next_target.publish(msg)
 
             rate.sleep()
