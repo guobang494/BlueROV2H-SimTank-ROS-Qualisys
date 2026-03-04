@@ -20,7 +20,7 @@ class GuidanceLawNode:
         self.waypoints = params["waypoints"]
         self.waypoint_cycling_active = params["waypoint_cycling_active"]
         self.max_position_error = float(params.get("max_position_error", 1.0))  # [m]
-        self.max_angle_error_deg = math.radians(float(params.get("max_angle_error_deg", 20.0)))  # [deg]
+        self.max_angle_error_deg = float(params.get("max_angle_error_deg", 20.0))  # [deg]
         self.max_angle_error = math.radians(self.max_angle_error_deg)  # [rad]
 
         self.index = 0  # current waypoint index
