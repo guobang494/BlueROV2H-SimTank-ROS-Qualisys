@@ -115,7 +115,7 @@
         <!-- Tank walls - North (positive X) -->
         <visual name="wall_north">
           <cast_shadows>false</cast_shadows>
-          <pose>9.075 0 -0.5 0 0 0</pose>
+          <pose>9.075 0 -1.5 0 0 0</pose>
           <geometry>
             <box>
               <size>0.05 5.0 3.0</size>
@@ -130,7 +130,7 @@
         </visual>
 
         <collision name="wall_north">
-          <pose>9.075 0 -0.5 0 0 0</pose>
+          <pose>9.075 0 -1.5 0 0 0</pose>
           <geometry>
             <box>
               <size>0.05 5.0 3.0</size>
@@ -141,7 +141,7 @@
         <!-- Tank walls - South (negative X) -->
         <visual name="wall_south">
           <cast_shadows>false</cast_shadows>
-          <pose>-9.075 0 -0.5 0 0 0</pose>
+          <pose>-9.075 0 -1.5 0 0 0</pose>
           <geometry>
             <box>
               <size>0.05 5.0 3.0</size>
@@ -156,7 +156,7 @@
         </visual>
 
         <collision name="wall_south">
-          <pose>-9.075 0 -0.5 0 0 0</pose>
+          <pose>-9.075 0 -1.5 0 0 0</pose>
           <geometry>
             <box>
               <size>0.05 5.0 3.0</size>
@@ -167,7 +167,7 @@
         <!-- Tank walls - East (positive Y) -->
         <visual name="wall_east">
           <cast_shadows>false</cast_shadows>
-          <pose>0 2.5 -0.5 0 0 0</pose>
+          <pose>0 2.5 -1.5 0 0 0</pose>
           <geometry>
             <box>
               <size>18.15 0.05 3.0</size>
@@ -182,7 +182,7 @@
         </visual>
 
         <collision name="wall_east">
-          <pose>0 2.5 -0.5 0 0 0</pose>
+          <pose>0 2.5 -1.5 0 0 0</pose>
           <geometry>
             <box>
               <size>18.15 0.05 3.0</size>
@@ -193,7 +193,7 @@
         <!-- Tank walls - West (negative Y) -->
         <visual name="wall_west">
           <cast_shadows>false</cast_shadows>
-          <pose>0 -2.5 -0.5 0 0 0</pose>
+          <pose>0 -2.5 -1.5 0 0 0</pose>
           <geometry>
             <box>
               <size>18.15 0.05 3.0</size>
@@ -208,7 +208,7 @@
         </visual>
 
         <collision name="wall_west">
-          <pose>0 -2.5 -0.5 0 0 0</pose>
+          <pose>0 -2.5 -1.5 0 0 0</pose>
           <geometry>
             <box>
               <size>18.15 0.05 3.0</size>
@@ -225,9 +225,9 @@
       <constant_current>
         <topic>current_velocity</topic>
         <velocity>
-          <mean>0.15</mean>
+          <mean>0.05</mean>
           <min>0.0</min>
-          <max>0.4</max>
+          <max>0.2</max>
           <mu>0.0</mu>
           <noiseAmp>0.0</noiseAmp>
         </velocity>
