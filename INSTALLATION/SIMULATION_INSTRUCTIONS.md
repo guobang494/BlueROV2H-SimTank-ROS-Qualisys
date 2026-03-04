@@ -80,3 +80,12 @@ roslaunch simulation_to_real_bridge simulation_to_real_bridge.launch
 roslaunch guidance_law guidance_law.launch
 ```
 
+
+Should you need a larger (virtual) tank, you can for instance launch: 
+```
+roslaunch bluerov2_dobmpc start_tank_no_control.launch
+roslaunch bluerov2_motion_control bluerov2_motion_control.launch
+roslaunch simulation_to_real_bridge simulation_to_real_bridge.launch
+roslaunch bluerov2_dobmpc start_large_tank_no_control.launch
+```
+
