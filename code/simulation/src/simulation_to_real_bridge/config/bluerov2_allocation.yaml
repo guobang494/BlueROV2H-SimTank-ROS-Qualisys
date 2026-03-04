@@ -12,11 +12,11 @@ thruster_constant: 0.026546960744430276
   
 # Gain multipliers
 gain_lin_x: 1.0 # + sign confirmed
-gain_lin_y: 0.0 # - sign confirmed
+gain_lin_y: -1.0 # - sign confirmed
 gain_lin_z: -1.0 # - sign confirmed
-gain_ang_x: 0.0 # + sign confirmed
-gain_ang_y: 0.0 # - sign confirmed
-gain_ang_z: -1.0 # - TBD check commit
+gain_ang_x: 1.0 # + sign confirmed
+gain_ang_y: -1.0 # - sign confirmed
+gain_ang_z: -1.0 # - sign confirmed
 
 publish_rate_hz: 50.0 # Hz
 

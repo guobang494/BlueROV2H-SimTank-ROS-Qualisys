@@ -5,17 +5,12 @@ path_waypoint_following: true  # this is a future flag for different path scenar
 waypoint_cycling_active: true  # if true, the scenario repeats once the vehicle reaches the last waypoint
 
 gamma: 0.05   # [m] radius around a waypoint to define when to switch to the next target
-max_position_error: 1.0  # [m] cap on (reference position - measured position)
-max_angle_error_deg: 20.0  # [deg] cap on angle error for roll, pitch, yaw
+max_position_error: 10.0  # [m] cap on (reference position - measured position)
+max_angle_error_deg: 180.0  # [deg] cap on angle error for roll, pitch, yaw
 
-waypoints:
-  - [2.0, 0.5, 0.5]
-  - [5.0, -0.5, 0.5]
-  - [7.0, 0.7, 0.5]
-  - [8.0, -0.7, 0.5]
+waypoints:  # in NED frame
+  - [2.0, 0.5, 0.2]
+  - [5.0, -0.5, 0.65]
+  - [7.0, 0.7, 0.2]
+  - [-3.0, -0.7, 0.3]
 
-#  - [0.0, 0.0, 0.5]
-#  - [1.0, -0.5, 0.5]
-#  - [-1.0, 0.5, 0.3]
-#  - [-1.0, 0.5, 0.3]
-#  - [-1.0, -0.5, 0.2]
