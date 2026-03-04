@@ -118,7 +118,7 @@
           <pose>9.075 0 -0.5 0 0 0</pose>
           <geometry>
             <box>
-              <size>0.05 2.5 3.0</size>
+              <size>0.05 5.0 3.0</size>
             </box>
           </geometry>
           <material>
@@ -133,7 +133,7 @@
           <pose>9.075 0 -0.5 0 0 0</pose>
           <geometry>
             <box>
-              <size>0.05 2.5 3.0</size>
+              <size>0.05 5.0 3.0</size>
             </box>
           </geometry>
         </collision>
@@ -144,7 +144,7 @@
           <pose>-9.075 0 -0.5 0 0 0</pose>
           <geometry>
             <box>
-              <size>0.05 2.5 1</size>
+              <size>0.05 5.0 3.0</size>
             </box>
           </geometry>
           <material>
@@ -159,7 +159,7 @@
           <pose>-9.075 0 -0.5 0 0 0</pose>
           <geometry>
             <box>
-              <size>0.05 2.5 3.0</size>
+              <size>0.05 5.0 3.0</size>
             </box>
           </geometry>
         </collision>
@@ -211,7 +211,7 @@
           <pose>0 -2.5 -0.5 0 0 0</pose>
           <geometry>
             <box>
-              <size>18.15 0.05 1</size>
+              <size>18.15 0.05 3.0</size>
             </box>
           </geometry>
         </collision>
@@ -225,16 +225,16 @@
       <constant_current>
         <topic>current_velocity</topic>
         <velocity>
-          <mean>0.15</mean>
+          <mean>0.0</mean>
           <min>0.0</min>
-          <max>0.4</max>
+          <max>0.0</max>
           <mu>0.0</mu>
           <noiseAmp>0.0</noiseAmp>
         </velocity>
 
         <horizontal_angle>
           <mean>0</mean>
-          <min>3.141592653589793238</min> <!-- this was -3.14 -->
+          <min>-3.141592653589793238</min> <!-- this was -3.14 -->
           <max>3.141592653589793238</max>
           <mu>0.0</mu>
           <noiseAmp>0.0</noiseAmp>
@@ -242,8 +242,8 @@
 
         <vertical_angle>
           <mean>0</mean>
-          <min>0.0</min> <!-- this was -3.14 -->
-          <max>0.0</max> <!-- this was 3.14 -->
+          <min>-3.14</min> <!-- this was -3.14 -->
+          <max>3.14</max> <!-- this was 3.14 -->
           <mu>0.0</mu>
           <noiseAmp>0.0</noiseAmp>
         </vertical_angle>
