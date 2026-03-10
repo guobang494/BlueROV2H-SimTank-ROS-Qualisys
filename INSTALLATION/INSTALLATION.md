@@ -49,7 +49,7 @@ git clone https://github.com/guobang494/Bluerov2-Simulation-with-docker-env
 Install the Docker image that we provide.   
 This step requires approx. 10 minutes, and 3Gb of space on your hard-drive.  
 ```
-      sudo docker pull zebangg/ros1_noetic_bluerov2:v2
+      sudo docker pull zebangg/bluerov2_package:v1.0
       sudo docker run -it \
           --name my_bluerov_container \
           --network host \
