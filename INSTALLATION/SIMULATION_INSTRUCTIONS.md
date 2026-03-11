@@ -10,13 +10,13 @@ These instructions assume that you have installed the provided Docker container,
 ### 1) Start the docker container
 Open a new terminal, and type:
 ```
-sudo docker start -ai my_bluerov_container
+sudo docker start -ai bluerov2h_container
 ```
 
 Note: if you are following up directly from the INSTALLATION instruction file, your container might be already open.   
 In that case, run instead:
 ```
-sudo docker exec -it my_bluerov_container bash
+sudo docker exec -it bluerov2h_container bash
 ```
 
 
@@ -57,13 +57,13 @@ You will now see the BlueROV2H vehicle as moving in a path such as in the follow
 ### 7) Simulation in the future
 Open a new terminal, and type:
 ```
-sudo docker start -ai my_bluerov_container
+sudo docker start -ai bluerov2h_container
 ```
 
 Note: if you are following up directly from the INSTALLATION instruction file, your container might be already open.   
 In that case, run instead:
 ```
-sudo docker exec -it my_bluerov_container bash
+sudo docker exec -it bluerov2h_container bash
 ```
 Repeat the last command in 10 terminals (they will be useful later on).   
   

@@ -10,12 +10,12 @@ These instructions assume that you have installed the container, as explained in
 ### 1) Start the docker container
 Open a new terminal, and type:
 ```
-sudo docker start -ai my_bluerov_container
+sudo docker start -ai bluerov2h_container
 ```
 
 Open 15 new terminals, and type:
 ```
-sudo docker exec -it my_bluerov_container bash
+sudo docker exec -it bluerov2h_container bash
 ```
 
 
