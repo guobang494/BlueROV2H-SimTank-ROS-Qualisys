@@ -51,13 +51,13 @@ This step requires approx. 10 minutes, and 3Gb of space on your hard-drive.
 ```
       sudo docker pull zebangg/bluerov2_package:v1.0
       sudo docker run -it \
-          --name my_bluerov_container \
+          --name bluerov2h_container \
           --network host \
           --privileged \
           -v /tmp/.X11-unix:/tmp/.X11-unix \
           -v ~/catkin_ws:/root/catkin_ws \
           -e DISPLAY=$DISPLAY \
-          zebangg/ros1_noetic_bluerov2:v2 \
+          zebangg/bluerov2_package:v1.0 \
           bash
   ```
   
