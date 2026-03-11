@@ -24,10 +24,10 @@ sudo docker exec -it bluerov2h_container bash
 ### 2) Compile the provided simulation code
 This step will compile the code (it takes approx 5 minutes):
 ```
-       cd /root/catkin_ws/src/Bluerov2-Simulation-with-docker-env/code/simulation/src/bluerov2/bluerov2_dobmpc/scripts
-       python3 generate_c_code.py
+       touch /root/catkin_ws/src/Bluerov2-Simulation-with-docker-env/code/tank-setup/bluerov2_pid/ros_qualysis/src/CATKIN_IGNORE
        cd /root/catkin_ws
-       catkin_make
+       rm -r devel/ build/ build_isolated/ devel_isolated/ install_isolated/
+       catkin_make_isolated --install -DCMAKE_BUILD_TYPE=Release    
 ```
   
 
