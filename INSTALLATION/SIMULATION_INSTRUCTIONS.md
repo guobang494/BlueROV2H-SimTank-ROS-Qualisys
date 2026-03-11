@@ -27,9 +27,18 @@ This step will compile the code (it takes approx 5 minutes):
        touch /root/catkin_ws/src/Bluerov2-Simulation-with-docker-env/code/tank-setup/bluerov2_pid/ros_qualysis/src/CATKIN_IGNORE
        cd /root/catkin_ws
        rm -r devel/ build/ build_isolated/ devel_isolated/ install_isolated/
-       catkin_make_isolated --install -DCMAKE_BUILD_TYPE=Release    
+       catkin_make
+       source devel/setup.bash
 ```
-  
+
+For the future, add your sourcing to the bashrc file: 
+```
+gedit ~/.bashrc  
+```
+And add at the end of the file: 
+```
+source ~/catkin_ws/devel/setup.bash
+```
 
 ### 3) Set gazebo display (not in the Docker)    
 Leave the first terminal open, and open a new second terminal. In the second terminal, type:  
