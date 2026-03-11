@@ -20,11 +20,22 @@ sudo docker exec -it bluerov2h_container bash
 ```
 
 
+### 2) Set container display (not in the Docker)    
+Leave the first terminal open, and open a new second terminal. In the second terminal, type:  
+```
+	xhost +local:docker
+```
+This allows the Docker to display content on the screen.  
+If this command is successful, in the terminal, you will see:
+<img src="https://github.com/guobang494/Bluerov2-Simulation-with-docker-env/blob/main/INSTALLATION/docker_enable_graphics.png" width=100% height=100%>
+  
 
-### 2) Compile the provided simulation code
+
+
+### 3) Compile the provided simulation code
 This step will compile the code (it takes approx 5 minutes):
 ```
-       touch /root/catkin_ws/src/Bluerov2-Simulation-with-docker-env/code/tank-setup/bluerov2_pid/ros_qualysis/src/CATKIN_IGNORE
+       touch /root/catkin_ws/src/Bluerov2-Simulation-with-docker-env/code/tank-setup/ros_qualysis/src/CATKIN_IGNORE
        cd /root/catkin_ws
        rm -r devel/ build/ build_isolated/ devel_isolated/ install_isolated/
        catkin_make
@@ -40,17 +51,9 @@ And add at the end of the file:
 source ~/catkin_ws/devel/setup.bash
 ```
 
-### 3) Set gazebo display (not in the Docker)    
-Leave the first terminal open, and open a new second terminal. In the second terminal, type:  
-```
-	xhost +local:docker
-```
-This allows the Docker to display content on the screen.  
-If this command is successful, in the terminal, you will see:
-<img src="https://github.com/guobang494/Bluerov2-Simulation-with-docker-env/blob/main/INSTALLATION/docker_enable_graphics.png" width=100% height=100%>
-  
 
-### 7)  Launch the demo
+
+### 4)  Launch the demo
 Open new terminals:
 ```
 sudo docker exec -it bluerov2h_container bash
@@ -70,7 +73,7 @@ You will now see the BlueROV2H vehicle as moving in a path such as in the follow
 
 
 
-### 7) Simulation in the future
+### 5) Simulation in the future
 Open a new terminal, and run: 
 ```
 	xhost +local:docker
