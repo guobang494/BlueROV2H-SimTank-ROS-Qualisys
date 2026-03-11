@@ -57,6 +57,8 @@ target_component_id:=1
 
 If successful, MAVROS will start receiving **heartbeat messages**.
 
+<img src="Images/mavros success" width="100%">
+
 Check MAVROS state:
 
 ```bash
@@ -64,8 +66,7 @@ rostopic echo /mavros/state
 ```
 You can see the status like this 
 
-
-
+<img src="Images/mavros check status" width="50%">
 
 ---
 
@@ -138,6 +139,7 @@ Roslaunch ros_qualysis/src/launch/qualisys_bauzil_bringup.launch server_address:
 ```
 If success ,if you will see 
 
+<img src="Images/qualisys success" width="50%">
 ---
 
 # 7. Transform Qualisys Data to ROS Pose
@@ -149,7 +151,7 @@ python3 ~/bluerov2_pid/ros_qualysis/src/scripts/tf2_pose_gt_real.py
 ```
 
 This converts **Qualisys motion capture data** into **ROS pose data**.
-
+<img src="Images/data transfer success" width="75%">
 
 ---
 
@@ -209,19 +211,3 @@ roslaunch ~/bluerov2_pid/bluerov2_control/src/bluerov2_motion_control/launch/blu
 roslaunch ~/bluerov2_pid/bluerov2_control/src/tank-setup/guidance_law/launch/guidance_law.launch
 roslaunch ~/bluerov2_pid/bluerov2_control/src/mavros_pub/launch/pwm_pub.launch
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
