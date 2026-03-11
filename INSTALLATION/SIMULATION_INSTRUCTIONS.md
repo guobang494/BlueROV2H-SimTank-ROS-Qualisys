@@ -8,13 +8,13 @@ These instructions assume that you have installed the provided Docker container,
 
 
 ### 1) Start the docker container
-Open a new terminal, and type:
+If you do not have any terminal session ongoing, open a new terminal and type:
 ```
 sudo docker start -ai bluerov2h_container
 ```
 
-Note: if you are following up directly from the INSTALLATION instruction file, your container might be already open.   
-In that case, run instead:
+If you are following up directly from the ![INSTALLATION](./INSTALLATION.md/) instruction file, your container might be already open.   
+In that case, use the previous terminal, or open a new terminal and run instead:
 ```
 sudo docker exec -it bluerov2h_container bash
 ```
