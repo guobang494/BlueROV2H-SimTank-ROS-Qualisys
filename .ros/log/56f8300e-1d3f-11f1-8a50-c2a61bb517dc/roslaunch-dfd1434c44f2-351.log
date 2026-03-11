@@ -1,0 +1,105 @@
+[roslaunch][INFO] 2026-03-11 11:42:10,463: Checking log directory for disk usage. This may take a while.
+Press Ctrl-C to interrupt
+[roslaunch][INFO] 2026-03-11 11:42:10,466: Done checking log file disk usage. Usage is <1GB.
+[roslaunch][INFO] 2026-03-11 11:42:10,466: roslaunch starting with args ['/opt/ros/noetic/bin/roslaunch', 'ros-qualisys', 'qualisys_bauzil_bringup.launch']
+[roslaunch][INFO] 2026-03-11 11:42:10,467: roslaunch env is environ({'ROS_VERSION': '1', 'PKG_CONFIG_PATH': '/opt/ros/noetic/lib/pkgconfig:/root/code/tank-setup/bluerov2_pid/ros_qualysis/install/ros-qualisys/lib/x86_64-linux-gnu/pkgconfig:/root/code/tank-setup/bluerov2_pid/ros_qualysis/install/ros-qualisys/lib/pkgconfig', 'ROS_PYTHON_VERSION': '3', 'HOSTNAME': 'dfd1434c44f2', 'ROS_PACKAGE_PATH': '/root/code/tank-setup/bluerov2_pid/ros_qualysis/install/ros-qualisys/share:/opt/ros/noetic/share', 'ROSLISP_PACKAGE_DIRECTORIES': '', 'PWD': '/root/code/tank-setup/bluerov2_pid/ros_qualysis', 'HOME': '/root', 'LANG': 'C.UTF-8', 'ROS_ETC_DIR': '/opt/ros/noetic/etc/ros', 'CMAKE_PREFIX_PATH': '/root/code/tank-setup/bluerov2_pid/ros_qualysis/install/ros-qualisys:/opt/ros/noetic', 'COLCON_PREFIX_PATH': '/root/code/tank-setup/bluerov2_pid/ros_qualysis/install', 'PYTHONPATH': '/opt/ros/noetic/lib/python3/dist-packages', 'TERM': 'xterm', 'DISPLAY': ':1', 'SHLVL': '1', 'ROS_MASTER_URI': 'http://localhost:11311', 'LD_LIBRARY_PATH': '/opt/openrobots/lib:/opt/openrobots/lib:/opt/ros/noetic/lib:/root/code/tank-setup/bluerov2_pid/ros_qualysis/install/ros-qualisys/lib', 'LC_ALL': 'C.UTF-8', 'PATH': '/opt/ros/noetic/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin', 'ROS_ROOT': '/opt/ros/noetic/share/ros', 'ROS_DISTRO': 'noetic', 'QT_X11_NO_MITSHM': '1', 'OLDPWD': '/root/code/tank-setup/bluerov2_pid', '_': '/opt/ros/noetic/bin/roslaunch', 'ROS_LOG_FILENAME': '/root/.ros/log/56f8300e-1d3f-11f1-8a50-c2a61bb517dc/roslaunch-dfd1434c44f2-351.log'})
+[roslaunch][INFO] 2026-03-11 11:42:10,467: starting in server mode
+[roslaunch.parent][INFO] 2026-03-11 11:42:10,467: starting roslaunch parent run
+[roslaunch][INFO] 2026-03-11 11:42:10,467: loading roscore config file /opt/ros/noetic/etc/ros/roscore.xml
+[roslaunch][INFO] 2026-03-11 11:42:10,570: Added core node of type [rosout/rosout] in namespace [/]
+[roslaunch.config][INFO] 2026-03-11 11:42:10,570: loading config file /root/code/tank-setup/bluerov2_pid/ros_qualysis/install/ros-qualisys/share/ros-qualisys/launch/qualisys_bauzil_bringup.launch
+[roslaunch][INFO] 2026-03-11 11:42:10,571: Added node of type [ros-qualisys/ros-qualisys] in namespace [/]
+[roslaunch][INFO] 2026-03-11 11:42:10,571: ... selected machine [] for node of type [ros-qualisys/ros-qualisys]
+[roslaunch.pmon][INFO] 2026-03-11 11:42:10,572: start_process_monitor: creating ProcessMonitor
+[roslaunch.pmon][INFO] 2026-03-11 11:42:10,572: created process monitor <ProcessMonitor(ProcessMonitor-1, initial daemon)>
+[roslaunch.pmon][INFO] 2026-03-11 11:42:10,572: start_process_monitor: ProcessMonitor started
+[roslaunch.parent][INFO] 2026-03-11 11:42:10,572: starting parent XML-RPC server
+[roslaunch.server][INFO] 2026-03-11 11:42:10,573: starting roslaunch XML-RPC server
+[roslaunch.server][INFO] 2026-03-11 11:42:10,573: waiting for roslaunch XML-RPC server to initialize
+[xmlrpc][INFO] 2026-03-11 11:42:10,573: XML-RPC server binding to 0.0.0.0:0
+[xmlrpc][INFO] 2026-03-11 11:42:10,573: Started XML-RPC server [http://dfd1434c44f2:37433/]
+[xmlrpc][INFO] 2026-03-11 11:42:10,573: xml rpc node: starting XML-RPC server
+[roslaunch][INFO] 2026-03-11 11:42:10,584: started roslaunch server http://dfd1434c44f2:37433/
+[roslaunch.parent][INFO] 2026-03-11 11:42:10,585: ... parent XML-RPC server started
+[roslaunch][INFO] 2026-03-11 11:42:10,585: master.is_running[http://localhost:11311]
+[roslaunch][INFO] 2026-03-11 11:42:10,585: auto-starting new master
+[roslaunch][INFO] 2026-03-11 11:42:10,586: create_master_process: rosmaster, /opt/ros/noetic/share/ros, 11311, 3, None, False
+[roslaunch][INFO] 2026-03-11 11:42:10,586: process[master]: launching with args [['rosmaster', '--core', '-p', '11311', '-w', '3']]
+[roslaunch.pmon][INFO] 2026-03-11 11:42:10,586: ProcessMonitor.register[master]
+[roslaunch.pmon][INFO] 2026-03-11 11:42:10,586: ProcessMonitor.register[master] complete
+[roslaunch][INFO] 2026-03-11 11:42:10,586: process[master]: starting os process
+[roslaunch][INFO] 2026-03-11 11:42:10,586: process[master]: start w/ args [['rosmaster', '--core', '-p', '11311', '-w', '3', '__log:=/root/.ros/log/56f8300e-1d3f-11f1-8a50-c2a61bb517dc/master.log']]
+[roslaunch][INFO] 2026-03-11 11:42:10,586: process[master]: cwd will be [/root/.ros]
+[roslaunch][INFO] 2026-03-11 11:42:10,589: process[master]: started with pid [380]
+[roslaunch][INFO] 2026-03-11 11:42:10,589: master.is_running[http://localhost:11311]
+[roslaunch][INFO] 2026-03-11 11:42:10,690: master.is_running[http://localhost:11311]
+[roslaunch][INFO] 2026-03-11 11:42:10,791: master.is_running[http://localhost:11311]
+[roslaunch][INFO] 2026-03-11 11:42:10,793: master.is_running[http://localhost:11311]
+[roslaunch][INFO] 2026-03-11 11:42:10,794: ROS_MASTER_URI=http://localhost:11311
+[roslaunch][INFO] 2026-03-11 11:42:10,795: setting /run_id to 56f8300e-1d3f-11f1-8a50-c2a61bb517dc
+[roslaunch][INFO] 2026-03-11 11:42:10,796: setting /roslaunch/uris/host_dfd1434c44f2__37433' to http://dfd1434c44f2:37433/
+[roslaunch][INFO] 2026-03-11 11:42:10,798: ... preparing to launch node of type [rosout/rosout]
+[roslaunch][INFO] 2026-03-11 11:42:10,798: create_node_process: package[rosout] type[rosout] machine[Machine(name[] env_loader[None] address[localhost] ssh_port[22] user[None] assignable[True] timeout[10.0])] master_uri[http://localhost:11311]
+[roslaunch][INFO] 2026-03-11 11:42:10,798: process[rosout-1]: env[{'ROS_VERSION': '1', 'PKG_CONFIG_PATH': '/opt/ros/noetic/lib/pkgconfig:/root/code/tank-setup/bluerov2_pid/ros_qualysis/install/ros-qualisys/lib/x86_64-linux-gnu/pkgconfig:/root/code/tank-setup/bluerov2_pid/ros_qualysis/install/ros-qualisys/lib/pkgconfig', 'ROS_PYTHON_VERSION': '3', 'HOSTNAME': 'dfd1434c44f2', 'ROS_PACKAGE_PATH': '/root/code/tank-setup/bluerov2_pid/ros_qualysis/install/ros-qualisys/share:/opt/ros/noetic/share', 'ROSLISP_PACKAGE_DIRECTORIES': '', 'PWD': '/root/code/tank-setup/bluerov2_pid/ros_qualysis', 'HOME': '/root', 'LANG': 'C.UTF-8', 'ROS_ETC_DIR': '/opt/ros/noetic/etc/ros', 'CMAKE_PREFIX_PATH': '/root/code/tank-setup/bluerov2_pid/ros_qualysis/install/ros-qualisys:/opt/ros/noetic', 'COLCON_PREFIX_PATH': '/root/code/tank-setup/bluerov2_pid/ros_qualysis/install', 'PYTHONPATH': '/opt/ros/noetic/lib/python3/dist-packages', 'TERM': 'xterm', 'DISPLAY': ':1', 'SHLVL': '1', 'ROS_MASTER_URI': 'http://localhost:11311', 'LD_LIBRARY_PATH': '/opt/openrobots/lib:/opt/openrobots/lib:/opt/ros/noetic/lib:/root/code/tank-setup/bluerov2_pid/ros_qualysis/install/ros-qualisys/lib', 'LC_ALL': 'C.UTF-8', 'PATH': '/opt/ros/noetic/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin', 'ROS_ROOT': '/opt/ros/noetic/share/ros', 'ROS_DISTRO': 'noetic', 'QT_X11_NO_MITSHM': '1', 'OLDPWD': '/root/code/tank-setup/bluerov2_pid', '_': '/opt/ros/noetic/bin/roslaunch', 'ROS_LOG_FILENAME': '/root/.ros/log/56f8300e-1d3f-11f1-8a50-c2a61bb517dc/roslaunch-dfd1434c44f2-351.log'}]
+[roslaunch][INFO] 2026-03-11 11:42:10,816: process[rosout-1]: args[['/opt/ros/noetic/lib/rosout/rosout', '__name:=rosout']]
+[roslaunch][INFO] 2026-03-11 11:42:10,816: ... created process [rosout-1]
+[roslaunch.pmon][INFO] 2026-03-11 11:42:10,816: ProcessMonitor.register[rosout-1]
+[roslaunch.pmon][INFO] 2026-03-11 11:42:10,816: ProcessMonitor.register[rosout-1] complete
+[roslaunch][INFO] 2026-03-11 11:42:10,816: ... registered process [rosout-1]
+[roslaunch][INFO] 2026-03-11 11:42:10,816: process[rosout-1]: starting os process
+[roslaunch][INFO] 2026-03-11 11:42:10,816: process[rosout-1]: start w/ args [['/opt/ros/noetic/lib/rosout/rosout', '__name:=rosout', '__log:=/root/.ros/log/56f8300e-1d3f-11f1-8a50-c2a61bb517dc/rosout-1.log']]
+[roslaunch][INFO] 2026-03-11 11:42:10,816: process[rosout-1]: cwd will be [/root/.ros]
+[roslaunch][INFO] 2026-03-11 11:42:10,818: process[rosout-1]: started with pid [411]
+[roslaunch][INFO] 2026-03-11 11:42:10,819: ... successfully launched [rosout-1]
+[roslaunch][INFO] 2026-03-11 11:42:10,819: load_parameters starting ...
+[roslaunch][INFO] 2026-03-11 11:42:10,822: ... load_parameters complete
+[roslaunch][INFO] 2026-03-11 11:42:10,822: launch_nodes: launching local nodes ...
+[roslaunch][INFO] 2026-03-11 11:42:10,822: ... preparing to launch node of type [ros-qualisys/ros-qualisys]
+[roslaunch][INFO] 2026-03-11 11:42:10,822: create_node_process: package[ros-qualisys] type[ros-qualisys] machine[Machine(name[] env_loader[None] address[localhost] ssh_port[22] user[None] assignable[True] timeout[10.0])] master_uri[http://localhost:11311]
+[roslaunch][INFO] 2026-03-11 11:42:10,822: process[qualisys-2]: env[{'ROS_VERSION': '1', 'PKG_CONFIG_PATH': '/opt/ros/noetic/lib/pkgconfig:/root/code/tank-setup/bluerov2_pid/ros_qualysis/install/ros-qualisys/lib/x86_64-linux-gnu/pkgconfig:/root/code/tank-setup/bluerov2_pid/ros_qualysis/install/ros-qualisys/lib/pkgconfig', 'ROS_PYTHON_VERSION': '3', 'HOSTNAME': 'dfd1434c44f2', 'ROS_PACKAGE_PATH': '/root/code/tank-setup/bluerov2_pid/ros_qualysis/install/ros-qualisys/share:/opt/ros/noetic/share', 'ROSLISP_PACKAGE_DIRECTORIES': '', 'PWD': '/root/code/tank-setup/bluerov2_pid/ros_qualysis', 'HOME': '/root', 'LANG': 'C.UTF-8', 'ROS_ETC_DIR': '/opt/ros/noetic/etc/ros', 'CMAKE_PREFIX_PATH': '/root/code/tank-setup/bluerov2_pid/ros_qualysis/install/ros-qualisys:/opt/ros/noetic', 'COLCON_PREFIX_PATH': '/root/code/tank-setup/bluerov2_pid/ros_qualysis/install', 'PYTHONPATH': '/opt/ros/noetic/lib/python3/dist-packages', 'TERM': 'xterm', 'DISPLAY': ':1', 'SHLVL': '1', 'ROS_MASTER_URI': 'http://localhost:11311', 'LD_LIBRARY_PATH': '/opt/openrobots/lib:/opt/openrobots/lib:/opt/ros/noetic/lib:/root/code/tank-setup/bluerov2_pid/ros_qualysis/install/ros-qualisys/lib', 'LC_ALL': 'C.UTF-8', 'PATH': '/opt/ros/noetic/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin', 'ROS_ROOT': '/opt/ros/noetic/share/ros', 'ROS_DISTRO': 'noetic', 'QT_X11_NO_MITSHM': '1', 'OLDPWD': '/root/code/tank-setup/bluerov2_pid', '_': '/opt/ros/noetic/bin/roslaunch', 'ROS_LOG_FILENAME': '/root/.ros/log/56f8300e-1d3f-11f1-8a50-c2a61bb517dc/roslaunch-dfd1434c44f2-351.log'}]
+[roslaunch][INFO] 2026-03-11 11:42:10,823: process[qualisys-2]: args[['/root/code/tank-setup/bluerov2_pid/ros_qualysis/install/ros-qualisys/lib/ros-qualisys/ros-qualisys', '__name:=qualisys']]
+[roslaunch][INFO] 2026-03-11 11:42:10,823: ... created process [qualisys-2]
+[roslaunch.pmon][INFO] 2026-03-11 11:42:10,823: ProcessMonitor.register[qualisys-2]
+[roslaunch.pmon][INFO] 2026-03-11 11:42:10,823: ProcessMonitor.register[qualisys-2] complete
+[roslaunch][INFO] 2026-03-11 11:42:10,823: ... registered process [qualisys-2]
+[roslaunch][INFO] 2026-03-11 11:42:10,823: process[qualisys-2]: starting os process
+[roslaunch][INFO] 2026-03-11 11:42:10,823: process[qualisys-2]: start w/ args [['/root/code/tank-setup/bluerov2_pid/ros_qualysis/install/ros-qualisys/lib/ros-qualisys/ros-qualisys', '__name:=qualisys', '__log:=/root/.ros/log/56f8300e-1d3f-11f1-8a50-c2a61bb517dc/qualisys-2.log']]
+[roslaunch][INFO] 2026-03-11 11:42:10,823: process[qualisys-2]: cwd will be [/root/.ros]
+[roslaunch][INFO] 2026-03-11 11:42:10,826: process[qualisys-2]: started with pid [417]
+[roslaunch][INFO] 2026-03-11 11:42:10,826: ... successfully launched [qualisys-2]
+[roslaunch][INFO] 2026-03-11 11:42:10,826: ... launch_nodes complete
+[roslaunch.pmon][INFO] 2026-03-11 11:42:10,826: registrations completed <ProcessMonitor(ProcessMonitor-1, started daemon 140314895107840)>
+[roslaunch.parent][INFO] 2026-03-11 11:42:10,826: ... roslaunch parent running, waiting for process exit
+[roslaunch][INFO] 2026-03-11 11:42:10,826: spin
+[roslaunch.pmon][INFO] 2026-03-11 11:42:12,489: ProcessMonitor.shutdown <ProcessMonitor(ProcessMonitor-1, started daemon 140314895107840)>
+[roslaunch.pmon][INFO] 2026-03-11 11:42:12,576: ProcessMonitor._post_run <ProcessMonitor(ProcessMonitor-1, started daemon 140314895107840)>
+[roslaunch.pmon][INFO] 2026-03-11 11:42:12,576: ProcessMonitor._post_run <ProcessMonitor(ProcessMonitor-1, started daemon 140314895107840)>: remaining procs are [<roslaunch.nodeprocess.LocalProcess object at 0x7f9db1796730>, <roslaunch.nodeprocess.LocalProcess object at 0x7f9db1796b50>, <roslaunch.nodeprocess.LocalProcess object at 0x7f9db17969a0>]
+[roslaunch.pmon][INFO] 2026-03-11 11:42:12,577: ProcessMonitor exit: killing qualisys-2
+[roslaunch][INFO] 2026-03-11 11:42:12,577: [qualisys-2] killing on exit
+[roslaunch][INFO] 2026-03-11 11:42:12,577: process[qualisys-2]: killing os process with pid[417] pgid[417]
+[roslaunch][INFO] 2026-03-11 11:42:12,578: [qualisys-2] sending SIGINT to pgid [417]
+[roslaunch][INFO] 2026-03-11 11:42:12,578: [qualisys-2] sent SIGINT to pgid [417]
+[roslaunch][INFO] 2026-03-11 11:42:12,678: process[qualisys-2]: SIGINT killed with return value -2
+[roslaunch.pmon][INFO] 2026-03-11 11:42:12,678: ProcessMonitor exit: killing rosout-1
+[roslaunch][INFO] 2026-03-11 11:42:12,678: [rosout-1] killing on exit
+[roslaunch][INFO] 2026-03-11 11:42:12,678: process[rosout-1]: killing os process with pid[411] pgid[411]
+[roslaunch][INFO] 2026-03-11 11:42:12,678: [rosout-1] sending SIGINT to pgid [411]
+[roslaunch][INFO] 2026-03-11 11:42:12,679: [rosout-1] sent SIGINT to pgid [411]
+[roslaunch][INFO] 2026-03-11 11:42:12,779: process[rosout-1]: SIGINT killed with return value 0
+[roslaunch.pmon][INFO] 2026-03-11 11:42:12,779: ProcessMonitor exit: killing master
+[roslaunch][INFO] 2026-03-11 11:42:12,779: [master] killing on exit
+[roslaunch][INFO] 2026-03-11 11:42:12,779: process[master]: killing os process with pid[380] pgid[380]
+[roslaunch][INFO] 2026-03-11 11:42:12,779: [master] sending SIGINT to pgid [380]
+[roslaunch][INFO] 2026-03-11 11:42:12,779: [master] sent SIGINT to pgid [380]
+[roslaunch][INFO] 2026-03-11 11:42:12,980: process[master]: SIGINT killed with return value 0
+[roslaunch.pmon][INFO] 2026-03-11 11:42:12,980: ProcessMonitor exit: cleaning up data structures and signals
+[roslaunch.pmon][INFO] 2026-03-11 11:42:12,980: ProcessMonitor exit: pmon has shutdown
+[roslaunch][INFO] 2026-03-11 11:42:12,980: process monitor is done spinning, initiating full shutdown
+[roslaunch][INFO] 2026-03-11 11:42:12,981: runner.stop()
+[roslaunch][INFO] 2026-03-11 11:42:12,981: shutting down processing monitor...
+[roslaunch][INFO] 2026-03-11 11:42:12,981: shutting down processing monitor <ProcessMonitor(ProcessMonitor-1, stopped daemon 140314895107840)>
+[roslaunch.pmon][INFO] 2026-03-11 11:42:12,981: ProcessMonitor.shutdown <ProcessMonitor(ProcessMonitor-1, stopped daemon 140314895107840)>
+[roslaunch][INFO] 2026-03-11 11:42:12,981: ... shutting down processing monitor complete
+[roslaunch][INFO] 2026-03-11 11:42:12,981: done
+[roslaunch.pmon][INFO] 2026-03-11 11:42:12,981: ProcessMonitor.shutdown <ProcessMonitor(ProcessMonitor-1, stopped daemon 140314895107840)>
+[rospy.core][INFO] 2026-03-11 11:42:12,981: signal_shutdown [atexit]

@@ -1,0 +1,30 @@
+[rosmaster.main][INFO] 2026-03-11 11:45:17,705: initialization complete, waiting for shutdown
+[rosmaster.main][INFO] 2026-03-11 11:45:17,705: Starting ROS Master Node
+[xmlrpc][INFO] 2026-03-11 11:45:17,718: XML-RPC server binding to 0.0.0.0:11311
+[xmlrpc][INFO] 2026-03-11 11:45:17,718: Started XML-RPC server [http://dfd1434c44f2:11311/]
+[rosmaster.master][INFO] 2026-03-11 11:45:17,718: Master initialized: port[11311], uri[http://dfd1434c44f2:11311/]
+[xmlrpc][INFO] 2026-03-11 11:45:17,718: xml rpc node: starting XML-RPC server
+[rosmaster.master][INFO] 2026-03-11 11:45:17,756: +PARAM [/run_id] by /roslaunch
+[rosmaster.master][INFO] 2026-03-11 11:45:17,757: +PARAM [/roslaunch/uris/host_dfd1434c44f2__39337] by /roslaunch
+[rosmaster.master][INFO] 2026-03-11 11:45:17,778: +PARAM [/rosversion] by /roslaunch
+[rosmaster.master][INFO] 2026-03-11 11:45:17,778: +PARAM [/rosdistro] by /roslaunch
+[rosmaster.master][INFO] 2026-03-11 11:45:17,778: +PARAM [/qualisys/server_address] by /roslaunch
+[rosmaster.master][INFO] 2026-03-11 11:45:17,778: +PARAM [/qualisys/server_base_port] by /roslaunch
+[rosmaster.master][INFO] 2026-03-11 11:45:17,783: +SERVICE [/rosout/get_loggers] /rosout http://dfd1434c44f2:37309/
+[rosmaster.master][INFO] 2026-03-11 11:45:17,784: +SERVICE [/rosout/set_logger_level] /rosout http://dfd1434c44f2:37309/
+[rosmaster.master][INFO] 2026-03-11 11:45:17,785: +PUB [/rosout_agg] /rosout http://dfd1434c44f2:37309/
+[rosmaster.master][INFO] 2026-03-11 11:45:17,786: +SUB [/rosout] /rosout http://dfd1434c44f2:37309/
+[rosmaster.master][INFO] 2026-03-11 11:45:17,790: +PUB [/rosout] /qualisys http://dfd1434c44f2:33903/
+[rosmaster.master][INFO] 2026-03-11 11:45:17,790: +SERVICE [/qualisys/get_loggers] /qualisys http://dfd1434c44f2:33903/
+[rosmaster.master][INFO] 2026-03-11 11:45:17,791: +SERVICE [/qualisys/set_logger_level] /qualisys http://dfd1434c44f2:33903/
+[rosmaster.master][INFO] 2026-03-11 11:45:17,791: +PUB [/tf] /qualisys http://dfd1434c44f2:33903/
+[rosmaster.master][INFO] 2026-03-11 11:45:17,794: +CACHEDPARAM [/rosout_disable_topics_generation] by /qualisys
+[rosmaster.master][INFO] 2026-03-11 11:45:17,805: publisherUpdate[/rosout] -> http://dfd1434c44f2:37309/ ['http://dfd1434c44f2:33903/']
+[rosmaster.master][INFO] 2026-03-11 11:45:17,808: publisherUpdate[/rosout] -> http://dfd1434c44f2:37309/ ['http://dfd1434c44f2:33903/']: sec=0.00, result=[1, '', 0]
+[rosmaster.master][INFO] 2026-03-11 11:45:21,414: -PUB [/rosout_agg] /rosout http://dfd1434c44f2:37309/
+[rosmaster.master][INFO] 2026-03-11 11:45:21,415: -SUB [/rosout] /rosout http://dfd1434c44f2:37309/
+[rosmaster.master][INFO] 2026-03-11 11:45:21,415: -SERVICE [/rosout/get_loggers] /rosout rosrpc://dfd1434c44f2:54603
+[rosmaster.master][INFO] 2026-03-11 11:45:21,415: -SERVICE [/rosout/set_logger_level] /rosout rosrpc://dfd1434c44f2:54603
+[rosmaster.main][INFO] 2026-03-11 11:45:21,442: keyboard interrupt, will exit
+[rosmaster.main][INFO] 2026-03-11 11:45:21,442: stopping master...
+[rospy.core][INFO] 2026-03-11 11:45:21,442: signal_shutdown [atexit]

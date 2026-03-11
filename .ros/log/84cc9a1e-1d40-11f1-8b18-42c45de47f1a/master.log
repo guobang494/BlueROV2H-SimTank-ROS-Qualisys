@@ -1,0 +1,23 @@
+[rosmaster.main][INFO] 2026-03-11 11:50:37,120: initialization complete, waiting for shutdown
+[rosmaster.main][INFO] 2026-03-11 11:50:37,120: Starting ROS Master Node
+[xmlrpc][INFO] 2026-03-11 11:50:37,128: XML-RPC server binding to 0.0.0.0:11311
+[xmlrpc][INFO] 2026-03-11 11:50:37,128: Started XML-RPC server [http://dfd1434c44f2:11311/]
+[rosmaster.master][INFO] 2026-03-11 11:50:37,128: Master initialized: port[11311], uri[http://dfd1434c44f2:11311/]
+[xmlrpc][INFO] 2026-03-11 11:50:37,129: xml rpc node: starting XML-RPC server
+[rosmaster.master][INFO] 2026-03-11 11:50:37,179: +PARAM [/run_id] by /roslaunch
+[rosmaster.master][INFO] 2026-03-11 11:50:37,180: +PARAM [/roslaunch/uris/host_dfd1434c44f2__36615] by /roslaunch
+[rosmaster.master][INFO] 2026-03-11 11:50:37,202: +PARAM [/rosversion] by /roslaunch
+[rosmaster.master][INFO] 2026-03-11 11:50:37,202: +PARAM [/rosdistro] by /roslaunch
+[rosmaster.master][INFO] 2026-03-11 11:50:37,202: +PARAM [/qualisys/server_address] by /roslaunch
+[rosmaster.master][INFO] 2026-03-11 11:50:37,202: +PARAM [/qualisys/server_base_port] by /roslaunch
+[rosmaster.master][INFO] 2026-03-11 11:50:37,207: +SERVICE [/rosout/get_loggers] /rosout http://dfd1434c44f2:38897/
+[rosmaster.master][INFO] 2026-03-11 11:50:37,208: +SERVICE [/rosout/set_logger_level] /rosout http://dfd1434c44f2:38897/
+[rosmaster.master][INFO] 2026-03-11 11:50:37,208: +PUB [/rosout_agg] /rosout http://dfd1434c44f2:38897/
+[rosmaster.master][INFO] 2026-03-11 11:50:37,210: +SUB [/rosout] /rosout http://dfd1434c44f2:38897/
+[rosmaster.master][INFO] 2026-03-11 11:50:44,417: -PUB [/rosout_agg] /rosout http://dfd1434c44f2:38897/
+[rosmaster.master][INFO] 2026-03-11 11:50:44,417: -SUB [/rosout] /rosout http://dfd1434c44f2:38897/
+[rosmaster.master][INFO] 2026-03-11 11:50:44,418: -SERVICE [/rosout/get_loggers] /rosout rosrpc://dfd1434c44f2:42621
+[rosmaster.master][INFO] 2026-03-11 11:50:44,418: -SERVICE [/rosout/set_logger_level] /rosout rosrpc://dfd1434c44f2:42621
+[rosmaster.main][INFO] 2026-03-11 11:50:44,471: keyboard interrupt, will exit
+[rosmaster.main][INFO] 2026-03-11 11:50:44,472: stopping master...
+[rospy.core][INFO] 2026-03-11 11:50:44,472: signal_shutdown [atexit]

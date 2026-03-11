@@ -20,7 +20,7 @@ cd workspace
 colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release
 
 
-
+qualisys_bauzil_bringup.launch
 
 
 launch
