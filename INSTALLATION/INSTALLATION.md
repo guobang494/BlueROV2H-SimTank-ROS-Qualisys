@@ -73,7 +73,7 @@ Move the ROS-Qualisys-related package in a dedicated workspace in preparation fo
 ```
 mkdir -p /home/workspaces_ROS/ros_qualisys_ws/src
 cp -r /home/workspaces_ROS/bluerov2h_ws/src/Bluerov2-Simulation-with-docker-env/code/ros_qualisys_ws/src/* /home/workspaces_ROS/ros_qualisys_ws/src/
-touch /home/workspaces_ROS/ros_qualisys_ws/src/Bluerov2-Simulation-with-docker-env/code/ros_qualysis/src/CATKIN_IGNORE
+touch /home/workspaces_ROS/bluerov2h_ws/src/Bluerov2-Simulation-with-docker-env/code/ros_qualisys_ws/src/CATKIN_IGNORE
 ```
 
 

@@ -13,20 +13,47 @@ Open a new terminal, and type:
 sudo docker start -ai bluerov2h_container
 ```
 
-Open 15 new terminals, and type:
+Open 10 new terminals, and type:
 ```
 sudo docker exec -it bluerov2h_container bash
 ```
 
 
 
-### 2) Compile the files
-Open one of the terminals and run:   
+### 2) Compile the BlueRov2H workspace
+This step will compile the code (it takes approx 5 minutes):
 ```
-cd ~/catkin_ws/Bluerov2-Simulation-with-docker-env/code/tank-setup
-catkin_make 
-source devel/setup.bash
+       cd /home/workspaces_ROS/bluerov2h_ws
+       rm -r devel/ build/ build_isolated/ devel_isolated/ install_isolated/
+       catkin_make
+       source devel/setup.bash
 ```
+
+
+### 3) Install colcon-related dependencies
+Run
+```
+sudo apt update
+sudo apt install -y \
+  python3-colcon-common-extensions \
+  ros-noetic-roscpp \
+  ros-noetic-tf2 \
+  ros-noetic-tf2-ros \
+  ros-noetic-geometry-msgs \
+  libboost-all-dev \
+  cmake \
+  git \
+  doxygen
+```
+
+
+
+### 4) 
+
+
+
+TODO: all what follows is outdated
+
 
 
 ### 3) Edit the file of the parameters
