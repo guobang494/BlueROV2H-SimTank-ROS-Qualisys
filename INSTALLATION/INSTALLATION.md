@@ -40,38 +40,39 @@ This will print:
 ### 2) Download the code
 Clone the repo into the standards catkin workspace:  
 ```
-mkdir -p  ~/catkin_ws/src
-cd ~/catkin_ws/src
-git clone https://github.com/guobang494/Bluerov2-Simulation-with-docker-env
+sudo mkdir -p  ~/home/bluerov2h_ws/src
+cd ~/home/bluerov2h_ws/src
+sudo git clone https://github.com/guobang494/Bluerov2-Simulation-with-docker-env
 ```
    
 ### 3) Install Docker Image
 Install the Docker image that we provide.   
 This step requires approx. 10 minutes, and 3Gb of space on your hard-drive.  
 ```
-      sudo docker pull zebangg/bluerov2_package:v1.0
+      sudo docker pull zebangg/bluerov2_package:v2.0
       sudo docker run -it \
           --name bluerov2h_container \
           --network host \
           --privileged \
           -v /tmp/.X11-unix:/tmp/.X11-unix \
-          -v ~/catkin_ws:/root/catkin_ws \
+          -v ~/home/bluerov2h_ws:/home/bluerov2h_ws \
           -e DISPLAY=$DISPLAY \
-          zebangg/bluerov2_package:v1.0 \
+          zebangg/bluerov2_package:v2.0 \
           bash
   ```
   
   You are now in the Docker container.  Verify folder successful created by running: 
   ```
-  cd ~/catkin_ws/src
+  cd ~/home/bluerov2h_ws/src
   ```
   You should see the folder previously downloaded: ```Bluerov2-Simulation-with-docker-env```
   
   
+  TODO remove this step
 ### 4) Sourcing the code 
 Open your bashrc and permanently source the catkin workspace. Use ```gedit ~/.bashrc)``` and add the following line to the file:  
 ```
-source /root/catkin_ws/devel/setup.bash
+source /home/bluerov2h_ws/devel/setup.bash
 ```
   
 
