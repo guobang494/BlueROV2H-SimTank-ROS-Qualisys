@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.22...3.29)
+cmake_minimum_required(VERSION 3.1)
 
 # Project properties
 set(PROJECT_NAMESPACE gepetto)
