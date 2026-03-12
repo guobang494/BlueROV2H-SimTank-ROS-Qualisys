@@ -16,10 +16,16 @@ This software can be run in a **Docker container**, which we provide.
 Detailed instructions on installation of the container and on environmental set-up are available within the ![INSTALLATION](./INSTALLATION/INSTALLATION.md/) file.    
 
 In a nutshell, this software employs:  
-* Python 3.7
+* Python 3.8
 * ROS ([ROS noetic](http://wiki.ros.org/noetic/Installation/Ubuntu) recommended)
 * [uuv simulator](https://uuvsimulator.github.io/)
+* [BlueROV2 simulator]()
+* [ros-qualisys](https://gepgitlab.laas.fr/gepetto/ros-qualisys)
+* [MavROS]()
 * [Acados](https://docs.acados.org/installation/index.html)
+
+This repository is provided as a standalone software architecture, ensuring compatibility across all the listed modules (and more).  
+
 
 ## Simulation 
 Upon following the installation instructions, you will be able to run a control architecture composed of a Model Predictive Control in the virtual water tank.   
