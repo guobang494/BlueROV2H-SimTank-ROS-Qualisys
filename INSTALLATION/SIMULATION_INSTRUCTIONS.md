@@ -104,3 +104,7 @@ roslaunch simulation_to_real_bridge simulation_to_real_bridge.launch
 roslaunch bluerov2_dobmpc start_large_tank_no_control.launch
 ```
 
+
+### 6) Edit the Guidance and Control parameters
+Instructions are provided in the ![INSTALLATION](./CONTROL_INSTRUCTIONS.md/) file.   
+

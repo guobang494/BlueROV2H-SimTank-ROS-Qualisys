@@ -48,37 +48,51 @@ sudo apt install -y \
 
 
 
-### 4) 
-
-
-
-TODO: all what follows is outdated
-
-
-
-### 3) Edit the file of the parameters
-In the same terminal, locate and open the parameter file:  
+### 4) Adjust compilation of the the Qualisys sdk
+Recompile the qualisys_cpp_sdk package (this step takes ~5 min):
 ```
-cd ~/catkin_ws/Bluerov2-Simulation-with-docker-env/code/tank-setup/src/bluerov2_motion_control/configs/
-gedit bluerov2_motion_control_config.yaml  
-```
-In this file, tune your PID gains, the saturation values, and the main motion control parameter.   
-To run the motion control, set:   
-```
-enable_motion_control: true
+cd /home/workspaces_ROS/bluerov2h_ws/src/Bluerov2-Simulation-with-docker-env/code/tank-setup/src/qualisys_cpp_sdk
+
+rm -rf build
+rm -rf /home/workspaces_ROS/qualisys_cpp_sdk_install
+
+cmake -S . -B build \
+  -DCMAKE_BUILD_TYPE=Release \
+  -Dqualisys_cpp_sdk_OUTPUT_TYPE=SHARED
+
+cmake --build build --config Release
+cmake --install build --prefix /home/workspaces_ROS/qualisys_cpp_sdk_install --config Release
+
+mkdir -p /home/workspaces_ROS/qualisys_cpp_sdk_install/include/qualisys_cpp_sdk
+
+cp /home/workspaces_ROS/bluerov2h_ws/src/Bluerov2-Simulation-with-docker-env/code/tank-setup/src/qualisys_cpp_sdk/*.h \
+   /home/workspaces_ROS/qualisys_cpp_sdk_install/include/qualisys_cpp_sdk/
+   
+export PATH=/usr/bin:/bin:/usr/sbin:/sbin:$PATH
+hash -r
+source /opt/ros/noetic/setup.bash
+
+export CMAKE_PREFIX_PATH=/home/workspaces_ROS/qualisys_cpp_sdk_install:$CMAKE_PREFIX_PATH
+export qualisys_cpp_sdk_DIR=/home/workspaces_ROS/qualisys_cpp_sdk_install/lib/qualisys_cpp_sdk
+export LD_LIBRARY_PATH=/home/workspaces_ROS/qualisys_cpp_sdk_install/lib:$LD_LIBRARY_PATH
+   
 ```
 
-### 4) Launch the motion control
-CAVEAT: the next command will launch the motion control! Make sure your parameters make sense before starting.    
-  
-In a terminal start the BlueROV2H control:  
-```
-roslaunch bluerov2_motion_control bluerov2_motion_control.launch
+Compile the second workspace:
 ```
 
+cd /home/workspaces_ROS/ros_qualisys_ws
+rm -rf build install log
 
-### 5) Test correct launch of the bluerov2_motion_control package
-A dedicated test file is provided in the ![unit test](./unit_testing/bluerov2_motion_control_unit_test.md/) file.     
+colcon build --cmake-args \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_PREFIX_PATH=/home/workspaces_ROS/qualisys_cpp_sdk_install \
+  -Dqualisys_cpp_sdk_DIR=/home/workspaces_ROS/qualisys_cpp_sdk_install/lib/qualisys_cpp_sdk
+```
 
+
+
+### 6) Edit the Guidance and Control parameters
+Instructions are provided in the ![INSTALLATION](./CONTROL_INSTRUCTIONS.md/) file.   
 
 
