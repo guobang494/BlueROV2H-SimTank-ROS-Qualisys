@@ -38,7 +38,7 @@ This will print:
 <img src="https://github.com/guobang494/Bluerov2-Simulation-with-docker-env/blob/main/INSTALLATION/docker_hello_world_terminal.png" width=100% height=100%>
   
 ### 2) Download the code
-Setup the workspace and close the repository:
+Setup the workspace and clone this repository:
 ```
 sudo mkdir -p  /home/workspaces_ROS/bluerov2h_ws/src
 cd /home/workspaces_ROS/bluerov2h_ws/src
