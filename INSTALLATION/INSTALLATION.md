@@ -40,8 +40,8 @@ This will print:
 ### 2) Download the code
 Clone the repo into the standards catkin workspace:  
 ```
-sudo mkdir -p  ~/home/bluerov2h_ws/src
-cd ~/home/bluerov2h_ws/src
+sudo mkdir -p  /home/workspaces_ROS/bluerov2h_ws/src
+cd /home/workspaces_ROS/bluerov2h_ws/src
 sudo git clone https://github.com/guobang494/Bluerov2-Simulation-with-docker-env
 ```
    
@@ -63,18 +63,19 @@ This step requires approx. 10 minutes, and 3Gb of space on your hard-drive.
   
   You are now in the Docker container.  Verify folder successful created by running: 
   ```
-  cd ~/home/bluerov2h_ws/src
+  cd /home/workspaces_ROS/bluerov2h_ws/src
   ```
   You should see the folder previously downloaded: ```Bluerov2-Simulation-with-docker-env```
   
-  
-  TODO remove this step
-### 4) Sourcing the code 
-Open your bashrc and permanently source the catkin workspace. Use ```gedit ~/.bashrc)``` and add the following line to the file:  
+
+### 4) Separate ROS-Qualisys package
+Move the ROS-Qualisys-related package in a dedicated workspace in preparation for future steps: 
 ```
-source /home/bluerov2h_ws/devel/setup.bash
+mkdir -p /home/workspaces_ROS/ros_qualisys_ws/src
+cp -r /home/workspaces_ROS/bluerov2h_ws/src/Bluerov2-Simulation-with-docker-env/code/ros_qualisys_ws/* /home/workspaces_ROS/ros_qualisys_ws/src/
+touch /home/workspaces_ROS/ros_qualisys_ws/src/Bluerov2-Simulation-with-docker-env/code/ros_qualysis/src/CATKIN_IGNORE
 ```
-  
+
 
 ### 5) Next steps
 You can now follow up with the instructions to run the code in:

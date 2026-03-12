@@ -35,8 +35,7 @@ If this command is successful, in the terminal, you will see:
 ### 3) Compile the provided simulation code
 This step will compile the code (it takes approx 5 minutes):
 ```
-       touch /root/catkin_ws/src/Bluerov2-Simulation-with-docker-env/code/tank-setup/ros_qualysis/src/CATKIN_IGNORE
-       cd /root/catkin_ws
+       cd /home/workspaces_ROS/bluerov2h_ws
        rm -r devel/ build/ build_isolated/ devel_isolated/ install_isolated/
        catkin_make
        source devel/setup.bash
@@ -48,7 +47,7 @@ gedit ~/.bashrc
 ```
 And add at the end of the file: 
 ```
-source ~/catkin_ws/devel/setup.bash
+source /home/workspaces_ROS/bluerov2h_ws/devel/setup.bash
 ```
 
 
