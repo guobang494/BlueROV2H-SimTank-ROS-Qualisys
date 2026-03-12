@@ -55,7 +55,7 @@ This step requires approx. 10 minutes, and 3Gb of space on your hard-drive.
           --network host \
           --privileged \
           -v /tmp/.X11-unix:/tmp/.X11-unix \
-          -v ~/home/bluerov2h_ws:/home/bluerov2h_ws \
+          -v /home/workspaces_ROS/bluerov2h_ws/src:/home/workspaces_ROS/bluerov2h_ws/src \
           -e DISPLAY=$DISPLAY \
           zebangg/bluerov2_package:v2.0 \
           bash
@@ -72,7 +72,7 @@ This step requires approx. 10 minutes, and 3Gb of space on your hard-drive.
 Move the ROS-Qualisys-related package in a dedicated workspace in preparation for future steps: 
 ```
 mkdir -p /home/workspaces_ROS/ros_qualisys_ws/src
-cp -r /home/workspaces_ROS/bluerov2h_ws/src/Bluerov2-Simulation-with-docker-env/code/ros_qualisys_ws/* /home/workspaces_ROS/ros_qualisys_ws/src/
+cp -r /home/workspaces_ROS/bluerov2h_ws/src/Bluerov2-Simulation-with-docker-env/code/ros_qualisys_ws/src/* /home/workspaces_ROS/ros_qualisys_ws/src/
 touch /home/workspaces_ROS/ros_qualisys_ws/src/Bluerov2-Simulation-with-docker-env/code/ros_qualysis/src/CATKIN_IGNORE
 ```
 
