@@ -20,7 +20,7 @@ cd workspace
 colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release
 
 
-qualisys_bauzil_bringup.launch
+
 
 
 launch
@@ -33,7 +33,9 @@ roslaunch ros-qualisys qualisys_bauzil_bringup.launch
 
  connect with QTM
  
-roslaunch ros-qualisys qualisys_bauzil_bringup.launch     server_address:=172.20.10.3     server_base_port:=33333
+roslaunch ros-qualisys qualisys_bauzil_bringup.launch \
+    server_address:=192.168.0.100 \
+    base_port:=22222
     
     
     
