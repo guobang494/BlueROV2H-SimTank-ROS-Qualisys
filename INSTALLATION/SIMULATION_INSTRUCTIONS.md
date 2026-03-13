@@ -106,5 +106,5 @@ roslaunch bluerov2_dobmpc start_large_tank_no_control.launch
 
 
 ### 6) Edit the Guidance and Control parameters
-Instructions are provided in the ![INSTALLATION](./CONTROL_INSTRUCTIONS.md/) file.   
+Instructions are provided in the ![CONTROL_INSTRUCTIONS](./CONTROL_INSTRUCTIONS.md/) file.   
 

@@ -1,10 +1,18 @@
 # Tank startup instructions
 These instructions allow to set up the physical robot in a tank, connecting with the Qualisys camera system.   
+Steps 0 to 8 will only be needed the first time you set up the system.  
 
-
+This installation requires: 
+* a computer running Linux (the one used to follow the previous ![INSTALLATION.md](./INSTALLATION.md) instructions file
+* a Qualisys system (either in air, or underwater, or both)
+* a computer running Windows with the Qualisys QTM installed (this is referred to as **topside computer**)
+* a Wi-Fi router to connect the two computers (an ethernet connection might be used instead, but we tested with the Wi-Fi router only) 
+* a BlueROV2H connected to the Linux computer
 
 ### 0) Pre-requisite
-These instructions assume that you have installed the container, as explained in ![INSTALLATION](./INSTALLATION.md/) file.     
+These instructions assume that you have already completed the Docker and repository setup from the ![INSTALLATION.md](./INSTALLATION.md) file, including the separation of the Qualisys workspace into:
+- `/home/workspaces_ROS/bluerov2h_ws`
+- `/home/workspaces_ROS/ros_qualisys_ws`
 
 
 ### 1) Start the docker container
@@ -48,7 +56,17 @@ sudo apt install -y \
 
 
 
-### 4) Adjust compilation of the the Qualisys sdk
+### 4) Adjust and build the Qualisys sdk
+Ensuring the correct version of CMake is used for this compilation: 
+```
+export PATH=/usr/bin:/bin:/usr/sbin:/sbin:$PATH
+hash -r
+which cmake
+cmake --version
+```
+This should return: `cmake version 3.16.3`  
+
+
 Recompile the qualisys_cpp_sdk package (this step takes ~5 min):
 ```
 cd /home/workspaces_ROS/bluerov2h_ws/src/Bluerov2-Simulation-with-docker-env/code/tank-setup/src/qualisys_cpp_sdk
@@ -67,20 +85,33 @@ mkdir -p /home/workspaces_ROS/qualisys_cpp_sdk_install/include/qualisys_cpp_sdk
 
 cp /home/workspaces_ROS/bluerov2h_ws/src/Bluerov2-Simulation-with-docker-env/code/tank-setup/src/qualisys_cpp_sdk/*.h \
    /home/workspaces_ROS/qualisys_cpp_sdk_install/include/qualisys_cpp_sdk/
-   
-export PATH=/usr/bin:/bin:/usr/sbin:/sbin:$PATH
-hash -r
+ ```
+ 
+ Add environment definition to the .bashrc file:
+ ```
+ cat <<'EOF' >> ~/.bashrc
+
+# ROS Noetic
 source /opt/ros/noetic/setup.bash
 
+# Qualisys workspace
+if [ -f /home/workspaces_ROS/ros_qualisys_ws/install/setup.bash ]; then
+  source /home/workspaces_ROS/ros_qualisys_ws/install/setup.bash
+fi
+
+# Qualisys SDK
 export CMAKE_PREFIX_PATH=/home/workspaces_ROS/qualisys_cpp_sdk_install:$CMAKE_PREFIX_PATH
 export qualisys_cpp_sdk_DIR=/home/workspaces_ROS/qualisys_cpp_sdk_install/lib/qualisys_cpp_sdk
 export LD_LIBRARY_PATH=/home/workspaces_ROS/qualisys_cpp_sdk_install/lib:$LD_LIBRARY_PATH
-   
+EOF
+```
+and source it:
+```
+source ~/.bashrc
 ```
 
-Compile the second workspace:
+Now build the second workspace:
 ```
-
 cd /home/workspaces_ROS/ros_qualisys_ws
 rm -rf build install log
 
@@ -91,8 +122,91 @@ colcon build --cmake-args \
 ```
 
 
+### 6) Network setup 
+Configure the **topside computer** with a static IP:
+```
+IP Address: 192.168.2.1
+Subnet Mask: 255.255.255.0
+```
+If neede, you can refer to the official BlueROV2 networking/software instructions from BlueRobotics:
+https://bluerobotics.com/learn/bluerov2-software-setup-r3-and-older/#software-introduction
 
-### 6) Edit the Guidance and Control parameters
-Instructions are provided in the ![INSTALLATION](./CONTROL_INSTRUCTIONS.md/) file.   
+
+
+### 7) Start the MAVROS connection
+In an open terminal, run MAVROS:
+
+```
+roslaunch mavros apm.launch \
+fcu_url:=udp://0.0.0.0:14550@192.168.2.2:14555 \
+target_system_id:=1 \
+target_component_id:=1
+```
+If successful, MAVROS will start receiving **heartbeat messages**.
+
+<img src="Images/mavros success" width="100%">
+
+Check MAVROS state:
+
+```
+rostopic echo /mavros/state
+```
+You should see the status as follows:
+<img src="Images/mavros check status" width="50%">
+
+
+### 8) Launch the MAVROS PWM 
+Launch the PWM publisher:
+```
+roslaunch ~/bluerov2_pid/bluerov2_control/src/mavros_pub/launch/pwm_pub.launch
+```
+
+### 9) Launch Qualisys ROS pkg
+Launch:
+```
+roslaunch ~/bluerov2_pid/ros_qualysis/src/launch/qualisys_bauzil_bringup.launch
+```
+
+If necessary, modify the server IP address in:
+```
+roslaunch ros_qualysis/src/launch/qualisys_bauzil_bringup.launch server_address:=xxx.xx.xx.x     server_base_port:=xxxxx
+```
+If success ,if you will see 
+
+<img src="Images/qualisys success" width="50%">
+
+
+
+### 10) Launch the guidance and control 
+In one terminal:
+```
+roslaunch bluerov2_motion_control bluerov2_motion_control.launch
+```
+
+In another terminal:
+```
+roslaunch guidance_law guidance_law.launch
+```
+
+### 11) Convert Qualisys data into ROS pose
+
+```
+python3 /home/workspaces_ROS/ros_qualisys_ws/src/ros_qualysis/scripts/tf2_pose_gt_real.py
+```
+
+
+### 12 Arm / Disarm
+CAVEAT: Arming the robot will start the robot!
+```
+# Arm
+rosservice call /mavros/cmd/arming "value: true"
+# Disarm
+rosservice call /mavros/cmd/arming "value: false"
+```
+
+
+### 13) Edit the Guidance and Control parameters
+If needed, further instructions to modify the control system are provided in the ![CONTROL_INSTRUCTIONS](./CONTROL_INSTRUCTIONS.md/) file.   
+
 
 
