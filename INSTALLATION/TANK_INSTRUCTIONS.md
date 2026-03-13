@@ -144,7 +144,7 @@ target_component_id:=1
 ```
 If successful, MAVROS will start receiving **heartbeat messages**.
 
-<img src="Images/mavros success" width="100%">
+<img src="terminal_images/mavros success" width="100%">
 
 Check MAVROS state:
 
@@ -152,7 +152,7 @@ Check MAVROS state:
 rostopic echo /mavros/state
 ```
 You should see the status as follows:
-<img src="Images/mavros check status" width="50%">
+<img src="terminal_images/mavros check status" width="50%">
 
 
 ### 8) Launch the MAVROS PWM 
@@ -173,7 +173,7 @@ roslaunch ros_qualysis/src/launch/qualisys_bauzil_bringup.launch server_address:
 ```
 If success ,if you will see 
 
-<img src="Images/qualisys success" width="50%">
+<img src="terminal_images/qualisys success" width="50%">
 
 
 
