@@ -3,9 +3,9 @@ These instructions allow to set up the physical robot in a tank, connecting with
 Steps 0 to 8 will only be needed the first time you set up the system.  
 
 This installation requires: 
-* a computer running Linux (the one used to follow the previous ![INSTALLATION.md](./INSTALLATION.md) instructions file
+* a computer running Linux (the one used to follow the previous ![INSTALLATION.md](./INSTALLATION.md) instructions file. This is referred to as **topside computer**.
 * a Qualisys system (either in air, or underwater, or both)
-* a computer running Windows with the Qualisys QTM installed (this is referred to as **topside computer**)
+* a computer running Windows with the Qualisys QTM installed 
 * a Wi-Fi router to connect the two computers (an ethernet connection might be used instead, but we tested with the Wi-Fi router only) 
 * a BlueROV2H connected to the Linux computer
 
@@ -31,10 +31,10 @@ sudo docker exec -it bluerov2h_container bash
 ### 2) Compile the BlueRov2H workspace
 This step will compile the code (it takes approx 5 minutes):
 ```
-       cd /home/workspaces_ROS/bluerov2h_ws
-       rm -r devel/ build/ build_isolated/ devel_isolated/ install_isolated/
-       catkin_make
-       source devel/setup.bash
+cd /home/workspaces_ROS/bluerov2h_ws
+rm -r devel/ build/ build_isolated/ devel_isolated/ install_isolated/
+catkin_make
+source devel/setup.bash
 ```
 
 
@@ -122,18 +122,61 @@ colcon build --cmake-args \
 ```
 
 
-### 6) Network setup 
-Configure the **topside computer** with a static IP:
+### 5) Set up the BlueROV2H
+Place the Qualisys marker on the BlueROV2H. An example of how we mounted them for surface-only operations is shows below:
+
+<img src="tank_images/bluerov2h_markers.jpg" width="100%">
+
+Switch on the BlueROV2H (plug in the battery).   
+
+
+
+### 6) Set up the Qualisys system
+
+Switch on your Qualisys cameras, your **topside computer** and 'Qualisys QTM'.   
+
+Place the previously set-up BlueROV2H in the field of view, and add a new rigid body called 'BlueROV2H' (the naming is important!).  
+
+
+
+### 7) Connect the Linux computer to the BlueROV2
+Plug in the BlueRobotics Fathom-X Topside Interface to your laptop via USB.  
+
+<img src="tank_images/fathomx.jpg" width="100%">
+
+
+
+
+### 8) Network setup 
+Switch on your Wi-Fi router. As an example, we are using the following one: 
+
+Configure the **topside computer** with a static IP as follows.  
+Go to system settings, Networks, and enable the 'USB Ethernet' option. 
+<img src="tank_images/network_1.png" width="100%">
+
+Now press on the gearbox icon on the right hand-side and edit Ipv4 as follows:
 ```
+IPv4 Method: Manual
 IP Address: 192.168.2.1
 Subnet Mask: 255.255.255.0
 ```
-If neede, you can refer to the official BlueROV2 networking/software instructions from BlueRobotics:
+
+If needed, you can refer to the official BlueROV2 networking/software instructions from BlueRobotics:
 https://bluerobotics.com/learn/bluerov2-software-setup-r3-and-older/#software-introduction
 
 
+Test connection:
+```
+sudo apt-get install iputils-ping
+ping 192.168.2.1
+```
+You should now see:
+<img src="tank_images/network_2.png" width="100%">
 
-### 7) Start the MAVROS connection
+
+
+
+### 9) Start the MAVROS connection
 In an open terminal, run MAVROS:
 
 ```
@@ -146,6 +189,14 @@ If successful, MAVROS will start receiving **heartbeat messages**.
 
 <img src="terminal_images/mavros success" width="100%">
 
+
+Based on your BlueROV2H version, you might also notice a series of warnings and errors, such as the following: 
+
+<img src="tank_images/mavros_errors.png" width="100%">
+
+This is not critical, you can proceed with the set up.
+
+
 Check MAVROS state:
 
 ```
@@ -155,13 +206,13 @@ You should see the status as follows:
 <img src="terminal_images/mavros check status" width="50%">
 
 
-### 8) Launch the MAVROS PWM 
+### 10) Launch the MAVROS PWM 
 Launch the PWM publisher:
 ```
 roslaunch ~/bluerov2_pid/bluerov2_control/src/mavros_pub/launch/pwm_pub.launch
 ```
 
-### 9) Launch Qualisys ROS pkg
+### 11) Launch Qualisys ROS pkg
 Launch:
 ```
 roslaunch ~/bluerov2_pid/ros_qualysis/src/launch/qualisys_bauzil_bringup.launch
@@ -171,7 +222,7 @@ If necessary, modify the server IP address in:
 ```
 roslaunch ros_qualysis/src/launch/qualisys_bauzil_bringup.launch server_address:=xxx.xx.xx.x     server_base_port:=xxxxx
 ```
-If success ,if you will see 
+If successful, you will see: 
 
 <img src="terminal_images/qualisys success" width="50%">
 
