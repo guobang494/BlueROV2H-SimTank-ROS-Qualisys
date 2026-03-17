@@ -21,7 +21,7 @@ sudo docker exec -it bluerov2h_container bash
 
 
 ### 2) Set container display (not in the Docker)    
-Leave the first terminal open, and open a new second terminal. In the second terminal, type:  
+Leave the first terminal(s) open, and open a new second terminal. In the second terminal, type:  
 ```
 	xhost +local:docker
 ```
@@ -33,7 +33,7 @@ If this command is successful, in the terminal, you will see:
 
 
 ### 3) Compile the provided simulation code
-This step will compile the code (it takes approx 5 minutes):
+Return to one of the terminals with the Docker access. This step will compile the code (it takes approx 5 minutes):
 ```
        cd /home/workspaces_ROS/bluerov2h_ws
        rm -r devel/ build/ build_isolated/ devel_isolated/ install_isolated/
@@ -43,13 +43,10 @@ This step will compile the code (it takes approx 5 minutes):
 
 For the future, add your sourcing to the bashrc file: 
 ```
-gedit ~/.bashrc  
+ cat <<'EOF' >> ~/.bashrc
+ source /home/workspaces_ROS/bluerov2h_ws/devel/setup.bash
+ EOF
 ```
-And add at the end of the file: 
-```
-source /home/workspaces_ROS/bluerov2h_ws/devel/setup.bash
-```
-
 
 
 ### 4)  Launch the demo
