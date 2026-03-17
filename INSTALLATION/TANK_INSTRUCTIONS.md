@@ -125,7 +125,7 @@ colcon build --cmake-args \
 ### 5) Set up the BlueROV2H
 Place the Qualisys marker on the BlueROV2H. An example of how we mounted them for surface-only operations is shows below:
 
-<img src="tank_images/bluerov2h_markers.jpg" width="100%">
+<img src="tank_images/bluerov2h_markers.jpg" width="80%">
 
 Switch on the BlueROV2H (plug in the battery).   
 
@@ -142,7 +142,7 @@ Place the previously set-up BlueROV2H in the field of view, and add a new rigid 
 ### 7) Connect the Linux computer to the BlueROV2
 Plug in the BlueRobotics Fathom-X Topside Interface to your laptop via USB.  
 
-<img src="tank_images/fathomx.jpg" width="100%">
+<img src="tank_images/fathomx.jpg" width="60%">
 
 
 
@@ -152,7 +152,7 @@ Switch on your Wi-Fi router. As an example, we are using the following one:
 
 Configure the **topside computer** with a static IP as follows.  
 Go to system settings, Networks, and enable the 'USB Ethernet' option. 
-<img src="tank_images/network_1.png" width="100%">
+<img src="tank_images/network_1.png" width="60%">
 
 Now press on the gearbox icon on the right hand-side and edit Ipv4 as follows:
 ```
@@ -160,6 +160,8 @@ IPv4 Method: Manual
 IP Address: 192.168.2.1
 Subnet Mask: 255.255.255.0
 ```
+
+<img src="tank_images/network_2.png" width="60%">
 
 If needed, you can refer to the official BlueROV2 networking/software instructions from BlueRobotics:
 https://bluerobotics.com/learn/bluerov2-software-setup-r3-and-older/#software-introduction
@@ -170,8 +172,8 @@ Test connection:
 sudo apt-get install iputils-ping
 ping 192.168.2.1
 ```
-You should now see:
-<img src="tank_images/network_2.png" width="100%">
+You should now see:  
+<img src="tank_images/ping.png" width="100%">
 
 
 
@@ -202,7 +204,7 @@ Check MAVROS state:
 ```
 rostopic echo /mavros/state
 ```
-You should see the status as follows:
+You should see the status as follows:  
 <img src="terminal_images/mavros check status" width="50%">
 
 
