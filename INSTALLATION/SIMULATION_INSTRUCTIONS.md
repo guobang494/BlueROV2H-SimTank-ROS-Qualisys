@@ -43,9 +43,8 @@ Return to one of the terminals with the Docker access. This step will compile th
 
 For the future, add your sourcing to the bashrc file: 
 ```
- cat <<'EOF' >> ~/.bashrc
- source /home/workspaces_ROS/bluerov2h_ws/devel/setup.bash
- EOF
+echo 'source /home/workspaces_ROS/bluerov2h_ws/devel/setup.bash' >> ~/.bashrc
+source ~/.bashrc
 ```
 
 
