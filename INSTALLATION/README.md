@@ -1,10 +1,10 @@
-# BlueROV2 ROS Setup Guide
+# BlueROV2 ROS Docker information
 
-This document describes how to set up **BlueROV2 with MAVROS, Qualisys, and PID control in ROS Noetic**.
+This document describes the key steps we took to set up a Docker with the dependencies for a **BlueROV2 using ROS Noetic, MAVROS, Qualisys, and PID control**.
 
 ---
 
-# 1. Install MAVROS (If you use docker we provided then skip this)
+# 1. MAVROS Installation 
 
 Install MAVROS and related packages.
 
@@ -39,7 +39,7 @@ Configure the **topside computer** with a static IP:
 IP Address: 192.168.2.1
 Subnet Mask: 255.255.255.0
 ```
-You can alos see the official instruction for Bluerov2 which the link is locatied in 
+You can also see the official instruction for Bluerov2 which the link is locatied in 
 https://bluerobotics.com/learn/bluerov2-software-setup-r3-and-older/#software-introduction
 
 
@@ -155,59 +155,3 @@ This converts **Qualisys motion capture data** into **ROS pose data**.
 
 ---
 
-# 8. Launch PID Controller
-
-```bash
-roslaunch /home/bluerov2_pid/bluerov2_control/src/bluerov2_motion_control/launch/bluerov2_motion_control.launch
-```
-
-# 9. Launch Guidance_law
-```bash
-roslaunch ~/bluerov2_pid/bluerov2_control/src/tank-setup/guidance_law/launch/guidance_law.launch
-```
-You can change the waypoint in the file 
-```bash
-~/bluerov2_pid/bluerov2_control/src/tank-setup/guidance_law/configs/guidance_params.yaml
-```
-
----
-
-# 10. Publish PWM to BlueROV2
-
-```bash
-roslaunch ~/bluerov2_pid/bluerov2_control/src/mavros_pub/launch/pwm_pub.launch
-```
-
----
-
-# Quick  Launch Workflow (Make sure you have seeting all parts)
-
-
-
-
-### 1. MAVROS Launch & Status
-```bash
-roslaunch mavros apm.launch fcu_url:=udp://0.0.0.0:14550@192.168.2.2:14555
-rostopic echo /mavros/state
-```
-
-### 2. Arm / Disarm
-```bash
-# Arm
-rosservice call /mavros/cmd/arming "value: true"
-# Disarm
-rosservice call /mavros/cmd/arming "value: false"
-```
-
-### 3. Qualisys MoCap System
-```bash
-roslaunch ~/bluerov2_pid/ros_qualysis/src/launch/qualisys_bauzil_bringup.launch
-python3 ~/bluerov2_pid/ros_qualysis/src/scripts/tf2_pose_gt_real.py
-```
-
-### 4. Control, Guidance & PWM
-```bash
-roslaunch ~/bluerov2_pid/bluerov2_control/src/bluerov2_motion_control/launch/bluerov2_motion_control.launch
-roslaunch ~/bluerov2_pid/bluerov2_control/src/tank-setup/guidance_law/launch/guidance_law.launch
-roslaunch ~/bluerov2_pid/bluerov2_control/src/mavros_pub/launch/pwm_pub.launch
-```
