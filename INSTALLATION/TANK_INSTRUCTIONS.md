@@ -130,6 +130,11 @@ colcon build --cmake-args \
   -DCMAKE_PREFIX_PATH=/home/workspaces_ROS/qualisys_cpp_sdk_install \
   -Dqualisys_cpp_sdk_DIR=/home/workspaces_ROS/qualisys_cpp_sdk_install/lib/qualisys_cpp_sdk
 ```
+Finally, add sourcing to the `ros_qualisys` workspace:
+```
+echo 'source /home/workspaces_ROS/ros_qualisys_ws/install/setup.bash' >> ~/.bashrc
+source ~/.bashrc
+```
 
 
 ### 5) Set up the BlueROV2H
@@ -228,12 +233,12 @@ roslaunch mavros_pub pwm_pub.launch
 ### 11) Launch Qualisys ROS pkg
 Launch:
 ```
-roslaunch ~/bluerov2_pid/ros_qualysis/src/launch/qualisys_bauzil_bringup.launch
+roslaunch ros-qualisys qualisys_bauzil_bringup.launch
 ```
 
 If necessary, modify the server IP address in:
 ```
-roslaunch ros_qualysis/src/launch/qualisys_bauzil_bringup.launch server_address:=xxx.xx.xx.x     server_base_port:=xxxxx
+roslaunch ros-qualisys qualisys_bauzil_bringup.launch server_address:=xxx.xx.xx.x  server_base_port:=xxxxx
 ```
 If successful, you will see: 
 
@@ -241,7 +246,15 @@ If successful, you will see:
 
 
 
-### 10) Launch the guidance and control 
+### 12) Convert Qualisys data into ROS pose
+Enable Qualisys connection over ROS
+```
+python3 /home/workspaces_ROS/ros_qualisys_ws/src/ros_qualysis/scripts/tf2_pose_gt_real.py
+```
+
+
+
+### 13) Launch the guidance and control 
 In one terminal:
 ```
 roslaunch bluerov2_motion_control bluerov2_motion_control.launch
@@ -252,14 +265,9 @@ In another terminal:
 roslaunch guidance_law guidance_law.launch
 ```
 
-### 11) Convert Qualisys data into ROS pose
-
-```
-python3 /home/workspaces_ROS/ros_qualisys_ws/src/ros_qualysis/scripts/tf2_pose_gt_real.py
-```
 
 
-### 12 Arm / Disarm
+### 14) Arm / Disarm
 CAVEAT: Arming the robot will start the robot!
 ```
 # Arm
@@ -269,7 +277,7 @@ rosservice call /mavros/cmd/arming "value: false"
 ```
 
 
-### 13) Edit the Guidance and Control parameters
+### 15) Edit the Guidance and Control parameters
 If needed, further instructions to modify the control system are provided in the ![CONTROL_INSTRUCTIONS](./CONTROL_INSTRUCTIONS.md/) file.   
 
 
