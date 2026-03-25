@@ -43,6 +43,7 @@ This step might throw a warning such as `rm: cannot remove ...`: not a problem, 
 catkin_make
 source devel/setup.bash
 ```
+Should the `catkin_make` command fail, run it again.  
 
 Add your sourcing to the bashrc file: 
 ```

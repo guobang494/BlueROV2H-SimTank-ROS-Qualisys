@@ -49,15 +49,16 @@ sudo git clone https://github.com/guobang494/BlueROV2H-SimTank-ROS-Qualisys
 Install the Docker image that we provide.   
 This step requires approx. 10 minutes, and 3Gb of space on your hard-drive.  
 ```
-      sudo docker pull zebangg/bluerov2_package:v2.0
-      sudo docker run -it \
+sudo docker pull zebangg/blue2h:v1.0
+
+sudo docker run -it \
           --name bluerov2h_container \
           --network host \
           --privileged \
           -v /tmp/.X11-unix:/tmp/.X11-unix \
           -v /home/workspaces_ROS/bluerov2h_ws/src:/home/workspaces_ROS/bluerov2h_ws/src \
           -e DISPLAY=$DISPLAY \
-          zebangg/bluerov2_package:v2.0 \
+          zebangg/blue2h:v1.0 \
           bash
   ```
   
