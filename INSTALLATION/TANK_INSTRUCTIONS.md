@@ -159,12 +159,13 @@ Plug in the BlueRobotics Fathom-X Topside Interface to your laptop via USB.
 
 ### 8) Network setup 
 Switch on your Wi-Fi router. As an example, we are using the following one: 
-
+<img src="tank_images/router.jpg" width="60%">
+   
 Configure the **topside computer** with a static IP as follows.  
 Go to system settings, Networks, and enable the 'USB Ethernet' option. 
 <img src="tank_images/network_1.png" width="60%">
 
-Now press on the gearbox icon on the right hand-side and edit Ipv4 as follows:
+Now press on the gearbox icon on the right hand-side of the 'USB Ethernet' and edit IPv4 as follows:
 ```
 IPv4 Method: Manual
 IP Address: 192.168.2.1
@@ -221,7 +222,7 @@ You should see the status as follows:
 ### 10) Launch the MAVROS PWM 
 Launch the PWM publisher:
 ```
-roslaunch ~/bluerov2_pid/bluerov2_control/src/mavros_pub/launch/pwm_pub.launch
+roslaunch /home/workspaces_ROS/bluerov2h_ws/src/BlueROV2H-SimTank-ROS-Qualisys/code/guidance_and_control/mavros_pub/launch/pwm_pub.launch
 ```
 
 ### 11) Launch Qualisys ROS pkg
