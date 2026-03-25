@@ -222,7 +222,7 @@ You should see the status as follows:
 ### 10) Launch the MAVROS PWM 
 Launch the PWM publisher:
 ```
-roslaunch /home/workspaces_ROS/bluerov2h_ws/src/BlueROV2H-SimTank-ROS-Qualisys/code/guidance_and_control/mavros_pub/launch/pwm_pub.launch
+roslaunch mavros_pub pwm_pub.launch
 ```
 
 ### 11) Launch Qualisys ROS pkg
