@@ -28,6 +28,6 @@ rostopic echo /bluerov2_heavy/cmd_velocity/linear/x
 ```
 
 As a further check, you can run rqt_graph, which will return:  
-<img src="https://github.com/guobang494/Bluerov2-Simulation-with-docker-env/blob/main/INSTALLATION/unit_testing/rqt_graph_bluerov_motion_control.png" width=100% height=100%>
+<img src="https://github.com/guobang494/BlueROV2H-SimTank-ROS-Qualisys/blob/main/INSTALLATION/unit_testing/rqt_graph_bluerov_motion_control.png" width=100% height=100%>
   
   

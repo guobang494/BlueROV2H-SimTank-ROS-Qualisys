@@ -69,7 +69,7 @@ This should return: `cmake version 3.16.3`
 
 Recompile the qualisys_cpp_sdk package (this step takes ~5 min):
 ```
-cd /home/workspaces_ROS/bluerov2h_ws/src/Bluerov2-Simulation-with-docker-env/code/tank-setup/src/qualisys_cpp_sdk
+cd /home/workspaces_ROS/bluerov2h_ws/src/BlueROV2H-SimTank-ROS-Qualisys/code/tank-setup/src/qualisys_cpp_sdk
 
 rm -rf build
 rm -rf /home/workspaces_ROS/qualisys_cpp_sdk_install
@@ -83,7 +83,7 @@ cmake --install build --prefix /home/workspaces_ROS/qualisys_cpp_sdk_install --c
 
 mkdir -p /home/workspaces_ROS/qualisys_cpp_sdk_install/include/qualisys_cpp_sdk
 
-cp /home/workspaces_ROS/bluerov2h_ws/src/Bluerov2-Simulation-with-docker-env/code/tank-setup/src/qualisys_cpp_sdk/*.h \
+cp /home/workspaces_ROS/bluerov2h_ws/src/BlueROV2H-SimTank-ROS-Qualisys/code/tank-setup/src/qualisys_cpp_sdk/*.h \
    /home/workspaces_ROS/qualisys_cpp_sdk_install/include/qualisys_cpp_sdk/
  ```
  

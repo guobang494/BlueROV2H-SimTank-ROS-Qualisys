@@ -27,7 +27,7 @@ xhost +local:docker
 ```
 This allows the Docker to display content on the screen.  
 If this command is successful, in the terminal, you will see:
-<img src="https://github.com/guobang494/Bluerov2-Simulation-with-docker-env/blob/main/INSTALLATION/docker_enable_graphics.png" width=100% height=100%>
+<img src="https://github.com/guobang494/BlueROV2H-SimTank-ROS-Qualisys/blob/main/INSTALLATION/docker_enable_graphics.png" width=100% height=100%>
   
 
 
@@ -64,7 +64,7 @@ roslaunch guidance_law guidance_law.launch
 ```
 
 You will now see the BlueROV2H vehicle as moving in a path such as in the following example:  
-<img src="https://github.com/guobang494/Bluerov2-Simulation-with-docker-env/blob/main/INSTALLATION/Gazebo_animation.gif" width=100% height=100%>
+<img src="https://github.com/guobang494/BlueROV2H-SimTank-ROS-Qualisys/blob/main/INSTALLATION/Gazebo_animation.gif" width=100% height=100%>
 
 
 

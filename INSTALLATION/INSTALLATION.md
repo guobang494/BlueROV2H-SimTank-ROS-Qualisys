@@ -35,14 +35,14 @@ Confirm that your Docker installation is successful:
 sudo docker run hello-world
 ```
 This will print:  
-<img src="https://github.com/guobang494/Bluerov2-Simulation-with-docker-env/blob/main/INSTALLATION/docker_hello_world_terminal.png" width=100% height=100%>
+<img src="https://github.com/guobang494/BlueROV2H-SimTank-ROS-Qualisys/blob/main/INSTALLATION/docker_hello_world_terminal.png" width=100% height=100%>
   
 ### 2) Download the code
 Setup the workspace and clone this repository:
 ```
 sudo mkdir -p  /home/workspaces_ROS/bluerov2h_ws/src
 cd /home/workspaces_ROS/bluerov2h_ws/src
-sudo git clone https://github.com/guobang494/Bluerov2-Simulation-with-docker-env
+sudo git clone https://github.com/guobang494/BlueROV2H-SimTank-ROS-Qualisys
 ```
    
 ### 3) Install Docker Image
@@ -65,15 +65,15 @@ This step requires approx. 10 minutes, and 3Gb of space on your hard-drive.
   ```
   cd /home/workspaces_ROS/bluerov2h_ws/src
   ```
-  You should see the folder previously downloaded: ```Bluerov2-Simulation-with-docker-env```
+  You should see the folder previously downloaded: ```BlueROV2H-SimTank-ROS-Qualisys```
   
 
 ### 4) Separate ROS-Qualisys package
 Move the ROS-Qualisys-related package in a dedicated workspace in preparation for future steps: 
 ```
 mkdir -p /home/workspaces_ROS/ros_qualisys_ws/src
-cp -r /home/workspaces_ROS/bluerov2h_ws/src/Bluerov2-Simulation-with-docker-env/code/ros_qualisys_ws/src/* /home/workspaces_ROS/ros_qualisys_ws/src/
-touch /home/workspaces_ROS/bluerov2h_ws/src/Bluerov2-Simulation-with-docker-env/code/ros_qualisys_ws/src/CATKIN_IGNORE
+cp -r /home/workspaces_ROS/bluerov2h_ws/src/BlueROV2H-SimTank-ROS-Qualisys/code/ros_qualisys_ws/src/* /home/workspaces_ROS/ros_qualisys_ws/src/
+touch /home/workspaces_ROS/bluerov2h_ws/src/BlueROV2H-SimTank-ROS-Qualisys/code/ros_qualisys_ws/src/CATKIN_IGNORE
 ```
 
 
