@@ -143,9 +143,9 @@ Switch on the BlueROV2H (plug in the battery).
 
 ### 6) Set up the Qualisys system
 
-Switch on your Qualisys cameras, your **topside computer** and 'Qualisys QTM'.   
+Switch on the Qualisys cameras, your Windows computer, and launch 'Qualisys QTM'.   
 
-Place the previously set-up BlueROV2H in the field of view, and add a new rigid body called 'BlueROV2H' (the naming is important!).  
+Place the previously set-up BlueROV2H in the field of view of the cameras, and define a new rigid body called `BlueROV2H` (the naming is important!).  
 
 
 
