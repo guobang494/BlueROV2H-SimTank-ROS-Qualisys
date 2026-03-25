@@ -37,11 +37,14 @@ Return to one of the terminals with the Docker access. This step will compile th
 ```
 cd /home/workspaces_ROS/bluerov2h_ws
 rm -r devel/ build/ build_isolated/ devel_isolated/ install_isolated/
+```
+This step might throw a warning such as `rm: cannot remove ...`: not a problem, you can proceed.  
+```
 catkin_make
 source devel/setup.bash
 ```
 
-For the future, add your sourcing to the bashrc file: 
+Add your sourcing to the bashrc file: 
 ```
 echo 'source /home/workspaces_ROS/bluerov2h_ws/devel/setup.bash' >> ~/.bashrc
 source ~/.bashrc
