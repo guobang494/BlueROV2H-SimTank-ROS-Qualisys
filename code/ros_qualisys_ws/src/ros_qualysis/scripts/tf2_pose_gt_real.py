@@ -9,6 +9,7 @@ from geometry_msgs.msg import PoseStamped, TwistStamped
 from tf2_msgs.msg import TFMessage
 import numpy as np
 import math
+from tf.transformations import euler_from_quaternion
 
 class TF2PoseGroundTruth:
     def __init__(self):
@@ -26,17 +27,46 @@ class TF2PoseGroundTruth:
         # Publisher for ground truth pose (Odometry format, 保留兼容)
         self.pose_pub = rospy.Publisher(self.pose_topic, Odometry, queue_size=10)
         
-        # 8 个 Float64 publishers — 对接 bluerov2_motion_control
+        # Float64 publishers consumed by bluerov2_motion_control.
         self.pub_pos_x   = rospy.Publisher(self.pose_topic + '/position/linear/x',  Float64, queue_size=10)
         self.pub_pos_y   = rospy.Publisher(self.pose_topic + '/position/linear/y',  Float64, queue_size=10)
         self.pub_pos_z   = rospy.Publisher(self.pose_topic + '/position/linear/z',  Float64, queue_size=10)
+        self.pub_pos_roll = rospy.Publisher(self.pose_topic + '/position/angular/x', Float64, queue_size=10)
+        self.pub_pos_pitch = rospy.Publisher(self.pose_topic + '/position/angular/y', Float64, queue_size=10)
         self.pub_pos_yaw = rospy.Publisher(self.pose_topic + '/position/angular/z', Float64, queue_size=10)
 
-        self.pub_vel_x   = rospy.Publisher(self.pose_topic + '/velocity/linear/x',  Float64, queue_size=10)
-        self.pub_vel_y   = rospy.Publisher(self.pose_topic + '/velocity/linear/y',  Float64, queue_size=10)
-        self.pub_vel_z   = rospy.Publisher(self.pose_topic + '/velocity/linear/z',  Float64, queue_size=10)
-        self.pub_vel_yaw = rospy.Publisher(self.pose_topic + '/velocity/angular/z', Float64, queue_size=10)
+
+        self.pub_vel_ned_x   = rospy.Publisher(self.pose_topic + '/velocity_ned/linear/x',  Float64, queue_size=10)
+        self.pub_vel_ned_y   = rospy.Publisher(self.pose_topic + '/velocity_ned/linear/y',  Float64, queue_size=10)
+        self.pub_vel_ned_z   = rospy.Publisher(self.pose_topic + '/velocity_ned/linear/z',  Float64, queue_size=10)
+        self.pub_vel_ned_roll = rospy.Publisher(self.pose_topic + '/velocity_ned/angular/x', Float64, queue_size=10)
+        self.pub_vel_ned_pitch = rospy.Publisher(self.pose_topic + '/velocity_ned/angular/y', Float64, queue_size=10)
+        self.pub_vel_ned_yaw = rospy.Publisher(self.pose_topic + '/velocity_ned/angular/z', Float64, queue_size=10)
+
+        # Alias used by simulation_to_real_bridge.
+        self.pub_vel_ned_frame_x   = rospy.Publisher(self.pose_topic + '/velocity_ned_frame/linear/x',  Float64, queue_size=10)
+        self.pub_vel_ned_frame_y   = rospy.Publisher(self.pose_topic + '/velocity_ned_frame/linear/y',  Float64, queue_size=10)
+        self.pub_vel_ned_frame_z   = rospy.Publisher(self.pose_topic + '/velocity_ned_frame/linear/z',  Float64, queue_size=10)
+        self.pub_vel_ned_frame_roll = rospy.Publisher(self.pose_topic + '/velocity_ned_frame/angular/x', Float64, queue_size=10)
+        self.pub_vel_ned_frame_pitch = rospy.Publisher(self.pose_topic + '/velocity_ned_frame/angular/y', Float64, queue_size=10)
+        self.pub_vel_ned_frame_yaw = rospy.Publisher(self.pose_topic + '/velocity_ned_frame/angular/z', Float64, queue_size=10)
         
+        self.pub_vel_body_x   = rospy.Publisher(self.pose_topic + '/velocity_body_frame/linear/x',  Float64, queue_size=10)
+        self.pub_vel_body_y   = rospy.Publisher(self.pose_topic + '/velocity_body_frame/linear/y',  Float64, queue_size=10)
+        self.pub_vel_body_z   = rospy.Publisher(self.pose_topic + '/velocity_body_frame/linear/z',  Float64, queue_size=10)
+        self.pub_vel_body_roll = rospy.Publisher(self.pose_topic + '/velocity_body_frame/angular/x', Float64, queue_size=10)
+        self.pub_vel_body_pitch = rospy.Publisher(self.pose_topic + '/velocity_body_frame/angular/y', Float64, queue_size=10)
+        self.pub_vel_body_yaw = rospy.Publisher(self.pose_topic + '/velocity_body_frame/angular/z', Float64, queue_size=10)
+
+        # Backward-compatible aliases for older controllers/tools.
+        self.pub_vel_legacy_x   = rospy.Publisher(self.pose_topic + '/velocity/linear/x',  Float64, queue_size=10)
+        self.pub_vel_legacy_y   = rospy.Publisher(self.pose_topic + '/velocity/linear/y',  Float64, queue_size=10)
+        self.pub_vel_legacy_z   = rospy.Publisher(self.pose_topic + '/velocity/linear/z',  Float64, queue_size=10)
+        self.pub_vel_legacy_roll = rospy.Publisher(self.pose_topic + '/velocity/angular/x', Float64, queue_size=10)
+        self.pub_vel_legacy_pitch = rospy.Publisher(self.pose_topic + '/velocity/angular/y', Float64, queue_size=10)
+        self.pub_vel_legacy_yaw = rospy.Publisher(self.pose_topic + '/velocity/angular/z', Float64, queue_size=10)
+
+
         # Variables for velocity calculation
         self.last_pose = None
         self.last_yaw = None
@@ -51,7 +81,12 @@ class TF2PoseGroundTruth:
         rospy.loginfo(f"Reference frame: {self.reference_frame}")
         rospy.loginfo(f"Subscribing to: /tf")
         rospy.loginfo(f"Publishing Odometry to: {self.pose_topic}")
-        rospy.loginfo(f"Publishing Float64 to: {self.pose_topic}/position/... and {self.pose_topic}/velocity/...")
+        rospy.loginfo(
+            f"Publishing Float64 to: {self.pose_topic}/position/..., "
+            f"{self.pose_topic}/velocity_ned/..., {self.pose_topic}/velocity_ned_frame/..., "
+            f"{self.pose_topic}/velocity_body_frame/..., "
+            f"and legacy {self.pose_topic}/velocity/..."
+        )
         rospy.loginfo(f"Publish rate: {self.publish_rate} Hz")
     
     def tf_callback(self, tf_msg):
@@ -69,13 +104,6 @@ class TF2PoseGroundTruth:
         else:
             rospy.logwarn_throttle(5.0, f"No matching transform found. Looking for: frame_id={self.reference_frame}, child_frame_id={self.target_frame}")
     
-    @staticmethod
-    def quaternion_to_yaw(x, y, z, w):
-        """从四元数提取偏航角 yaw (rad)"""
-        siny_cosp = 2.0 * (w * z + x * y)
-        cosy_cosp = 1.0 - 2.0 * (y * y + z * z)
-        return math.atan2(siny_cosp, cosy_cosp)
-
     @staticmethod
     def normalize_angle(angle):
         """将角度归一化到 [-pi, pi]"""
@@ -174,13 +202,9 @@ class TF2PoseGroundTruth:
                 odom_msg.pose.pose.orientation.z = self.current_transform.transform.rotation.z
                 odom_msg.pose.pose.orientation.w = self.current_transform.transform.rotation.w
                 
-                # 从四元数提取 yaw
-                yaw = self.quaternion_to_yaw(
-                    odom_msg.pose.pose.orientation.x,
-                    odom_msg.pose.pose.orientation.y,
-                    odom_msg.pose.pose.orientation.z,
-                    odom_msg.pose.pose.orientation.w
-                )
+                # Convert quaternion to ZYX Euler angles, same as simulation_to_real_bridge.
+                q = odom_msg.pose.pose.orientation
+                roll, pitch, yaw = euler_from_quaternion([q.x, q.y, q.z, q.w])
                 
                 # 计算速度
                 current_time = self.current_transform.header.stamp
@@ -211,19 +235,80 @@ class TF2PoseGroundTruth:
                                            0, 0, 0, 0, 0.1, 0,
                                            0, 0, 0, 0, 0, 0.1]
                 
+                # Velocities from odometry (in NED/inertial frame)
+                tlin = odom_msg.twist.twist.linear
+                tang = odom_msg.twist.twist.angular
+
+                # Rotate NED/inertial vectors to body frame with ZYX convention.
+                cphi = math.cos(roll)
+                sphi = math.sin(roll)
+                cth = math.cos(pitch)
+                sth = math.sin(pitch)
+                cps = math.cos(yaw)
+                sps = math.sin(yaw)
+
+                r11 = cth * cps
+                r12 = cth * sps
+                r13 = -sth
+                r21 = sphi * sth * cps - cphi * sps
+                r22 = sphi * sth * sps + cphi * cps
+                r23 = sphi * cth
+                r31 = cphi * sth * cps + sphi * sps
+                r32 = cphi * sth * sps - sphi * cps
+                r33 = cphi * cth
+
+                vbx = r11 * tlin.x + r12 * tlin.y + r13 * tlin.z
+                vby = r21 * tlin.x + r22 * tlin.y + r23 * tlin.z
+                vbz = r31 * tlin.x + r32 * tlin.y + r33 * tlin.z
+
+                wbx = r11 * tang.x + r12 * tang.y + r13 * tang.z
+                wby = r21 * tang.x + r22 * tang.y + r23 * tang.z
+                wbz = r31 * tang.x + r32 * tang.y + r33 * tang.z
+
+                self.pub_vel_body_x.publish(Float64(vbx))
+                self.pub_vel_body_y.publish(Float64(vby))
+                self.pub_vel_body_z.publish(Float64(vbz))
+
+                self.pub_vel_body_roll.publish(Float64(wbx))
+                self.pub_vel_body_pitch.publish(Float64(wby))
+                self.pub_vel_body_yaw.publish(Float64(wbz))
+
+
+                
+
+
                 # 发布 Odometry (保留兼容)
                 self.pose_pub.publish(odom_msg)
                 
-                # 发布 8 个 Float64 话题 — 对接 bluerov2_motion_control
+                # Publish Float64 topics consumed by bluerov2_motion_control.
                 self.pub_pos_x.publish(Float64(data=odom_msg.pose.pose.position.x))
                 self.pub_pos_y.publish(Float64(data=odom_msg.pose.pose.position.y))
                 self.pub_pos_z.publish(Float64(data=odom_msg.pose.pose.position.z))
+                self.pub_pos_roll.publish(Float64(data=roll))
+                self.pub_pos_pitch.publish(Float64(data=pitch))
                 self.pub_pos_yaw.publish(Float64(data=yaw))
 
-                self.pub_vel_x.publish(Float64(data=linear_vel[0]))
-                self.pub_vel_y.publish(Float64(data=linear_vel[1]))
-                self.pub_vel_z.publish(Float64(data=linear_vel[2]))
-                self.pub_vel_yaw.publish(Float64(data=yaw_rate))
+                self.pub_vel_ned_x.publish(Float64(data=linear_vel[0]))
+                self.pub_vel_ned_y.publish(Float64(data=linear_vel[1]))
+                self.pub_vel_ned_z.publish(Float64(data=linear_vel[2]))
+                self.pub_vel_ned_roll.publish(Float64(data=angular_vel[0]))
+                self.pub_vel_ned_pitch.publish(Float64(data=angular_vel[1]))
+                self.pub_vel_ned_yaw.publish(Float64(data=angular_vel[2]))
+
+                self.pub_vel_ned_frame_x.publish(Float64(data=linear_vel[0]))
+                self.pub_vel_ned_frame_y.publish(Float64(data=linear_vel[1]))
+                self.pub_vel_ned_frame_z.publish(Float64(data=linear_vel[2]))
+                self.pub_vel_ned_frame_roll.publish(Float64(data=angular_vel[0]))
+                self.pub_vel_ned_frame_pitch.publish(Float64(data=angular_vel[1]))
+                self.pub_vel_ned_frame_yaw.publish(Float64(data=angular_vel[2]))
+
+                self.pub_vel_legacy_x.publish(Float64(data=linear_vel[0]))
+                self.pub_vel_legacy_y.publish(Float64(data=linear_vel[1]))
+                self.pub_vel_legacy_z.publish(Float64(data=linear_vel[2]))
+                self.pub_vel_legacy_roll.publish(Float64(data=angular_vel[0]))
+                self.pub_vel_legacy_pitch.publish(Float64(data=angular_vel[1]))
+                # Preserve legacy behaviour: z component came from yaw finite-difference.
+                self.pub_vel_legacy_yaw.publish(Float64(data=yaw_rate))
                 
                 # 更新历史数据用于速度计算
                 self.last_pose = odom_msg.pose.pose

@@ -55,6 +55,7 @@ sudo apt update
 sudo apt install -y \
   python3-colcon-common-extensions \
   ros-noetic-roscpp \
+  ros-noetic-tf \
   ros-noetic-tf2 \
   ros-noetic-tf2-ros \
   ros-noetic-geometry-msgs \
@@ -247,9 +248,16 @@ If successful, you will see:
 
 
 ### 12) Convert Qualisys data into ROS pose
-Enable Qualisys connection over ROS
+Enable Qualisys connection over ROS:
 ```
 python3 /home/workspaces_ROS/ros_qualisys_ws/src/ros_qualysis/scripts/tf2_pose_gt_real.py
+```
+
+This bridge publishes both inertial (`/velocity_ned/...`) and body-frame (`/velocity_body_frame/...`) velocities.
+The motion controller uses the body-frame feedback. Verify it before launching control:
+```
+rostopic echo /bluerov2_heavy/velocity_body_frame/linear/x
+rostopic echo /bluerov2_heavy/velocity_body_frame/angular/z
 ```
 
 
@@ -279,6 +287,4 @@ rosservice call /mavros/cmd/arming "value: false"
 
 ### 15) Edit the Guidance and Control parameters
 If needed, further instructions to modify the control system are provided in the ![CONTROL_INSTRUCTIONS](./CONTROL_INSTRUCTIONS.md/) file.   
-
-
 
