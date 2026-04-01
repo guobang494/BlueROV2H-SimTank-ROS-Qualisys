@@ -1,6 +1,6 @@
 <launch>
   <arg name="server_address" default="192.168.8.178"/>
-  <arg name="server_base_port"     default="33333"/>
+  <arg name="server_base_port"     default="22222"/>
 
   <node pkg="ros-qualisys" type="ros-qualisys" name="qualisys" output="screen">
     <param name="server_address" value="$(arg server_address)"/>

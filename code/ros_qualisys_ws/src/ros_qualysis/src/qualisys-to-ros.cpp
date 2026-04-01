@@ -27,7 +27,7 @@ bool QualisysToRos::initialize() {
   int tmp_udp_port(0);
   node_handle_->param("server_address", server_address_,
                       std::string("172.20.10.3"));
-  node_handle_->param("server_base_port", tmp_base_port, 33333);
+  node_handle_->param("server_base_port", tmp_base_port, 22222);
   node_handle_->param("server_udp_port", tmp_udp_port, 6734);
   node_handle_->param("major_version", major_version_, 1);
   node_handle_->param("minor_version", minor_version_, 27);

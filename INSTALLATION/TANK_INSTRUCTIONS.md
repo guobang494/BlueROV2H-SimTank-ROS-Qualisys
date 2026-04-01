@@ -26,6 +26,8 @@ Open 10 new terminals, and type:
 sudo docker exec -it bluerov2h_container bash
 ```
 
+If you have already completed the installation related to the ![simulation environment](./SIMULATION_INSTRUCTIONS.md/), skip step 2) and move to step 3), otherwise, follow to step 2).   
+
 
 
 ### 2) Compile the BlueRov2H workspace
@@ -49,7 +51,7 @@ source ~/.bashrc
 
 
 ### 3) Install colcon-related dependencies
-Run
+In a docker terminal, run:  
 ```
 sudo apt update
 sudo apt install -y \
@@ -192,6 +194,7 @@ ping 192.168.2.1
 You should now see:  
 <img src="tank_images/ping.png" width="100%">
 
+This confirms that you can successfully talk to the BlueROV2H vehicle.    
 
 
 
