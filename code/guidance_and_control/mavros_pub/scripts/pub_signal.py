@@ -31,7 +31,7 @@ def map_to_pwm_y(n, pwm_min_y=1450, pwm_mid_y=1500, pwm_max_y=1550, deadband=0.0
         pwm = pwm_mid_y + n * (pwm_mid_y - pwm_min_y)
     return int(clamp(int(round(pwm)), pwm_min_y, pwm_max_y))
 
-def map_to_pwm_z(n, pwm_min_z=1500, pwm_mid_z=1500, pwm_max_z=1500, deadband=0.023):
+def map_to_pwm_z(n, pwm_min_z=1460, pwm_mid_z=1500, pwm_max_z=1540, deadband=0.023):
     n = clamp(n, -1.0, 1.0)
     if abs(n) < deadband:
         return pwm_mid_z

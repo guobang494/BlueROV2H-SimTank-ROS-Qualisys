@@ -74,11 +74,11 @@ bluerov2_motion_control_vel:
     Gain:
       Kp: 150.0  # Proportional Gain
       Kd: 0.0    # Derivative Gain
-      Ki: 6.142    # Integral Gain
+      Ki: 0.1    # Integral Gain
 
     Saturation: # Control Input Saturation
-      UMax:  0.0 # [N] Max Saturation Value -- this is the saturation on the vehicle forces -- max 148.00N
-      UMin: -0.0 # [N] Min Saturation Value -- this is the saturation on the vehicle forces 
+      UMax:  15.0 # [N] Max Saturation Value -- this is the saturation on the vehicle forces -- max 148.00N
+      UMin: -15.0 # [N] Min Saturation Value -- this is the saturation on the vehicle forces 
 
     FeedForward_Gain: 
       Gain: 1.0 #
@@ -273,8 +273,8 @@ bluerov2_motion_control_pos:
       Ki: 0.0    # Integral Gain
 
     Saturation: # Control Input Saturation
-      UMax:  0.2 # [m/s] Max Saturation Value -- this is the saturation on the vehicle heave speed
-      UMin: -0.2 # [m/s] Min Saturation Value -- this is the saturation on the vehicle heave speed
+      UMax:  0.10 # [m/s] Max Saturation Value -- this is the saturation on the vehicle heave speed
+      UMin: -0.10 # [m/s] Min Saturation Value -- this is the saturation on the vehicle heave speed
 
     FeedForward_Gain: 
       Gain: 1.0 #
