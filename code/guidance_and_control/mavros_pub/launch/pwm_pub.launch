@@ -8,11 +8,32 @@
     <arg name="topic_fz" default="/bluerov2_heavy/cmd_velocity/linear/z" />
     <arg name="topic_mz" default="/bluerov2_heavy/cmd_velocity/angular/z" />
 
-    <!-- Maximum force/torque parameters (used for normalization) -->
-    <arg name="max_force_x"  default="10.0" doc="X-axis max force (N)"/>
-    <arg name="max_force_y"  default="10.0" doc="Y-axis max force (N)"/>
-    <arg name="max_force_z"  default="15.0"  doc="Z-axis max force (N), 0 means no Z control"/>
-    <arg name="max_torque_z" default="12.0"  doc="Yaw max torque (N*m), matched to velocity-loop PID_u4 saturation"/>
+    <!-- Per-axis command clamps -->
+    <arg name="min_force_x"  default="-10.0" doc="X-axis min force (N)"/>
+    <arg name="max_force_x"  default="10.0"  doc="X-axis max force (N)"/>
+    <arg name="min_force_y"  default="-10.0" doc="Y-axis min force (N)"/>
+    <arg name="max_force_y"  default="10.0"  doc="Y-axis max force (N)"/>
+    <arg name="min_force_z"  default="-15.0" doc="Z-axis min force (N)"/>
+    <arg name="max_force_z"  default="15.0"  doc="Z-axis max force (N)"/>
+    <arg name="min_torque_z" default="-12.0" doc="Yaw min torque (N*m)"/>
+    <arg name="max_torque_z" default="12.0"  doc="Yaw max torque (N*m)"/>
+    <arg name="tam_mz_sum_abs" default="0.6830651506258189" doc="sum(abs(TAM Mz row coefficients)) for yaw thrusters"/>
+
+    <!-- Per-axis PWM clamps -->
+    <arg name="min_pwm_x"   default="1450"/>
+    <arg name="max_pwm_x"   default="1550"/>
+    <arg name="min_pwm_y"   default="1450"/>
+    <arg name="max_pwm_y"   default="1550"/>
+    <arg name="min_pwm_z"   default="1450"/>
+    <arg name="max_pwm_z"   default="1550"/>
+    <arg name="min_pwm_yaw" default="1460"/>
+    <arg name="max_pwm_yaw" default="1540"/>
+    <arg name="pwm_neutral" default="1500"/>
+
+    <!-- T200 16V polynomial fit (order 7) on normalized PWM -->
+    <arg name="pwm_norm_center" default="1500.0"/>
+    <arg name="pwm_norm_scale" default="400.0"/>
+    <arg name="fit_poly_coeffs" default="[3.0009567411800813, 0.3513482237618634, -7.684833073117773, -0.6527386345061795, 7.749626327823903, 0.9114364620016434, 1.7012170055475782, 0.001092522474398828]"/>
 
     <!-- Launch PWM signal publisher node -->
     <node name="force_to_rc_override" pkg="mavros_pub" type="pub_signal.py" output="screen">
@@ -20,10 +41,27 @@
         <param name="topic_fy"     value="$(arg topic_fy)"/>
         <param name="topic_fz"     value="$(arg topic_fz)"/>
         <param name="topic_mz"     value="$(arg topic_mz)"/>
+        <param name="min_force_x"  value="$(arg min_force_x)"/>
         <param name="max_force_x"  value="$(arg max_force_x)"/>
+        <param name="min_force_y"  value="$(arg min_force_y)"/>
         <param name="max_force_y"  value="$(arg max_force_y)"/>
+        <param name="min_force_z"  value="$(arg min_force_z)"/>
         <param name="max_force_z"  value="$(arg max_force_z)"/>
+        <param name="min_torque_z" value="$(arg min_torque_z)"/>
         <param name="max_torque_z" value="$(arg max_torque_z)"/>
+        <param name="tam_mz_sum_abs" value="$(arg tam_mz_sum_abs)"/>
+        <param name="min_pwm_x"    value="$(arg min_pwm_x)"/>
+        <param name="max_pwm_x"    value="$(arg max_pwm_x)"/>
+        <param name="min_pwm_y"    value="$(arg min_pwm_y)"/>
+        <param name="max_pwm_y"    value="$(arg max_pwm_y)"/>
+        <param name="min_pwm_z"    value="$(arg min_pwm_z)"/>
+        <param name="max_pwm_z"    value="$(arg max_pwm_z)"/>
+        <param name="min_pwm_yaw"  value="$(arg min_pwm_yaw)"/>
+        <param name="max_pwm_yaw"  value="$(arg max_pwm_yaw)"/>
+        <param name="pwm_neutral"  value="$(arg pwm_neutral)"/>
+        <param name="pwm_norm_center" value="$(arg pwm_norm_center)"/>
+        <param name="pwm_norm_scale" value="$(arg pwm_norm_scale)"/>
+        <param name="fit_poly_coeffs" value="$(arg fit_poly_coeffs)"/>
     </node>
 
 </launch>
