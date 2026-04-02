@@ -13,10 +13,10 @@ except Exception as e:
 
 
 def parse_args():
-    parser = argparse.ArgumentParser(description="从 rosbag 提取 pose_gt 的 x, y, z, yaw 随时间变化到 CSV。")
-    parser.add_argument('bag_path', help='rosbag 文件的绝对路径（.bag）')
-    parser.add_argument('--pose-topic', default='/bluerov2/pose_gt', help='Odometry 话题（默认：/bluerov2/pose_gt）')
-    parser.add_argument('--out-dir', default=None, help='输出目录（默认：与 bag 同目录）')
+    parser = argparse.ArgumentParser(description="Extract pose_gt x, y, z, yaw time series from rosbag into CSV.")
+    parser.add_argument('bag_path', help='Absolute path to rosbag file (.bag)')
+    parser.add_argument('--pose-topic', default='/bluerov2/pose_gt', help='Odometry topic (default: /bluerov2/pose_gt)')
+    parser.add_argument('--out-dir', default=None, help='Output directory (default: same directory as bag)')
     return parser.parse_args()
 
 
@@ -34,7 +34,7 @@ def read_pose_xyz_yaw(bag_path: str, pose_topic: str):
         type_info = bag.get_type_and_topic_info()[1]
         available = set(type_info.keys())
         if pose_topic not in available:
-            print(f"[ERROR] 话题未在 bag 中找到：{pose_topic}")
+            print(f"[ERROR] Topic not found in bag: {pose_topic}")
             return []
         for topic, msg, t in bag.read_messages(topics=[pose_topic]):
             try:
@@ -79,7 +79,7 @@ def main():
     print('[INFO] Reading bag for pose_gt pose...')
     samples = read_pose_xyz_yaw(bag_path, args.pose_topic)
     if not samples:
-        print('[WARN] 未读取到任何位姿样本。')
+        print('[WARN] No pose samples were read.')
     out_csv = os.path.join(out_dir, 'pose_gt_xyz_yaw.csv')
     write_csv(out_csv, samples)
     print('[DONE] Extraction complete.')

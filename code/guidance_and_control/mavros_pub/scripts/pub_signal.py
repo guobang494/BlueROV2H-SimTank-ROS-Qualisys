@@ -62,7 +62,7 @@ def publish_pwm_dict(pub, ch_pwm):
             msg.channels[idx] = int(pwm)
     pub.publish(msg)
 
-# 全局变量存储当前力/力矩
+# Global variables store current force/torque
 current_force = {'fx': 0.0, 'fy': 0.0, 'fz': 0.0, 'mz': 0.0}
 force_ready = {'fx': False, 'fy': False, 'fz': False, 'mz': False}
 
@@ -87,16 +87,16 @@ def cb_mz(msg):
 def main():
     rospy.init_node("force_to_rc_override")
 
-    # 话题配置 — 对接 bluerov2_motion_control 速度环输出
+    # Topic configuration - mapped to bluerov2_motion_control velocity-loop outputs
     topic_fx = rospy.get_param('~topic_fx', '/bluerov2_heavy/cmd_velocity/linear/x')
     topic_fy = rospy.get_param('~topic_fy', '/bluerov2_heavy/cmd_velocity/linear/y')
     topic_fz = rospy.get_param('~topic_fz', '/bluerov2_heavy/cmd_velocity/linear/z')
     topic_mz = rospy.get_param('~topic_mz', '/bluerov2_heavy/cmd_velocity/angular/z')
 
-    # 最大推力/力矩参数 (用于归一化)
+    # Maximum force/torque parameters (used for normalization)
     max_force_x = rospy.get_param('~max_force_x', 20.0)   # N
     max_force_y = rospy.get_param('~max_force_y', 20.0)   # N
-    max_force_z = rospy.get_param('~max_force_z', 0.0)    # N  (0 表示 Z 轴不控制)
+    max_force_z = rospy.get_param('~max_force_z', 0.0)    # N  (0 means Z-axis control disabled)
     max_torque_z = rospy.get_param('~max_torque_z', 1.0)  # N*m
 
     pwm_mid = 1500
@@ -105,13 +105,13 @@ def main():
 
     pub = rospy.Publisher("/mavros/rc/override", OverrideRCIn, queue_size=10)
 
-    # 订阅 4 个 Float64 话题 — 对接 bluerov2_motion_control velocity_node 输出
+    # Subscribe to 4 Float64 topics mapped to bluerov2_motion_control velocity_node outputs
     rospy.Subscriber(topic_fx, Float64, cb_fx, queue_size=10)
     rospy.Subscriber(topic_fy, Float64, cb_fy, queue_size=10)
     rospy.Subscriber(topic_fz, Float64, cb_fz, queue_size=10)
     rospy.Subscriber(topic_mz, Float64, cb_mz, queue_size=10)
 
-    # 等待任意一个轴的数据就绪 (方便逐轴调试PID)
+    # Wait for any axis data to become ready (convenient for per-axis PID debugging)
     rospy.loginfo("Waiting for force commands from bluerov2_motion_control (any axis)...")
     while not rospy.is_shutdown():
         if any(force_ready.values()):
@@ -131,13 +131,13 @@ def main():
         fz = current_force['fz']
         mz = current_force['mz']
 
-        # 归一化 (-1.0 到 1.0)
+        # Normalize to (-1.0, 1.0)
         nx = clamp(fx / max_force_x, -1.0, 1.0) if max_force_x != 0.0 else 0.0
         ny = clamp(fy / max_force_y, -1.0, 1.0) if max_force_y != 0.0 else 0.0
         nz = clamp(fz / max_force_z, -1.0, 1.0) if max_force_z != 0.0 else 0.0
         nr = clamp(mz / max_torque_z, -1.0, 1.0) if max_torque_z != 0.0 else 0.0
 
-        # 映射为 PWM 信号
+        # Map to PWM signals
         # ch_forward (5) -> nx (Surge)
         # ch_lateral (6) -> ny (Sway)
         # ch_vertical (3) -> nz (Heave)
@@ -147,7 +147,7 @@ def main():
         pwm_vertical = map_to_pwm_z(nz)
         pwm_yaw = map_to_pwm_yaw(nr)
 
-        # 发布PWM
+        # Publish PWM
         publish_pwm_dict(pub, {
             ch_forward: pwm_forward,
             ch_lateral: pwm_lateral,
@@ -155,7 +155,7 @@ def main():
             ch_yaw: pwm_yaw
         })
 
-        # 定期打印调试信息
+        # Print periodic debug information
         rospy.loginfo_throttle(2.0,
             f"Force: Fx={fx:.2f} Fy={fy:.2f} Fz={fz:.2f} Mz={mz:.2f}")
         rospy.loginfo_throttle(2.0,
@@ -165,7 +165,7 @@ def main():
 
         rate.sleep()
 
-    # 关闭时发送中性PWM
+    # Send neutral PWM on shutdown
     rospy.loginfo("Sending neutral PWM...")
     for _ in range(5):
         publish_pwm_dict(pub, {

@@ -1,20 +1,20 @@
 <?xml version="1.0"?>
 <launch>
-    <!-- PWM信号发布节点 - 订阅 bluerov2_motion_control 速度环输出，转换为 RC PWM 信号 -->
+    <!-- PWM signal publisher node: subscribe to bluerov2_motion_control velocity outputs and convert to RC PWM -->
 
-    <!-- 话题配置 — 对接 bluerov2_motion_control velocity_node 输出 -->
+    <!-- Topic configuration: mapped to bluerov2_motion_control velocity_node outputs -->
     <arg name="topic_fx" default="/bluerov2_heavy/cmd_velocity/linear/x" />
     <arg name="topic_fy" default="/bluerov2_heavy/cmd_velocity/linear/y" />
     <arg name="topic_fz" default="/bluerov2_heavy/cmd_velocity/linear/z" />
     <arg name="topic_mz" default="/bluerov2_heavy/cmd_velocity/angular/z" />
 
-    <!-- 最大推力/力矩参数 (用于归一化) -->
+    <!-- Maximum force/torque parameters (used for normalization) -->
     <arg name="max_force_x"  default="10.0" doc="X-axis max force (N)"/>
     <arg name="max_force_y"  default="10.0" doc="Y-axis max force (N)"/>
     <arg name="max_force_z"  default="15.0"  doc="Z-axis max force (N), 0 means no Z control"/>
-    <arg name="max_torque_z" default="12.0"  doc="Yaw max torque (N*m), 匹配速度环 PID_u4 饱和值"/>
+    <arg name="max_torque_z" default="12.0"  doc="Yaw max torque (N*m), matched to velocity-loop PID_u4 saturation"/>
 
-    <!-- 启动PWM信号发布节点 -->
+    <!-- Launch PWM signal publisher node -->
     <node name="force_to_rc_override" pkg="mavros_pub" type="pub_signal.py" output="screen">
         <param name="topic_fx"     value="$(arg topic_fx)"/>
         <param name="topic_fy"     value="$(arg topic_fy)"/>

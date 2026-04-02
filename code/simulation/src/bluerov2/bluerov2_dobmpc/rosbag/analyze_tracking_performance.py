@@ -367,14 +367,14 @@ class TrajectoryTrackingAnalyzer:
             print("ERROR: No data available for report generation!")
             return
         
-        print(f"\n📊 Data Overview:")
+        print(f"\nData Overview:")
         print(f"  Bag file timestamp: {self.bag_timestamp}")
         print(f"  Recording duration: {self.data['actual_times'][-1] - self.data['actual_times'][0]:.1f} seconds")
         print(f"  Actual position data points: {len(self.data['actual'])}")
         print(f"  Reference position data points: {len(self.data['reference'])}")
         
         if hasattr(self, 'error_stats'):
-            print(f"\n🎯 Tracking Accuracy:")
+            print(f"\nTracking Accuracy:")
             print(f"  Position RMSE: X={self.error_stats['position_rmse'][0]:.4f}m, "
                   f"Y={self.error_stats['position_rmse'][1]:.4f}m, "
                   f"Z={self.error_stats['position_rmse'][2]:.4f}m")
@@ -385,12 +385,12 @@ class TrajectoryTrackingAnalyzer:
                   f"Y={self.error_stats['position_max'][1]:.4f}m, "
                   f"Z={self.error_stats['position_max'][2]:.4f}m")
             
-            print(f"\n⚡ Velocity Tracking:")
+            print(f"\nVelocity Tracking:")
             print(f"  Velocity RMSE: X={self.error_stats['velocity_rmse'][0]:.4f}m/s, "
                   f"Y={self.error_stats['velocity_rmse'][1]:.4f}m/s, "
                   f"Z={self.error_stats['velocity_rmse'][2]:.4f}m/s")
             
-            print(f"\n📈 Performance Assessment:")
+            print(f"\nPerformance Assessment:")
             avg_position_error = np.mean(self.error_stats['position_rmse'])
             if avg_position_error < 0.1:
                 performance_level = "Excellent"
@@ -404,7 +404,7 @@ class TrajectoryTrackingAnalyzer:
             print(f"  Average Position Error: {avg_position_error:.4f} m")
             print(f"  Performance Level: {performance_level}")
         
-        print(f"\n🔧 Thruster Performance:")
+        print(f"\nThruster Performance:")
         total_thrust_rms = 0
         for i in range(8):
             if i in self.thrust_stats:

@@ -16,18 +16,18 @@ class TF2PoseGroundTruth:
         rospy.init_node('tf2_pose_gt_real', anonymous=True)
         
         # Parameters
-        self.target_frame = rospy.get_param('~child_frame_id', 'BlueROV2H')  # 要跟踪的刚体名称
-        self.reference_frame = rospy.get_param('~frame_id', 'mocap')     # 参考坐标系
-        self.publish_rate = rospy.get_param('~publish_rate', 20.0)       # 发布频率 Hz
-        self.pose_topic = rospy.get_param('~pose_topic', '/bluerov2_heavy')  # 话题前缀
+        self.target_frame = rospy.get_param('~child_frame_id', 'BlueROV2H')  # Rigid body name to track
+        self.reference_frame = rospy.get_param('~frame_id', 'mocap')     # Reference frame
+        self.publish_rate = rospy.get_param('~publish_rate', 20.0)       # Publish rate in Hz
+        self.pose_topic = rospy.get_param('~pose_topic', '/bluerov2_heavy')  # Topic prefix
         
         # Subscribe to /tf topic from ros_qualisys
         self.tf_sub = rospy.Subscriber('/tf', TFMessage, self.tf_callback)
         
-        # Publisher for ground truth pose (Odometry format, 保留兼容)
+        # Publisher for ground truth pose (Odometry format, kept for compatibility)
         self.pose_pub = rospy.Publisher(self.pose_topic, Odometry, queue_size=10)
         
-        # 8 个 Float64 publishers — 对接 bluerov2_motion_control
+        # 8 Float64 publishers mapped to bluerov2_motion_control
         self.pub_pos_x   = rospy.Publisher(self.pose_topic + '/position/linear/x',  Float64, queue_size=10)
         self.pub_pos_y   = rospy.Publisher(self.pose_topic + '/position/linear/y',  Float64, queue_size=10)
         self.pub_pos_z   = rospy.Publisher(self.pose_topic + '/position/linear/z',  Float64, queue_size=10)
@@ -85,14 +85,14 @@ class TF2PoseGroundTruth:
     
     @staticmethod
     def quaternion_to_yaw(x, y, z, w):
-        """从四元数提取偏航角 yaw (rad)"""
+        """Extract yaw angle (rad) from quaternion."""
         siny_cosp = 2.0 * (w * z + x * y)
         cosy_cosp = 1.0 - 2.0 * (y * y + z * z)
         return math.atan2(siny_cosp, cosy_cosp)
 
     @staticmethod
     def normalize_angle(angle):
-        """将角度归一化到 [-pi, pi]"""
+        """Normalize angle to [-pi, pi]."""
         while angle > math.pi:
             angle -= 2.0 * math.pi
         while angle < -math.pi:
@@ -100,7 +100,7 @@ class TF2PoseGroundTruth:
         return angle
 
     def quaternion_multiply(self, q1, q2):
-        """四元数乘法 [x, y, z, w] 格式"""
+        """Quaternion multiplication in [x, y, z, w] format."""
         x1, y1, z1, w1 = q1
         x2, y2, z2, w2 = q2
         return np.array([
@@ -111,19 +111,19 @@ class TF2PoseGroundTruth:
         ])
     
     def calculate_velocity(self, current_pose, current_yaw, current_time):
-        """计算线速度和角速度"""
+        """Compute linear and angular velocity."""
         linear_vel = [0.0, 0.0, 0.0]
         angular_vel = [0.0, 0.0, 0.0]
         
         if self.last_pose is not None and self.last_time is not None:
             dt = (current_time - self.last_time).to_sec()
             if dt > 0:
-                # 计算线速度
+                # Compute linear velocity
                 linear_vel[0] = (current_pose.position.x - self.last_pose.position.x) / dt
                 linear_vel[1] = (current_pose.position.y - self.last_pose.position.y) / dt
                 linear_vel[2] = (current_pose.position.z - self.last_pose.position.z) / dt
                 
-                # 正确的角速度计算：使用四元数微分
+                # Compute angular velocity using quaternion differencing
                 q_curr = np.array([current_pose.orientation.x, 
                                    current_pose.orientation.y, 
                                    current_pose.orientation.z, 
@@ -133,15 +133,15 @@ class TF2PoseGroundTruth:
                                    self.last_pose.orientation.z, 
                                    self.last_pose.orientation.w])
                 
-                # 确保四元数符号一致（避免 q 和 -q 表示同一旋转的问题）
+                # Keep quaternion sign consistent (q and -q represent the same rotation)
                 if np.dot(q_curr, q_last) < 0:
                     q_last = -q_last
                 
-                # 计算相对旋转四元数: q_rel = q_curr * q_last^(-1)
+                # Compute relative rotation quaternion: q_rel = q_curr * q_last^(-1)
                 q_last_inv = np.array([-q_last[0], -q_last[1], -q_last[2], q_last[3]])
                 q_rel = self.quaternion_multiply(q_curr, q_last_inv)
                 
-                # 从相对四元数提取角速度 (axis-angle 方法)
+                # Extract angular velocity from relative quaternion (axis-angle method)
                 angle = 2.0 * np.arccos(np.clip(q_rel[3], -1.0, 1.0))
                 if angle > 1e-6:
                     sin_half_angle = np.sin(angle / 2.0)
@@ -150,7 +150,7 @@ class TF2PoseGroundTruth:
                 else:
                     angular_vel = [0.0, 0.0, 0.0]
         
-        # yaw 角速度单独用差分法计算（更稳定，用于 Float64 输出）
+        # Compute yaw rate separately via finite difference (more stable for Float64 output)
         yaw_rate = 0.0
         if self.last_yaw is not None and self.last_time is not None:
             dt = (current_time - self.last_time).to_sec()
@@ -160,7 +160,7 @@ class TF2PoseGroundTruth:
         return linear_vel, angular_vel, yaw_rate
     
     def run(self):
-        """主循环"""
+        """Main loop."""
         while not rospy.is_shutdown():
             try:
                 # Check if we have received tf data
@@ -169,26 +169,26 @@ class TF2PoseGroundTruth:
                     self.rate.sleep()
                     continue
                 
-                # 创建 Odometry 消息
+                # Create Odometry message
                 odom_msg = Odometry()
                 
-                # 填充消息头
+                # Fill message header
                 odom_msg.header.stamp = self.current_transform.header.stamp
                 odom_msg.header.frame_id = self.reference_frame
                 odom_msg.child_frame_id = self.target_frame
                 
-                # 填充位置信息
+                # Fill position
                 odom_msg.pose.pose.position.x = self.current_transform.transform.translation.x
                 odom_msg.pose.pose.position.y = self.current_transform.transform.translation.y
                 odom_msg.pose.pose.position.z = self.current_transform.transform.translation.z
                 
-                # 填充姿态信息
+                # Fill orientation
                 odom_msg.pose.pose.orientation.x = self.current_transform.transform.rotation.x
                 odom_msg.pose.pose.orientation.y = self.current_transform.transform.rotation.y
                 odom_msg.pose.pose.orientation.z = self.current_transform.transform.rotation.z
                 odom_msg.pose.pose.orientation.w = self.current_transform.transform.rotation.w
                 
-                # 从四元数提取 yaw
+                # Extract yaw from quaternion
                 yaw = self.quaternion_to_yaw(
                     odom_msg.pose.pose.orientation.x,
                     odom_msg.pose.pose.orientation.y,
@@ -196,13 +196,13 @@ class TF2PoseGroundTruth:
                     odom_msg.pose.pose.orientation.w
                 )
                 
-                # 计算速度
+                # Compute velocities
                 current_time = self.current_transform.header.stamp
                 linear_vel, angular_vel, yaw_rate = self.calculate_velocity(
                     odom_msg.pose.pose, yaw, current_time
                 )
                 
-                # 填充速度信息
+                # Fill velocity fields
                 odom_msg.twist.twist.linear.x = linear_vel[0]
                 odom_msg.twist.twist.linear.y = linear_vel[1]
                 odom_msg.twist.twist.linear.z = linear_vel[2]
@@ -212,7 +212,7 @@ class TF2PoseGroundTruth:
                 
                 print("Current x_dot = " + str(linear_vel[0]))
 
-                # 设置协方差矩阵
+                # Set covariance matrices
                 odom_msg.pose.covariance = [0.01, 0, 0, 0, 0, 0,
                                           0, 0.01, 0, 0, 0, 0,
                                           0, 0, 0.01, 0, 0, 0,
@@ -271,10 +271,10 @@ class TF2PoseGroundTruth:
                 
 
 
-                # 发布 Odometry (保留兼容)
+                # Publish Odometry (kept for compatibility)
                 self.pose_pub.publish(odom_msg)
                 
-                # 发布 8 个 Float64 话题 — 对接 bluerov2_motion_control
+                # Publish 8 Float64 topics mapped to bluerov2_motion_control
                 self.pub_pos_x.publish(Float64(data=odom_msg.pose.pose.position.x))
                 self.pub_pos_y.publish(Float64(data=odom_msg.pose.pose.position.y))
                 self.pub_pos_z.publish(Float64(data=odom_msg.pose.pose.position.z))
@@ -289,12 +289,12 @@ class TF2PoseGroundTruth:
                 self.pub_vel_pitch.publish(Float64(data=0.0))
                 self.pub_vel_yaw.publish(Float64(data=yaw_rate))
                 
-                # 更新历史数据用于速度计算
+                # Update historical data for velocity calculation
                 self.last_pose = odom_msg.pose.pose
                 self.last_yaw = yaw
                 self.last_time = current_time
                 
-                # 日志输出
+                # Logging
                 rospy.loginfo_throttle(2.0, 
                     f"Pos: x={odom_msg.pose.pose.position.x:.3f} y={odom_msg.pose.pose.position.y:.3f} "
                     f"z={odom_msg.pose.pose.position.z:.3f} yaw={math.degrees(yaw):.1f}deg")

@@ -1,14 +1,13 @@
 <?xml version="1.0"?>
 <launch>
-    <!-- 启动 MAVROS -->
+    <!-- Launch MAVROS -->
     <include file="$(find mavros_pub)/launch/mavros.launch"/>
     
-    <!-- 启动 PWM 发布节点 -->
+    <!-- Launch PWM publisher node -->
     <include file="$(find mavros_pub)/launch/pwm_pub.launch"/>
 
     <!-- <include file="$(find ros-qualisys)/launch/qualisys_bauzil_bringup.launch"/> -->
 
     <include file="$(find mavros_pub)/launch/qualisys_trans.launch"/>
 </launch>
-
 
