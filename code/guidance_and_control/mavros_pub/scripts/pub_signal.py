@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import rospy
+import ast
 from mavros_msgs.msg import OverrideRCIn
 from std_msgs.msg import Float64
 
@@ -172,6 +173,14 @@ def main():
     pwm_norm_center = float(rospy.get_param('~pwm_norm_center', DEFAULT_PWM_NORM_CENTER))
     pwm_norm_scale = float(rospy.get_param('~pwm_norm_scale', DEFAULT_PWM_NORM_SCALE))
     poly_coeffs = rospy.get_param('~fit_poly_coeffs', DEFAULT_POLY_COEFFS)
+    if isinstance(poly_coeffs, str):
+        # roslaunch args often pass list-looking values as strings.
+        try:
+            parsed = ast.literal_eval(poly_coeffs)
+        except Exception:
+            # Fallback: comma-separated string without brackets.
+            parsed = [v.strip() for v in poly_coeffs.strip().strip('[]').split(',') if v.strip()]
+        poly_coeffs = parsed
     coeffs = [float(v) for v in poly_coeffs]
 
     ch_forward, ch_lateral, ch_vertical, ch_yaw = 5, 6, 3, 4
