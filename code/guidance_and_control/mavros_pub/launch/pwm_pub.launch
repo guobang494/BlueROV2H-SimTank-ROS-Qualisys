@@ -7,6 +7,7 @@
     <arg name="topic_fy" default="/bluerov2_heavy/cmd_velocity/linear/y" />
     <arg name="topic_fz" default="/bluerov2_heavy/cmd_velocity/linear/z" />
     <arg name="topic_mz" default="/bluerov2_heavy/cmd_velocity/angular/z" />
+    <arg name="invert_fz" default="false" doc="Invert sign of Z force command before mapping to PWM"/>
 
     <!-- Per-axis command clamps -->
     <arg name="min_force_x"  default="-10.0" doc="X-axis min force (N)"/>
@@ -41,6 +42,7 @@
         <param name="topic_fy"     value="$(arg topic_fy)"/>
         <param name="topic_fz"     value="$(arg topic_fz)"/>
         <param name="topic_mz"     value="$(arg topic_mz)"/>
+        <param name="invert_fz"    value="$(arg invert_fz)"/>
         <param name="min_force_x"  value="$(arg min_force_x)"/>
         <param name="max_force_x"  value="$(arg max_force_x)"/>
         <param name="min_force_y"  value="$(arg min_force_y)"/>

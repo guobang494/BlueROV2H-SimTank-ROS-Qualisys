@@ -149,6 +149,7 @@ def main():
     topic_fy = rospy.get_param('~topic_fy', '/bluerov2_heavy/cmd_velocity/linear/y')
     topic_fz = rospy.get_param('~topic_fz', '/bluerov2_heavy/cmd_velocity/linear/z')
     topic_mz = rospy.get_param('~topic_mz', '/bluerov2_heavy/cmd_velocity/angular/z')
+    invert_fz = bool(rospy.get_param('~invert_fz', False))
 
     force_min_x = rospy.get_param('~min_force_x', -10.0)
     force_max_x = rospy.get_param('~max_force_x', 10.0)
@@ -209,7 +210,8 @@ def main():
     while not rospy.is_shutdown():
         fx = current_cmd['fx']
         fy = current_cmd['fy']
-        fz = current_cmd['fz']
+        fz_raw = current_cmd['fz']
+        fz = -fz_raw if invert_fz else fz_raw
         mz = current_cmd['mz']
 
         pwm_forward, fx_c, kgf_x = force_n_to_pwm(
@@ -231,7 +233,7 @@ def main():
         rospy.loginfo_throttle(
             2.0,
             (
-                f'Cmd raw: Fx={fx:.2f}N Fy={fy:.2f}N Fz={fz:.2f}N Mz={mz:.2f}Nm | '
+                f'Cmd raw: Fx={fx:.2f}N Fy={fy:.2f}N Fz={fz_raw:.2f}N Mz={mz:.2f}Nm | '
                 f'clamped: Fx={fx_c:.2f}N Fy={fy_c:.2f}N Fz={fz_c:.2f}N Mz={mz_c:.2f}Nm'
             ),
         )
