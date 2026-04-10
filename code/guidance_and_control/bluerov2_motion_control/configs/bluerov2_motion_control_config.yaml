@@ -39,7 +39,6 @@ bluerov2_motion_control_vel:
       Gain:
         Kb: 1  # Anti Wind up gain Laplace Domain U_anti_wind_up(s) = (Kb/s)*E_sat(s) 
 
-
 ####################### SWAY PARAMETERS #######################
   PID_u2_velocity:
     Gain:
@@ -69,6 +68,7 @@ bluerov2_motion_control_vel:
       Gain:
         Kb: 1  # Anti Wind up gain Laplace Domain U_anti_wind_up(s) = (Kb/s)*E_sat(s) 
 
+
 ####################### HEAVE PARAMETERS #######################
   PID_u3_velocity:
     Gain:
@@ -97,7 +97,6 @@ bluerov2_motion_control_vel:
       enable_anti_wind_up: true  # 1.0 means derivative filter enabled, 0.0 disabled 
       Gain:
         Kb: 1  # Anti Wind up gain Laplace Domain U_anti_wind_up(s) = (Kb/s)*E_sat(s) 
-
 
 ####################### ROLL RATE PARAMETERS #######################
   PID_u4_velocity:
@@ -387,3 +386,26 @@ bluerov2_motion_control_pos:
       enable_anti_wind_up: true  # 1.0 means derivative filter enabled, 0.0 disabled 
       Gain:
         Kb: 1  # Anti Wind up gain Laplace Domain U_anti_wind_up(s) = (Kb/s)*E_sat(s) 
+
+
+#######################
+#######################
+####################### QUALISYS FILTER ###########################
+#######################
+#######################
+qualisys_filter:
+  enable_filter_qualisys: true
+  publish_legacy_topics: true
+
+  # First-order low-pass gains (y[k] = y[k-1] + alpha * (u[k] - y[k-1])).
+  position_linear_alpha: 0.25
+  position_angular_alpha: 0.20
+  velocity_linear_alpha: 0.25
+  velocity_angular_alpha: 0.20
+
+  # Maximum accepted step per sample before low-pass update.
+  # 0.0 disables step-limiting for that quantity.
+  max_step_position_linear: 0.10
+  max_step_position_angular: 0.10
+  max_step_velocity_linear: 0.25
+  max_step_velocity_angular: 0.25

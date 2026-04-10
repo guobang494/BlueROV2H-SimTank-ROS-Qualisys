@@ -3,12 +3,13 @@ project(bluerov2_motion_control)
 
 find_package(catkin REQUIRED COMPONENTS
   roscpp
+  rospy
   std_msgs
 )
 
 catkin_package(
   INCLUDE_DIRS include
-  CATKIN_DEPENDS roscpp std_msgs
+  CATKIN_DEPENDS roscpp rospy std_msgs
 )
 
 include_directories(
@@ -25,6 +26,11 @@ target_link_libraries(bluerov2_motion_control_velocity_node ${catkin_LIBRARIES})
 
 install(TARGETS bluerov2_motion_control_position_node bluerov2_motion_control_velocity_node
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
+
+catkin_install_python(PROGRAMS
+  src/qualisys_filter_node.py
+  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
 install(DIRECTORY include/${PROJECT_NAME}/

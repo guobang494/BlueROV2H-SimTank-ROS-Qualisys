@@ -1,6 +1,15 @@
 <launch>
   <group ns="bluerov2_motion_control">
 
+    <node name="qualisys_filter_node"
+    pkg="bluerov2_motion_control"
+    type="qualisys_filter_node.py"
+    output="screen">
+    <rosparam command="load"
+    file="$(find bluerov2_motion_control)/configs/bluerov2_motion_control_config.yaml" />
+    <param name="pose_topic" value="/bluerov2_heavy" />
+    </node>
+
     <node name="bluerov2_motion_control_position_node" 
     pkg="bluerov2_motion_control" 
     type="bluerov2_motion_control_position_node" 
