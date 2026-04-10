@@ -27,28 +27,27 @@ class TF2PoseGroundTruth:
         # Publisher for ground truth pose (Odometry format, kept for compatibility)
         self.pose_pub = rospy.Publisher(self.pose_topic, Odometry, queue_size=10)
         
-        # 8 Float64 publishers mapped to bluerov2_motion_control
-        self.pub_pos_x   = rospy.Publisher(self.pose_topic + '/position/linear/x',  Float64, queue_size=10)
-        self.pub_pos_y   = rospy.Publisher(self.pose_topic + '/position/linear/y',  Float64, queue_size=10)
-        self.pub_pos_z   = rospy.Publisher(self.pose_topic + '/position/linear/z',  Float64, queue_size=10)
-        self.pub_pos_roll = rospy.Publisher(self.pose_topic + '/position/angular/x', Float64, queue_size=10)
-        self.pub_pos_pitch = rospy.Publisher(self.pose_topic + '/position/angular/y', Float64, queue_size=10)
-        self.pub_pos_yaw = rospy.Publisher(self.pose_topic + '/position/angular/z', Float64, queue_size=10)
+        # Float64 measurements from Qualisys (raw/groundtruth) with "_meas" suffix.
+        self.pub_pos_x   = rospy.Publisher(self.pose_topic + '/position/linear/x_meas',  Float64, queue_size=10)
+        self.pub_pos_y   = rospy.Publisher(self.pose_topic + '/position/linear/y_meas',  Float64, queue_size=10)
+        self.pub_pos_z   = rospy.Publisher(self.pose_topic + '/position/linear/z_meas',  Float64, queue_size=10)
+        self.pub_pos_roll = rospy.Publisher(self.pose_topic + '/position/angular/x_meas', Float64, queue_size=10)
+        self.pub_pos_pitch = rospy.Publisher(self.pose_topic + '/position/angular/y_meas', Float64, queue_size=10)
+        self.pub_pos_yaw = rospy.Publisher(self.pose_topic + '/position/angular/z_meas', Float64, queue_size=10)
 
-
-        self.pub_vel_x   = rospy.Publisher(self.pose_topic + '/velocity_ned/linear/x',  Float64, queue_size=10)
-        self.pub_vel_y   = rospy.Publisher(self.pose_topic + '/velocity_ned/linear/y',  Float64, queue_size=10)
-        self.pub_vel_z   = rospy.Publisher(self.pose_topic + '/velocity_ned/linear/z',  Float64, queue_size=10)
-        self.pub_vel_roll = rospy.Publisher(self.pose_topic + '/velocity_ned/angular/x', Float64, queue_size=10)
-        self.pub_vel_pitch = rospy.Publisher(self.pose_topic + '/velocity_ned/angular/y', Float64, queue_size=10)
-        self.pub_vel_yaw = rospy.Publisher(self.pose_topic + '/velocity_ned/angular/z', Float64, queue_size=10)
+        self.pub_vel_x   = rospy.Publisher(self.pose_topic + '/velocity_ned/linear/x_meas',  Float64, queue_size=10)
+        self.pub_vel_y   = rospy.Publisher(self.pose_topic + '/velocity_ned/linear/y_meas',  Float64, queue_size=10)
+        self.pub_vel_z   = rospy.Publisher(self.pose_topic + '/velocity_ned/linear/z_meas',  Float64, queue_size=10)
+        self.pub_vel_roll = rospy.Publisher(self.pose_topic + '/velocity_ned/angular/x_meas', Float64, queue_size=10)
+        self.pub_vel_pitch = rospy.Publisher(self.pose_topic + '/velocity_ned/angular/y_meas', Float64, queue_size=10)
+        self.pub_vel_yaw = rospy.Publisher(self.pose_topic + '/velocity_ned/angular/z_meas', Float64, queue_size=10)
         
-        self.pub_vel_body_x   = rospy.Publisher(self.pose_topic + '/velocity_body_frame/linear/x',  Float64, queue_size=10)
-        self.pub_vel_body_y   = rospy.Publisher(self.pose_topic + '/velocity_body_frame/linear/y',  Float64, queue_size=10)
-        self.pub_vel_body_z   = rospy.Publisher(self.pose_topic + '/velocity_body_frame/linear/z',  Float64, queue_size=10)
-        self.pub_vel_body_roll = rospy.Publisher(self.pose_topic + '/velocity_body_frame/angular/x', Float64, queue_size=10)
-        self.pub_vel_body_pitch = rospy.Publisher(self.pose_topic + '/velocity_body_frame/angular/y', Float64, queue_size=10)
-        self.pub_vel_body_yaw = rospy.Publisher(self.pose_topic + '/velocity_body_frame/angular/z', Float64, queue_size=10)
+        self.pub_vel_body_x   = rospy.Publisher(self.pose_topic + '/velocity_body_frame/linear/x_meas',  Float64, queue_size=10)
+        self.pub_vel_body_y   = rospy.Publisher(self.pose_topic + '/velocity_body_frame/linear/y_meas',  Float64, queue_size=10)
+        self.pub_vel_body_z   = rospy.Publisher(self.pose_topic + '/velocity_body_frame/linear/z_meas',  Float64, queue_size=10)
+        self.pub_vel_body_roll = rospy.Publisher(self.pose_topic + '/velocity_body_frame/angular/x_meas', Float64, queue_size=10)
+        self.pub_vel_body_pitch = rospy.Publisher(self.pose_topic + '/velocity_body_frame/angular/y_meas', Float64, queue_size=10)
+        self.pub_vel_body_yaw = rospy.Publisher(self.pose_topic + '/velocity_body_frame/angular/z_meas', Float64, queue_size=10)
 
 
         # Variables for velocity calculation
@@ -65,7 +64,10 @@ class TF2PoseGroundTruth:
         rospy.loginfo(f"Reference frame: {self.reference_frame}")
         rospy.loginfo(f"Subscribing to: /tf")
         rospy.loginfo(f"Publishing Odometry to: {self.pose_topic}")
-        rospy.loginfo(f"Publishing Float64 to: {self.pose_topic}/position/... and {self.pose_topic}/velocity/...")
+        rospy.loginfo(
+            f"Publishing Float64 measurements to: {self.pose_topic}/..._meas "
+            f"(filtered data will be available on ..._filtered from qualisys_filter_node)"
+        )
         rospy.loginfo(f"Publish rate: {self.publish_rate} Hz")
     
     def tf_callback(self, tf_msg):

@@ -50,6 +50,11 @@ class GuidanceLawNode:
         # Publishers: diagnostic topics
         self.pub_next_target = rospy.Publisher("/guidance_law_variables/next_target", Float64MultiArray, queue_size=10)
         self.pub_distance = rospy.Publisher("/guidance_law_variables/distance_to_target", Float64, queue_size=10)
+        self.pub_gamma_radius = rospy.Publisher("/guidance_law_variables/gamma_radius", Float64, queue_size=1, latch=True)
+
+        # Expose gamma on the parameter server for other tools/scripts.
+        rospy.set_param("~gamma_radius", float(self.gamma))
+        rospy.set_param("/guidance_law_node/gamma_radius", float(self.gamma))
 
         # Subscribers: state
         rospy.Subscriber("/bluerov2_heavy/position/linear/x", Float64, self.cb_pos_x)
@@ -97,6 +102,7 @@ class GuidanceLawNode:
 
             # Publish diagnostic distance
             self.pub_distance.publish(dist)
+            self.pub_gamma_radius.publish(Float64(self.gamma))
 
             # Switch waypoint when the distance is < threshold
             if dist < self.gamma:
