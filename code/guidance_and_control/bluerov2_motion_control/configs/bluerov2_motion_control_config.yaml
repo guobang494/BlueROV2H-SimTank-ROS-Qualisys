@@ -72,9 +72,9 @@ bluerov2_motion_control_vel:
 ####################### HEAVE PARAMETERS #######################
   PID_u3_velocity:
     Gain:
-      Kp: 150.0  # Proportional Gain
+      Kp: 50.0  # Proportional Gain
       Kd: 0.0    # Derivative Gain
-      Ki: 0.1    # Integral Gain
+      Ki: 0.0    # Integral Gain
 
     Saturation: # Control Input Saturation
       UMax:  15.0 # [N] Max Saturation Value -- this is the saturation on the vehicle forces -- max 148.00N

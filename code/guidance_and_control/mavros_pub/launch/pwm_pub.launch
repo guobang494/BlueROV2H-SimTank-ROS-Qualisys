@@ -7,7 +7,7 @@
     <arg name="topic_fy" default="/bluerov2_heavy/cmd_velocity/linear/y" />
     <arg name="topic_fz" default="/bluerov2_heavy/cmd_velocity/linear/z" />
     <arg name="topic_mz" default="/bluerov2_heavy/cmd_velocity/angular/z" />
-    <arg name="invert_fz" default="false" doc="Invert sign of Z force command before mapping to PWM"/>
+    <arg name="invert_fz" default="true" doc="Invert sign of Z force command before mapping to PWM"/>
 
     <!-- Per-axis command clamps -->
     <arg name="min_force_x"  default="-10.0" doc="X-axis min force (N)"/>
@@ -25,8 +25,8 @@
     <arg name="max_pwm_x"   default="1550"/>
     <arg name="min_pwm_y"   default="1450"/>
     <arg name="max_pwm_y"   default="1550"/>
-    <arg name="min_pwm_z"   default="1450"/>
-    <arg name="max_pwm_z"   default="1550"/>
+    <arg name="min_pwm_z"   default="1400"/>
+    <arg name="max_pwm_z"   default="1600"/>
     <arg name="min_pwm_yaw" default="1460"/>
     <arg name="max_pwm_yaw" default="1540"/>
     <arg name="pwm_neutral" default="1500"/>
