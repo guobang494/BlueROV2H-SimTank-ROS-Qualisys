@@ -400,14 +400,15 @@ qualisys_filter:
   publish_legacy_topics: true
 
   # First-order low-pass gains (y[k] = y[k-1] + alpha * (u[k] - y[k-1])).
-  position_linear_alpha: 0.25
-  position_angular_alpha: 0.20
-  velocity_linear_alpha: 0.25
-  velocity_angular_alpha: 0.20
+  position_linear_alpha: 0.80
+  position_angular_alpha:  0.10
+  velocity_linear_alpha: 0.10
+  velocity_angular_alpha: 0.10
 
   # Maximum accepted step per sample before low-pass update.
   # 0.0 disables step-limiting for that quantity.
-  max_step_position_linear: 0.10
-  max_step_position_angular: 0.10
-  max_step_velocity_linear: 0.25
-  max_step_velocity_angular: 0.25
+  max_step_position_linear: 0.0223053
+  max_step_position_angular: 0.0
+  max_step_velocity_linear: 0.0464925
+  max_step_velocity_angular: 0.258202
+  

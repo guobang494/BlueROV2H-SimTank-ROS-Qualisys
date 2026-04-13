@@ -21,14 +21,14 @@
     <arg name="tam_mz_sum_abs" default="0.6830651506258189" doc="sum(abs(TAM Mz row coefficients)) for yaw thrusters"/>
 
     <!-- Per-axis PWM clamps -->
-    <arg name="min_pwm_x"   default="1450"/>
-    <arg name="max_pwm_x"   default="1550"/>
-    <arg name="min_pwm_y"   default="1450"/>
-    <arg name="max_pwm_y"   default="1550"/>
+    <arg name="min_pwm_x"   default="1400"/>
+    <arg name="max_pwm_x"   default="1600"/>
+    <arg name="min_pwm_y"   default="1400"/>
+    <arg name="max_pwm_y"   default="1600"/>
     <arg name="min_pwm_z"   default="1400"/>
     <arg name="max_pwm_z"   default="1600"/>
-    <arg name="min_pwm_yaw" default="1460"/>
-    <arg name="max_pwm_yaw" default="1540"/>
+    <arg name="min_pwm_yaw" default="1400"/>
+    <arg name="max_pwm_yaw" default="1600"/>
     <arg name="pwm_neutral" default="1500"/>
 
     <!-- T200 16V polynomial fit (order 7) on normalized PWM -->

@@ -212,8 +212,6 @@ class TF2PoseGroundTruth:
                 odom_msg.twist.twist.angular.y = angular_vel[1]
                 odom_msg.twist.twist.angular.z = angular_vel[2]
                 
-                print("Current x_dot = " + str(linear_vel[0]))
-
                 # Set covariance matrices
                 odom_msg.pose.covariance = [0.01, 0, 0, 0, 0, 0,
                                           0, 0.01, 0, 0, 0, 0,
