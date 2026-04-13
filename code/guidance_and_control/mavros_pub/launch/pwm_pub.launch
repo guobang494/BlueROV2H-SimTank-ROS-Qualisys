@@ -3,10 +3,10 @@
     <!-- PWM signal publisher node: subscribe to bluerov2_motion_control velocity outputs and convert to RC PWM -->
 
     <!-- Topic configuration: mapped to bluerov2_motion_control velocity_node outputs -->
-    <arg name="topic_fx" default="/bluerov2_heavy/cmd_velocity/linear/x" />
-    <arg name="topic_fy" default="/bluerov2_heavy/cmd_velocity/linear/y" />
-    <arg name="topic_fz" default="/bluerov2_heavy/cmd_velocity/linear/z" />
-    <arg name="topic_mz" default="/bluerov2_heavy/cmd_velocity/angular/z" />
+    <arg name="topic_fx" default="/bluerov2_heavy/cmd_wrench/linear/x" />
+    <arg name="topic_fy" default="/bluerov2_heavy/cmd_wrench/linear/y" />
+    <arg name="topic_fz" default="/bluerov2_heavy/cmd_wrench/linear/z" />
+    <arg name="topic_mz" default="/bluerov2_heavy/cmd_wrench/angular/z" />
     <arg name="invert_fz" default="true" doc="Invert sign of Z force command before mapping to PWM"/>
 
     <!-- Per-axis command clamps -->

@@ -24,7 +24,7 @@ rostopic pub -r 10 /bluerov2_heavy/velocity/angular/z std_msgs/Float64 "data: 0.
 You can now test how the control system responds, for instance, by running:
 ```
 rostopic echo /bluerov2_heavy/reference_velocity/linear/x
-rostopic echo /bluerov2_heavy/cmd_velocity/linear/x
+rostopic echo /bluerov2_heavy/cmd_wrench/linear/x
 ```
 
 As a further check, you can run rqt_graph, which will return:  

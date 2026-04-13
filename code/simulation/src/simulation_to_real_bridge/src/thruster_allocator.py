@@ -11,12 +11,12 @@ class ThrusterAllocator:
     
         # Getting all parameters, either from the config file or from the launch file
         # Input topics (6 independent scalars)
-        self.cmd_lin_x_topic = rospy.get_param("~cmd_lin_x_topic", "/bluerov2_heavy/cmd_velocity/linear/x")
-        self.cmd_lin_y_topic = rospy.get_param("~cmd_lin_y_topic", "/bluerov2_heavy/cmd_velocity/linear/y")
-        self.cmd_lin_z_topic = rospy.get_param("~cmd_lin_z_topic", "/bluerov2_heavy/cmd_velocity/linear/z")
-        self.cmd_ang_x_topic = rospy.get_param("~cmd_ang_x_topic", "/bluerov2_heavy/cmd_velocity/angular/x")
-        self.cmd_ang_y_topic = rospy.get_param("~cmd_ang_y_topic", "/bluerov2_heavy/cmd_velocity/angular/y")
-        self.cmd_ang_z_topic = rospy.get_param("~cmd_ang_z_topic", "/bluerov2_heavy/cmd_velocity/angular/z")
+        self.cmd_lin_x_topic = rospy.get_param("~cmd_lin_x_topic", "/bluerov2_heavy/cmd_wrench/linear/x")
+        self.cmd_lin_y_topic = rospy.get_param("~cmd_lin_y_topic", "/bluerov2_heavy/cmd_wrench/linear/y")
+        self.cmd_lin_z_topic = rospy.get_param("~cmd_lin_z_topic", "/bluerov2_heavy/cmd_wrench/linear/z")
+        self.cmd_ang_x_topic = rospy.get_param("~cmd_ang_x_topic", "/bluerov2_heavy/cmd_wrench/angular/x")
+        self.cmd_ang_y_topic = rospy.get_param("~cmd_ang_y_topic", "/bluerov2_heavy/cmd_wrench/angular/y")
+        self.cmd_ang_z_topic = rospy.get_param("~cmd_ang_z_topic", "/bluerov2_heavy/cmd_wrench/angular/z")
         self.axis_names = ["lin_x", "lin_y", "lin_z", "ang_x", "ang_y", "ang_z"]
         self.axis_topics = [
             self.cmd_lin_x_topic,

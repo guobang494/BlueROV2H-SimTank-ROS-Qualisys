@@ -145,10 +145,10 @@ def torque_nm_to_pwm(torque_nm, torque_min_nm, torque_max_nm, pwm_min, pwm_max, 
 def main():
     rospy.init_node("force_to_rc_override")
 
-    topic_fx = rospy.get_param('~topic_fx', '/bluerov2_heavy/cmd_velocity/linear/x')
-    topic_fy = rospy.get_param('~topic_fy', '/bluerov2_heavy/cmd_velocity/linear/y')
-    topic_fz = rospy.get_param('~topic_fz', '/bluerov2_heavy/cmd_velocity/linear/z')
-    topic_mz = rospy.get_param('~topic_mz', '/bluerov2_heavy/cmd_velocity/angular/z')
+    topic_fx = rospy.get_param('~topic_fx', '/bluerov2_heavy/cmd_wrench/linear/x')
+    topic_fy = rospy.get_param('~topic_fy', '/bluerov2_heavy/cmd_wrench/linear/y')
+    topic_fz = rospy.get_param('~topic_fz', '/bluerov2_heavy/cmd_wrench/linear/z')
+    topic_mz = rospy.get_param('~topic_mz', '/bluerov2_heavy/cmd_wrench/angular/z')
     invert_fz = bool(rospy.get_param('~invert_fz', False))
 
     force_min_x = rospy.get_param('~min_force_x', -10.0)
