@@ -78,6 +78,13 @@ int main(int argc, char** argv)
     {"bluerov2_motion_control_pos", "PID_u6_position", "/bluerov2_heavy/position/angular/z", "/bluerov2_heavy/reference_position/angular/z",  "/bluerov2_heavy/reference_velocity/angular/z"}
   };  // TODO confirm parameter group definition!
 
+  // Optional suffix for measurement topics (e.g. "_filtered" to consume filter output).
+  std::string feedback_topic_suffix;
+  pnh.param<std::string>(axes[0].group_name + "/feedback_topic_suffix", feedback_topic_suffix, "");
+  for (auto& ax : axes) {
+    ax.meas_topic += feedback_topic_suffix;
+  }
+
   // Load PIDs from private params (~PID_x_position/...)
   for (auto& ax : axes) {
     loadPid(pnh, ax.group_name, ax.pid_ns, ax.pid);
@@ -91,6 +98,7 @@ int main(int argc, char** argv)
 
   // ROS interfaces
   for (auto& ax : axes) {
+    ROS_INFO_STREAM("Subscribing meas topic: " << ax.meas_topic << " | ref topic: " << ax.ref_topic);
     ax.pub_out = nh.advertise<std_msgs::Float64>(ax.out_topic, 1);
 
     ax.sub_meas = nh.subscribe<std_msgs::Float64>(
